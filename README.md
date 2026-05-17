@@ -16,6 +16,7 @@ Web estatica multipagina preparada para publicarse en GitHub Pages o en un domin
     css/
     js/
     img/
+      embedded/             Imagenes extraidas del HTML original
 ```
 
 ## Rutas internas
@@ -32,4 +33,3 @@ Si queremos que viva bajo el mismo dominio, la ruta recomendada es:
 ```text
 studio/nombre-herramienta/
 ```
-
