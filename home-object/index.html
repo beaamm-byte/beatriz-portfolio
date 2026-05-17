@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Soft Goods Collection — Beatriz Morón</title>
+  <title>Home & Object Design — Beatriz Morón</title>
 
   <!-- FAVICON: punto rojo SVG inline como data URI -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='%23b5292a'/></svg>" />
@@ -177,6 +177,9 @@
       gap: 2px;
       background: var(--light-gray);
     }
+    .overview-grid.single {
+      grid-template-columns: minmax(280px, 0.62fr);
+    }
     .overview-card {
       min-height: 260px;
       display: flex;
@@ -244,6 +247,45 @@
       text-transform: uppercase;
       color: var(--accent);
     }
+    .work-status {
+      padding: 84px 60px 110px;
+      background: var(--black);
+      color: var(--white);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+      gap: 72px;
+      align-items: end;
+    }
+    .work-status h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.3rem, 5vw, 5rem);
+      font-weight: 300;
+      line-height: 1;
+    }
+    .work-status h2 em { color: var(--accent); }
+    .work-status p {
+      color: rgba(255,255,255,0.62);
+      line-height: 1.9;
+      max-width: 520px;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      gap: 10px;
+      margin-bottom: 24px;
+      font-size: 0.58rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .status-pill::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
 
     /* BLOQUE PROYECTO */
     .proyecto { border-bottom: 2px solid var(--light-gray); scroll-margin-top: 115px; }
@@ -292,13 +334,9 @@
     .section-text p:last-child { margin-bottom: 0; }
 
     /* Layout texto + imagen */
-    .layout-text-image { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr); gap: 64px; align-items: start; }
-    .layout-text-image.reverse .inspiration-text { grid-column: 2; }
-    .layout-text-image.reverse .img-wrap { grid-column: 1; grid-row: 1; }
-    .inspiration-text { padding-top: 8px; }
-    .layout-text-image .img-wrap { max-width: 520px; justify-self: end; }
-    .layout-text-image.reverse .img-wrap { justify-self: start; }
-    .layout-text-image .img-wrap img { opacity: 0.86; }
+    .layout-text-image { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .layout-text-image.reverse { direction: rtl; }
+    .layout-text-image.reverse > * { direction: ltr; }
 
     /* Imágenes */
     .img-wrap { overflow: hidden; }
@@ -319,8 +357,6 @@
     .gallery-scroll::-webkit-scrollbar { display: none; }
     .gallery-scroll .img-h { height: 360px; width: auto; flex-shrink: 0; display: block; object-fit: cover; }
     .gallery-scroll .img-v { height: 460px; width: auto; flex-shrink: 0; display: block; object-fit: cover; }
-    .gallery-wrap { position: relative; margin-top: 36px; }
-    .gallery-hint { display: none; }
 
     .mockup-wrap { max-width: 860px; margin: 0 auto; }
     .mockup-wrap img { width: 100%; display: block; object-fit: cover; transition: transform 0.8s cubic-bezier(0.23,1,0.32,1); }
@@ -360,45 +396,16 @@
       .collection-overview { padding: 40px 24px 54px; }
       .overview-grid { grid-template-columns: 1fr; }
       .overview-card { min-height: 220px; padding: 28px; }
+      .work-status { grid-template-columns: 1fr; padding: 60px 24px 80px; gap: 34px; }
       .proyecto-header { flex-direction: column; align-items: flex-start; padding: 48px 24px 32px; gap: 8px; }
       .proyecto-num { font-size: 4.5rem; }
       .col-section { padding: 44px 24px; }
       .layout-text-image { grid-template-columns: 1fr; gap: 28px; }
-      .layout-text-image.reverse .inspiration-text,
-      .layout-text-image.reverse .img-wrap { grid-column: auto; grid-row: auto; }
-      .inspiration-text { padding-top: 0; }
+      .layout-text-image.reverse { direction: ltr; }
       .img-grid-2, .img-grid-3 { grid-template-columns: 1fr; }
       .img-grid-featured { grid-template-columns: 1fr; }
       .gallery-scroll .img-h { height: 220px; }
       .gallery-scroll .img-v { height: 300px; }
-      .gallery-wrap { margin-top: 28px; }
-      .gallery-wrap::after {
-        content: '';
-        position: absolute;
-        top: 34px;
-        right: 0;
-        bottom: 0;
-        width: 58px;
-        pointer-events: none;
-        background: linear-gradient(to left, var(--white), rgba(248,246,242,0));
-      }
-      .gallery-hint {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 8px;
-        margin-bottom: 12px;
-        font-size: 0.56rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--gray);
-      }
-      .gallery-hint::after {
-        content: '→';
-        color: var(--accent);
-        font-size: 0.9rem;
-        letter-spacing: 0;
-      }
       footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
     }
     @media (max-width: 420px) {
@@ -425,19 +432,17 @@
     <a href="../#ia" class="nav-back">Volver al portfolio</a>
   </nav>
 
-  <!-- SUBMENÚ DE PROYECTOS -->
+  <!-- SUBMENU DE PROYECTOS -->
   <nav class="projects-nav" id="projectsNav">
-    <a href="#proyecto-01" class="proj-nav-item active"><span>01</span>Rebel Collection</a>
-    <a href="#proyecto-02" class="proj-nav-item"><span>02</span>Troquel Collection</a>
-    <!-- AÑADE MÁS AQUÍ: <a href="#proyecto-03" class="proj-nav-item"><span>03</span>Nombre</a> -->
+    <a href="#estado" class="proj-nav-item active"><span>01</span>En desarrollo</a>
   </nav>
 
   <!-- HERO -->
   <header class="col-hero">
     <div>
-      <p class="col-category">Textil y Complementos</p>
-      <h1 class="col-title">Soft Goods<br>Collection</h1>
-      <p class="col-subtitle">Veo una textura en la calle y la convierto en objeto.<br>La ciudad como detonante, no como decorado.</p>
+      <p class="col-category">Muebles y decoración</p>
+      <h1 class="col-title">Home & Object<br>Design</h1>
+      <p class="col-subtitle">Texturas encontradas fuera, llevadas dentro.<br>Objetos que empiezan mirando la calle.</p>
     </div>
     <div class="col-meta">
       <div class="col-meta-item">
@@ -447,175 +452,40 @@
       <div class="col-divider"></div>
       <div class="col-meta-item">
         <span class="col-meta-label">Disciplinas</span>
-        <span class="col-meta-value">Dirección creativa · IA generativa · Diseño de producto</span>
+        <span class="col-meta-value">Dirección creativa · IA generativa · Diseño de objeto</span>
       </div>
       <div class="col-divider"></div>
       <div class="col-meta-item">
         <span class="col-meta-label">Herramientas</span>
-        <span class="col-meta-value">Midjourney · Concept · Photoshop</span>
+        <span class="col-meta-value">Midjourney · Concept · Dirección visual</span>
       </div>
     </div>
   </header>
 
-
-  <!-- ░░░  PROYECTO 01 — REBEL COLLECTION  ░░░ -->
-  <section class="collection-overview" aria-label="Proyectos de la colección">
+  <section class="collection-overview" aria-label="Proyectos de la línea Home & Object">
     <p class="overview-label">Proyectos incluidos</p>
-    <div class="overview-grid">
-      <a href="#proyecto-01" class="overview-card">
-        <img src="https://i.postimg.cc/tgrsyZWM/Rebel-ppal-web.jpg" alt="" />
+    <div class="overview-grid single">
+      <a href="#estado" class="overview-card">
+        <img src="https://i.postimg.cc/dtQmMSwy/muebles.jpg" alt="" />
         <div class="overview-card-top">
           <div class="overview-card-num">01</div>
-          <h2 class="overview-card-title">Rebel<br>Collection</h2>
+          <h2 class="overview-card-title">Home<br>Objects</h2>
         </div>
         <div class="overview-card-bottom">
-          <p class="overview-card-meta">Relieve urbano · Actitud blanda</p>
-          <span class="overview-card-link">Ver proyecto</span>
-        </div>
-      </a>
-      <a href="#proyecto-02" class="overview-card">
-        <img src="https://i.postimg.cc/zBMzxzmw/troquel-editorial-01.jpg" alt="" />
-        <div class="overview-card-top">
-          <div class="overview-card-num">02</div>
-          <h2 class="overview-card-title">Troquel<br>Collection</h2>
-        </div>
-        <div class="overview-card-bottom">
-          <p class="overview-card-meta">Herrajes exteriores · Forma con carácter</p>
-          <span class="overview-card-link">Ver proyecto</span>
+          <p class="overview-card-meta">Exploración material · Interiorismo visual</p>
+          <span class="overview-card-link">Ver estado</span>
         </div>
       </a>
     </div>
   </section>
 
-  <article class="proyecto" id="proyecto-01">
-
-    <div class="proyecto-header">
-      <div class="proyecto-num">01</div>
-      <div class="proyecto-header-text">
-        <p class="proyecto-label">Inspiración · Pavimento Podotáctil</p>
-        <h2 class="proyecto-title">Rebel<br><em>Collection</em></h2>
-      </div>
+  <section class="work-status" id="estado">
+    <div>
+      <span class="status-pill">En desarrollo</span>
+      <h2>La calle también<br><em>puede amueblar.</em></h2>
     </div>
-
-    <div class="col-section">
-      <p class="section-label reveal">Inspiración</p>
-      <div class="layout-text-image reverse">
-        <div class="inspiration-text">
-          <h3 class="section-title reveal">El <em>origen</em></h3>
-          <div class="section-text reveal">
-            <p>Rebel nace de una textura que está en todas partes y casi nadie mira: el pavimento podotáctil. Está pensado para guiar, pero si vas sobre ruedas se vuelve obstáculo. Me interesaba justo esa contradicción: algo diseñado para ayudar que, desde otro cuerpo, se siente como fricción.</p>
-            <p>De ahí sale una colección blanda, gráfica y un poco respondona. Piezas acolchadas, modulares, con ritmo de calle. No quería hacer un bolso “bonito”; quería llevar al cuerpo una textura urbana con carácter propio.</p>
-          </div>
-        </div>
-        <div class="img-wrap reveal">
-          <img src="https://i.postimg.cc/mgky143p/Whats-App-Image-2026-04-25-at-20-11-50.jpg" alt="Inspiración Rebel" class="ratio-landscape" />
-          <p class="img-caption">Rebel Collection | Beatriz Morón | 2026</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-section">
-      <p class="section-label reveal">Ideas desarrolladas</p>
-      <h3 class="section-title reveal">La <em>colección</em></h3>
-      <div class="gallery-wrap reveal">
-        <p class="gallery-hint">Desliza para ver más</p>
-        <div class="gallery-scroll">
-          <img src="https://i.postimg.cc/tgrsyZWM/Rebel-ppal-web.jpg" alt="Idea 1" class="img-v" />
-          <img src="https://i.postimg.cc/Qt38wX0Y/rinonera-rebel.jpg" alt="Idea 2" class="img-v" />
-        </div>
-      </div>
-    </div>
-
-    <div class="col-section">
-      <p class="section-label reveal">Editorial visual</p>
-      <h3 class="section-title reveal">Fotografía <em>lifestyle</em></h3>
-      <div class="img-grid-3 reveal" style="margin-top: 36px;">
-        <div class="img-wrap"><img src="https://i.postimg.cc/Tw7KYp6H/rebel-editorial-03.jpg" alt="Bodegón 1" class="ratio-square" /></div>
-        <div class="img-wrap"><img src="https://i.postimg.cc/zBrz6J0Q/rebel-editorial-02.jpg" alt="Bodegón 2" class="ratio-square" /></div>
-		<div class="img-wrap"><img src="https://i.postimg.cc/4dgfqJBP/rebel-editorial-01.jpg" alt="Bodegón 3" class="ratio-square" /></div>
-      </div>
-    </div>
-
-    <div class="col-section">
-      <p class="section-label reveal">Presentación</p>
-      <h3 class="section-title reveal">Lookbook <em>Rebel</em></h3>
-      <div class="mockup-wrap reveal" style="margin-top: 36px;">
-        <img src="https://i.postimg.cc/TPm2tyq7/mockup-rebel.jpg" alt="Mockup Rebel" class="ratio-landscape" />
-        <p class="img-caption" style="text-align:center; margin-top:14px;">Mockup presentación · 2026</p>
-      </div>
-    </div>
-
-  </article>
-  <!-- FIN PROYECTO 01 -->
-
-
-  <!-- ░░░  PROYECTO 02 — TROQUEL COLLECTION  ░░░ -->
-  <article class="proyecto" id="proyecto-02">
-
-    <div class="proyecto-header">
-      <div class="proyecto-num">02</div>
-      <div class="proyecto-header-text">
-        <p class="proyecto-label">Inspiración · Soporte Luz Exterior</p>
-        <h2 class="proyecto-title">Troquel<br><em>Collection</em></h2>
-      </div>
-    </div>
-
-    <div class="col-section">
-      <p class="section-label reveal">Inspiración</p>
-      <div class="layout-text-image">
-        <div class="inspiration-text">
-          <h3 class="section-title reveal">El <em>origen</em></h3>
-          <div class="section-text reveal">
-            <p>Troquel empezó en una pausa. Café, exterior, luz de mañana y una pieza metálica que siempre había estado ahí. Un soporte de luz sin ninguna intención de ser protagonista, pero lleno de agujeros, sombra y ritmo.</p>
-            <p>Me gustó por seco, por técnico, por nada complaciente. Lo convertí en un sistema de cortes y vacíos: superficies perforadas que dejan respirar la pieza y hacen que el objeto tenga una presencia más afilada.</p>
-          </div>
-        </div>
-        <div class="img-wrap reveal">
-          <img src="https://i.postimg.cc/DZ2TwV2v/Whats-App-Image-2026-04-25-at-09-34-43.jpg" alt="Inspiración Troquel" class="ratio-landscape" />
-          <p class="img-caption">Troquel Collection | Beatriz Morón | 2026</p>
-        </div>
-      </div>
-    </div>
-
-    <!--<div class="col-section">
-      <p class="section-label reveal">Ideas desarrolladas</p>
-      <h3 class="section-title reveal">La <em>colección</em></h3>
-      <div class="section-text reveal" style="margin-bottom: 36px;">
-        <p>Descripción breve de las piezas o ideas que se desarrollaron a partir de la inspiración.</p>
-      </div>
-      <div class="gallery-wrap reveal">
-        <p class="gallery-hint">Desliza para ver más</p>
-        <div class="gallery-scroll">
-          <img src="https://i.postimg.cc/rFLP6B91/troquelado-polipiel.png" alt="Idea 1" class="img-h" />
-          <img src="https://i.postimg.cc/FsQBtMxj/troquelado-bolso.png" alt="Idea 2" class="img-h" />
-          <img src="https://i.postimg.cc/m2G5xvSD/troquel-monedero.jpg" alt="Idea 3" class="img-h" />
-          <img src="https://i.postimg.cc/pXt6NwBK/portabotellas-troquelado.png" alt="Idea 4" class="img-h" />
-        </div>
-      </div>
-    </div>-->
-
-    <div class="col-section">
-      <p class="section-label reveal">Editorial visual</p>
-      <h3 class="section-title reveal">Fotografía <em>Lifestyle</em></h3>
-      <div class="img-grid-3 reveal" style="margin-top: 36px;">
-        <div class="img-wrap"><img src="https://i.postimg.cc/zBMzxzmw/troquel-editorial-01.jpg" alt="" class="ratio-square" /></div>
-        <div class="img-wrap"><img src="https://i.postimg.cc/3R68t8MF/troquel-editorial-03.jpg" alt="" class="ratio-square" /></div>
-        <div class="img-wrap"><img src="https://i.postimg.cc/mDhZ3cn6/troquel-editorial-02.jpg" alt="" class="ratio-square" /></div>
-      </div>
-    </div>
-
-    <div class="col-section">
-      <p class="section-label reveal">Presentación</p>
-      <h3 class="section-title reveal">Lookbook <em>Troquel</em></h3>
-      <div class="mockup-wrap reveal" style="margin-top: 36px;">
-        <img src="https://i.postimg.cc/cCB3K95m/BOOK-TROQUEL.jpg" alt="Mockup Troquel" class="ratio-landscape" />
-        <p class="img-caption" style="text-align:center; margin-top:14px;">Mockup presentación · 2026</p>
-      </div>
-    </div>
-
-  </article>
-  <!-- FIN PROYECTO 02 -->
-
+    <p>Me interesan las cosas que no están intentando gustar: una fachada gastada, una sombra dura, un herraje raro, una textura de suelo. Home & Object parte de ahí. De mirar fuera para construir piezas de interior con más gesto, más materia y menos corrección.</p>
+  </section>
 
   <!-- FOOTER -->
   <footer>
@@ -657,6 +527,7 @@
     const proyectos = document.querySelectorAll('.proyecto');
     const navItems  = document.querySelectorAll('.proj-nav-item');
     const activarNav = () => {
+      if (!proyectos.length) return;
       let current = '';
       proyectos.forEach(p => {
         if (p.getBoundingClientRect().top <= 130) current = p.id;

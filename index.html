@@ -18,7 +18,10 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
 
     body {
       background: var(--white);
@@ -189,6 +192,7 @@
       opacity: 0;
       animation: fadeUp 1s ease 1s forwards;
     }
+    .mobile-break { display: none; }
 
     .hero-right {
       position: relative;
@@ -1049,33 +1053,53 @@
     /* ===== FRANJA ROJA MARQUEE ===== */
     .marquee-band {
       position: relative;
-      width: 115%;
-      left: -7.5%;
-      transform: rotate(-2.5deg);
-      background: var(--accent);
-      overflow: hidden;
-      padding: 28px 0;
-      margin: 20px 0 60px;
+      width: 100%;
+      overflow: visible;
+      padding: 46px 0;
+      margin: 0 0 70px;
       z-index: 10;
+      isolation: isolate;
+      clip-path: inset(-80px 0 -80px 0);
+    }
+    .marquee-band::before {
+      content: '';
+      position: absolute;
+      left: -8%;
+      right: -8%;
+      top: 50%;
+      height: 116px;
+      background: var(--accent);
+      transform: translateY(-50%) rotate(-2.5deg);
+      transform-origin: center;
+      z-index: -1;
+      backface-visibility: hidden;
     }
     .marquee-track {
       display: flex;
       white-space: nowrap;
-      animation: marquee-scroll 22s linear infinite;
+      transform: rotate(-2.5deg) translateZ(0);
+      backface-visibility: hidden;
+    }
+    .marquee-inner {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee-scroll 16s linear infinite;
       will-change: transform;
     }
-    .marquee-track span {
+    .marquee-inner span {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.2em;
+      font-size: clamp(1.25rem, 2vw, 1.7rem);
+      letter-spacing: 0.24em;
       color: var(--white);
-      padding: 0 52px;
+      padding: 0 44px;
       opacity: 0.95;
+      line-height: 1;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.08);
     }
-    .marquee-track span.sep {
-      color: rgba(255,255,255,0.35);
-      padding: 0 12px;
-      font-size: 0.9rem;
+    .marquee-inner span.sep {
+      color: rgba(255,255,255,0.45);
+      padding: 0 8px;
+      font-size: 0.75rem;
       letter-spacing: 0;
     }
     @keyframes marquee-scroll {
@@ -1503,7 +1527,12 @@
         letter-spacing: 0.2em;
       }
       .hero-sub { font-size: 0.5rem; }
-      .hero-tagline { font-size: 0.75rem; }
+      .hero-tagline {
+        font-size: clamp(0.64rem, 3.15vw, 0.72rem);
+        line-height: 1.45;
+        max-width: 15rem;
+      }
+      .mobile-break { display: block; }
       .hero-number { display: none; }
 
       /* About */
@@ -1558,10 +1587,39 @@
         margin-top: 40px !important;
       }
       .ia-card-wide { grid-column: span 1; }
+      .marquee-band {
+        padding: 38px 0;
+        margin: 0 0 52px;
+      }
+      .marquee-band::before {
+        left: -32%;
+        right: -32%;
+        height: 96px;
+        transform: translateY(-50%) rotate(-3deg);
+      }
+      .marquee-track {
+        transform: rotate(-3deg) translateZ(0);
+      }
+      .marquee-inner {
+        animation-duration: 13s;
+      }
+      .marquee-inner span {
+        font-size: 1.15rem;
+        letter-spacing: 0.2em;
+        padding: 0 28px;
+      }
+      .marquee-inner span.sep {
+        padding: 0 4px;
+        font-size: 0.65rem;
+      }
 
       /* Manifesto */
       .manifesto { padding: 60px 24px; }
-      .manifesto blockquote { font-size: clamp(1.2rem, 5vw, 2rem); }
+      .manifesto blockquote {
+        font-size: clamp(1.38rem, 6vw, 2rem);
+        line-height: 1.22;
+        max-width: 22rem;
+      }
 
       /* Contact */
       .contact {
@@ -1634,7 +1692,7 @@
       <h1 class="hero-name">
         Beatriz<span>Morón</span>
       </h1>
-      <p class="hero-tagline">Doy forma a lo que una marca aún no sabe que es.</p>
+      <p class="hero-tagline">Doy forma a lo que una marca <br class="mobile-break">aún no sabe que es.</p>
       <p class="hero-sub">Me quedo donde vibra</p>
     </div>
     <div class="hero-right">
@@ -1731,7 +1789,7 @@
         </div>
       </a>
 
-      <a href="creacion-ia.html" class="ia-card reveal" style="text-decoration: none; display: block;"> 
+      <a href="home-object/" class="ia-card reveal" style="text-decoration: none; display: block;"> 
         <div class="ia-media" style="position: relative; aspect-ratio: 4/5; overflow: hidden; background: var(--light-gray);">
           <img src="https://i.postimg.cc/dtQmMSwy/muebles.jpg" alt="Home Decor" style="width: 100%; height: 100%; object-fit: cover; opacity: 1;"> 
           <div class="ia-overlay" style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,13,0.65) 0%, transparent 50%); display: flex; flex-direction: column; justify-content: flex-end; padding: 30px;">
@@ -1748,7 +1806,7 @@
   <!-- FRANJA MARQUEE -->
   <div class="marquee-band" aria-hidden="true">
     <div class="marquee-track">
-      <span>Dirección Creativa</span><span class="sep">✦</span>
+      <div class="marquee-inner"><span>Dirección Creativa</span><span class="sep">✦</span>
       <span>Estrategia de Imagen</span><span class="sep">✦</span>
       <span>Identidad Visual</span><span class="sep">✦</span>
       <span>Narrativa de Marca</span><span class="sep">✦</span>
@@ -1763,7 +1821,7 @@
       <span>Exploración Estética</span><span class="sep">✦</span>
       <span>IA & Proceso Creativo</span><span class="sep">✦</span>
       <span>Referencias Visuales</span><span class="sep">✦</span>
-      <span>Dirección de Arte</span><span class="sep">✦</span>
+      <span>Dirección de Arte</span><span class="sep">✦</span></div>
     </div>
   </div>
 
