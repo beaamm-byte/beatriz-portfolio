@@ -183,6 +183,7 @@
       opacity: 0;
       animation: fadeUp 1s ease 0.8s forwards;
     }
+    .tagline-line { display: inline; }
     .hero-sub {
       font-size: 0.65rem;
       letter-spacing: 0.3em;
@@ -1494,7 +1495,7 @@
       /* Hero — móvil: grid lado a lado */
       .hero {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
         grid-template-rows: 1fr;
         height: 100svh;
         min-height: 100svh;
@@ -1528,10 +1529,15 @@
       }
       .hero-sub { font-size: 0.5rem; }
       .hero-tagline {
-        font-size: clamp(0.64rem, 3.15vw, 0.72rem);
-        line-height: 1.45;
-        max-width: 15rem;
+        font-size: clamp(0.54rem, 2.55vw, 0.62rem);
+        line-height: 1.35;
+        max-width: 18.5rem;
       }
+      .tagline-line {
+        display: block;
+        white-space: nowrap;
+      }
+      .tagline-line + .tagline-line { margin-top: 0.22rem; }
       .mobile-break { display: block; }
       .hero-number { display: none; }
 
@@ -1641,6 +1647,12 @@
 
     @media (max-width: 480px) {
       .hero-left { padding: 100px 20px 40px; }
+      .hero {
+        grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.72fr);
+      }
+      .hero-tagline {
+        font-size: 0.6rem;
+      }
       .back-to-top { bottom: 20px; right: 20px; width: 44px; height: 44px; }
       .about, .process, .projects, .featured,
       .ggoya, .ia-section, .manifesto, .contact { padding-left: 20px; padding-right: 20px; }
@@ -1693,7 +1705,10 @@
       <h1 class="hero-name">
         Beatriz<span>Morón</span>
       </h1>
-      <p class="hero-tagline">No busco que una marca guste. <br class="mobile-break">Busco que tenga carácter.</p>
+      <p class="hero-tagline">
+        <span class="tagline-line">No busco que una identidad guste.</span>
+        <span class="tagline-line">Busco que tenga carácter.</span>
+      </p>
       <p class="hero-sub">Me quedo donde vibra</p>
     </div>
     <div class="hero-right">
@@ -2000,7 +2015,7 @@
   <!-- MANIFESTO -->
   <section class="manifesto">
     <blockquote class="reveal">
-      "No busco que una marca guste. Busco que tenga carácter."
+      "No busco que una identidad guste. Busco que tenga carácter."
     </blockquote>
     <cite class="reveal">Beatriz Morón — Dirección Creativa & Estrategia de Imagen</cite>
   </section>
