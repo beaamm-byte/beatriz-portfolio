@@ -10,6 +10,8 @@ Web estatica multipagina preparada para publicarse en GitHub Pages o en un domin
   landing-01.html         Redireccion antigua hacia soft-goods/
   soft-goods/
     index.html            Coleccion Soft Goods
+  home-object/
+    index.html            Pagina Home & Object Design en desarrollo
   studio/
     .gitkeep              Futuras herramientas o redirecciones
   assets/
