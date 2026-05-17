@@ -1271,7 +1271,7 @@
       position: fixed;
       inset: 0;
       background: var(--black);
-      z-index: 190;
+      z-index: 10000;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1296,15 +1296,30 @@
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      z-index: 10001;
+    }
+    .mobile-menu-links {
+      position: static;
+      inset: auto;
+      z-index: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 0 24px;
+      background: transparent;
+      border: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
     .mobile-menu-link {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
-      font-style: italic;
-      font-weight: 300;
+      font-size: 0.78rem;
+      font-weight: 400;
+      text-transform: uppercase;
       color: rgba(255,255,255,0.85);
       text-decoration: none;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.24em;
       transition: color 0.2s;
     }
     .mobile-menu-link:hover,
@@ -1431,7 +1446,26 @@
 
     /* Móvil */
     @media (max-width: 768px) {
-      nav { display: none !important; }
+      #mainNav {
+        display: flex;
+        padding: 16px 20px;
+      }
+      #mainNav .nav-logo {
+        font-size: 0.95rem;
+        letter-spacing: 0.2em;
+      }
+      #mainNav .nav-links {
+        display: none;
+      }
+      #mainNav .nav-hamburger {
+        display: flex;
+      }
+      #mainNav .nav-dot-btn {
+        display: none !important;
+      }
+      .mobile-menu-link {
+        font-size: clamp(0.82rem, 3vw, 1rem);
+      }
 
       /* Hero — móvil: grid lado a lado */
       .hero {
@@ -1456,6 +1490,10 @@
       .hero-image-placeholder {
         height: 100%;
         min-height: unset;
+      }
+      .hero-name {
+        font-size: clamp(2.8rem, 16vw, 4.4rem);
+        line-height: 0.94;
       }
       .hero-title {
         font-size: clamp(2rem, 10vw, 3.5rem);
@@ -1514,7 +1552,11 @@
       .weeping-card-poster .weeping-img-wrap { aspect-ratio: 3/4; position: relative; }
       .weeping-card-poster .weeping-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; }
       .ia-intro { grid-template-columns: 1fr; }
-      .ia-grid { grid-template-columns: 1fr; }
+      .ia-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        margin-top: 40px !important;
+      }
       .ia-card-wide { grid-column: span 1; }
 
       /* Manifesto */
@@ -1564,7 +1606,7 @@
       <li><a href="#featured">Trayectoria</a></li>      
       <li><a href="#contact">Contacto</a></li>
     </ul>
-    <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+    <button class="nav-hamburger" id="hamburger" aria-label="Menú" aria-expanded="false" aria-controls="mobileMenuOverlay">
       <span></span><span></span><span></span>
     </button>
     <!-- Punto menú móvil -->
@@ -1944,9 +1986,12 @@
     const navLinks = document.getElementById('navLinks');
 
     function toggleMenu() {
-      const isOpen = navLinks.classList.toggle('open');
-      hamburger.classList.toggle('active', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+      const isOpen = mobileOverlay && mobileOverlay.classList.contains('open');
+      if (isOpen) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
     }
 
     if (hamburger) {
@@ -2001,13 +2046,23 @@
     const mobileClose = document.getElementById('mobileMenuClose');
 
     function openMobileMenu() {
+      if (!mobileOverlay) return;
       mobileOverlay.classList.add('open');
-      navDotBtn.classList.add('active');
+      if (navDotBtn) navDotBtn.classList.add('active');
+      if (hamburger) {
+        hamburger.classList.add('active');
+        hamburger.setAttribute('aria-expanded', 'true');
+      }
       document.body.style.overflow = 'hidden';
     }
     function closeMobileMenu() {
+      if (!mobileOverlay) return;
       mobileOverlay.classList.remove('open');
-      navDotBtn.classList.remove('active');
+      if (navDotBtn) navDotBtn.classList.remove('active');
+      if (hamburger) {
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
       document.body.style.overflow = '';
     }
 
@@ -2027,9 +2082,6 @@
     }
     if (mobileOverlay) {
       mobileOverlay.querySelectorAll('.mobile-menu-link').forEach(function(a) {
-        a.addEventListener('touchstart', function() {
-          closeMobileMenu();
-        }, { passive: true });
         a.addEventListener('click', closeMobileMenu);
       });
     }
