@@ -19,6 +19,11 @@ Web estatica multipagina preparada para publicarse en GitHub Pages o en un domin
     js/
     img/
       embedded/             Imagenes extraidas del HTML original
+      soft-goods/
+        rebel/               Imagenes del proyecto Rebel Collection
+        troquel/             Imagenes del proyecto Troquel Collection
+      home-object/           Imagenes de Home & Object Design
+      studio/                Imagenes de herramientas Studio
 ```
 
 ## Rutas internas
