@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soft Goods Collection — Beatriz Morón</title>
+
+  <!-- FAVICON: punto rojo SVG inline como data URI -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='%23b5292a'/></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --white: #f8f6f2;
+      --black: #0d0d0d;
+      --accent: #b5292a;
+      --gray: #8a8a8a;
+      --light-gray: #e8e5e0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* CURSOR PERSONALIZADO — solo desktop con ratón */
+    .cursor, .cursor-ring { display: none; visibility: hidden; pointer-events: none; }
+    @media (hover: hover) and (pointer: fine) {
+      body { cursor: none; }
+      .cursor {
+        display: block;
+        visibility: hidden;
+        position: fixed;
+        width: 10px; height: 10px;
+        background: var(--accent);
+        border-radius: 50%;
+        top: 0; left: 0;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.12s ease;
+        pointer-events: none;
+      }
+      .cursor-ring {
+        display: block;
+        visibility: hidden;
+        position: fixed;
+        width: 36px; height: 36px;
+        border: 1px solid var(--black);
+        border-radius: 50%;
+        top: 0; left: 0;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: transform 0.35s ease, opacity 0.3s;
+        opacity: 0.35;
+        pointer-events: none;
+      }
+    }
+
+    /* NAV PRINCIPAL */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: rgba(248,246,242,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.25em;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .nav-back {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-back:hover { opacity: 1; }
+    .nav-back::before { content: '←'; font-size: 0.9rem; }
+
+    /* SUBMENÚ DE PROYECTOS */
+    .projects-nav {
+      position: fixed;
+      top: 61px;
+      left: 0; right: 0;
+      z-index: 190;
+      background: rgba(248,246,242,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--light-gray);
+      display: flex;
+      align-items: center;
+      padding: 0 60px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .projects-nav::-webkit-scrollbar { display: none; }
+    .proj-nav-item {
+      flex-shrink: 0;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      opacity: 0.4;
+      padding: 14px 0;
+      margin-right: 36px;
+      border-bottom: 2px solid transparent;
+      transition: opacity 0.3s, border-color 0.3s;
+      white-space: nowrap;
+    }
+    .proj-nav-item:last-child { margin-right: 0; }
+    .proj-nav-item:hover { opacity: 0.8; }
+    .proj-nav-item.active { opacity: 1; border-bottom-color: var(--accent); }
+    .proj-nav-item span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-right: 8px;
+      opacity: 0.8;
+    }
+
+    /* HERO */
+    .col-hero {
+      padding: 180px 60px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .col-category { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+    .col-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 7vw, 8rem); line-height: 0.88; letter-spacing: 0.01em; }
+    .col-subtitle { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(1.1rem, 2vw, 1.6rem); color: var(--gray); margin-top: 28px; line-height: 1.4; }
+    .col-meta { display: flex; flex-direction: column; gap: 20px; padding-bottom: 8px; }
+    .col-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .col-meta-label { font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gray); }
+    .col-meta-value { font-size: 0.9rem; color: var(--black); }
+    .col-divider { width: 40px; height: 1px; background: var(--accent); opacity: 0.5; }
+
+    /* BLOQUE PROYECTO */
+    .proyecto { border-bottom: 2px solid var(--light-gray); scroll-margin-top: 115px; }
+
+    /* CABECERA DEL PROYECTO — fondo negro, texto claro */
+    .proyecto-header {
+      padding: 80px 60px 60px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      background: var(--black);
+    }
+    .proyecto-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 10vw, 9rem);
+      line-height: 1;
+      color: rgba(255,255,255,0.08);
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .proyecto-header-text { flex: 1; }
+    .proyecto-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .proyecto-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+    }
+    .proyecto-title em { font-style: italic; color: var(--accent); }
+
+    /* SECCIONES */
+    .col-section { padding: 70px 60px; border-top: 1px solid rgba(0,0,0,0.06); }
+    .section-label { font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--accent); margin-bottom: 36px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; line-height: 1.2; margin-bottom: 24px; }
+    .section-title em { font-style: italic; color: var(--accent); }
+    .section-text { font-size: 0.95rem; line-height: 1.95; color: #444; max-width: 640px; }
+    .section-text p { margin-bottom: 18px; }
+    .section-text p:last-child { margin-bottom: 0; }
+
+    /* Layout texto + imagen */
+    .layout-text-image { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .layout-text-image.reverse { direction: rtl; }
+    .layout-text-image.reverse > * { direction: ltr; }
+
+    /* Imágenes */
+    .img-wrap { overflow: hidden; }
+    .img-wrap img { width: 100%; display: block; object-fit: cover; transition: transform 0.8s cubic-bezier(0.23,1,0.32,1); }
+    .img-wrap:hover img { transform: scale(1.02); }
+    .img-caption { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); margin-top: 12px; }
+
+    .ratio-square   { aspect-ratio: 1/1;  object-fit: cover; width: 100%; display: block; }
+    .ratio-portrait { aspect-ratio: 3/4;  object-fit: cover; width: 100%; display: block; }
+    .ratio-landscape{ aspect-ratio: 16/9; object-fit: cover; width: 100%; display: block; }
+
+    .img-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+    .img-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; }
+    .img-grid-featured { display: grid; grid-template-columns: 2fr 1fr; gap: 4px; }
+    .img-grid-featured .img-stack { display: flex; flex-direction: column; gap: 4px; }
+
+    .gallery-scroll { overflow-x: auto; display: flex; gap: 4px; scrollbar-width: none; }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    .gallery-scroll .img-h { height: 360px; width: auto; flex-shrink: 0; display: block; object-fit: cover; }
+    .gallery-scroll .img-v { height: 460px; width: auto; flex-shrink: 0; display: block; object-fit: cover; }
+
+    .mockup-wrap { max-width: 860px; margin: 0 auto; }
+    .mockup-wrap img { width: 100%; display: block; object-fit: cover; transition: transform 0.8s cubic-bezier(0.23,1,0.32,1); }
+    .mockup-wrap:hover img { transform: scale(1.01); }
+
+    /* Footer */
+    footer { padding: 48px 60px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--light-gray); }
+    footer p { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+    .footer-back { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--black); text-decoration: none; opacity: 0.5; transition: opacity 0.3s; }
+    .footer-back:hover { opacity: 1; }
+
+    /* Scroll reveal */
+    @media (hover: hover) and (pointer: fine) {
+      .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.85s ease, transform 0.85s ease; }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+    }
+    @media (hover: none), (pointer: coarse) {
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      nav, .projects-nav { padding-left: 32px; padding-right: 32px; }
+      .col-hero { padding: 175px 32px 60px; gap: 48px; }
+      .proyecto-header { padding: 60px 32px 48px; }
+      .col-section { padding: 56px 32px; }
+      footer { padding: 40px 32px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 18px 24px; }
+      .projects-nav { padding: 0 24px; top: 57px; }
+      .col-hero { grid-template-columns: 1fr; padding: 160px 24px 48px; gap: 32px; }
+      .proyecto-header { flex-direction: column; align-items: flex-start; padding: 48px 24px 32px; gap: 8px; }
+      .proyecto-num { font-size: 4.5rem; }
+      .col-section { padding: 44px 24px; }
+      .layout-text-image { grid-template-columns: 1fr; gap: 28px; }
+      .layout-text-image.reverse { direction: ltr; }
+      .img-grid-2, .img-grid-3 { grid-template-columns: 1fr; }
+      .img-grid-featured { grid-template-columns: 1fr; }
+      .gallery-scroll .img-h { height: 220px; }
+      .gallery-scroll .img-v { height: 300px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor personalizado -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV PRINCIPAL -->
+  <nav>
+    <a href="../" class="nav-logo">Beatriz Morón</a>
+    <a href="../#ia" class="nav-back">Volver al portfolio</a>
+  </nav>
+
+  <!-- SUBMENÚ DE PROYECTOS -->
+  <nav class="projects-nav" id="projectsNav">
+    <a href="#proyecto-01" class="proj-nav-item active"><span>01</span>Rebel Collection</a>
+    <a href="#proyecto-02" class="proj-nav-item"><span>02</span>Troquel Collection</a>
+    <!-- AÑADE MÁS AQUÍ: <a href="#proyecto-03" class="proj-nav-item"><span>03</span>Nombre</a> -->
+  </nav>
+
+  <!-- HERO -->
+  <header class="col-hero">
+    <div>
+      <p class="col-category">Textil y Complementos</p>
+      <h1 class="col-title">Soft Goods<br>Collection</h1>
+      <p class="col-subtitle">De la calle a la colección.<br>Inspiración urbana materializada en producto.</p>
+    </div>
+    <div class="col-meta">
+      <div class="col-meta-item">
+        <span class="col-meta-label">Año</span>
+        <span class="col-meta-value">2026</span>
+      </div>
+      <div class="col-divider"></div>
+      <div class="col-meta-item">
+        <span class="col-meta-label">Disciplinas</span>
+        <span class="col-meta-value">Dirección creativa · IA generativa · Diseño de producto</span>
+      </div>
+      <div class="col-divider"></div>
+      <div class="col-meta-item">
+        <span class="col-meta-label">Herramientas</span>
+        <span class="col-meta-value">Midjourney · Concept · Photoshop</span>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ░░░  PROYECTO 01 — REBEL COLLECTION  ░░░ -->
+  <article class="proyecto" id="proyecto-01">
+
+    <div class="proyecto-header">
+      <div class="proyecto-num">01</div>
+      <div class="proyecto-header-text">
+        <p class="proyecto-label">Inspiración · Pavimento Podotáctil</p>
+        <h2 class="proyecto-title">Rebel<br><em>Collection</em></h2>
+      </div>
+    </div>
+
+    <div class="col-section">
+      <p class="section-label reveal">Inspiración</p>
+      <div class="layout-text-image reverse">
+        <div>
+          <h3 class="section-title reveal">El <em>origen</em></h3>
+          <div class="section-text reveal">
+            <p>Pavimento podotáctil que, aunque está diseñado para personas con visibilidad reducida... Puede ser un inconveniente cuando vas sobre ruedas.</p>
+          </div>
+        </div>
+        <div class="img-wrap reveal">
+          <img src="https://i.postimg.cc/mgky143p/Whats-App-Image-2026-04-25-at-20-11-50.jpg" alt="Inspiración Rebel" class="ratio-landscape" />
+          <p class="img-caption">Caption opcional</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-section">
+      <p class="section-label reveal">Ideas desarrolladas</p>
+      <h3 class="section-title reveal">La <em>colección</em></h3>
+      <div class="gallery-scroll reveal" style="margin-top: 36px;">
+        <img src="https://i.postimg.cc/tgrsyZWM/Rebel-ppal-web.jpg" alt="Idea 1" class="img-v" />
+        <img src="https://i.postimg.cc/Qt38wX0Y/rinonera-rebel.jpg" alt="Idea 2" class="img-v" />
+      </div>
+    </div>
+
+    <div class="col-section">
+      <p class="section-label reveal">Bodegones</p>
+      <h3 class="section-title reveal">Fotografía <em>lifestyle</em></h3>
+      <div class="img-grid-3 reveal" style="margin-top: 36px;">
+        <div class="img-wrap"><img src="https://i.postimg.cc/Tw7KYp6H/rebel-editorial-03.jpg" alt="Bodegón 1" class="ratio-square" /></div>
+        <div class="img-wrap"><img src="https://i.postimg.cc/zBrz6J0Q/rebel-editorial-02.jpg" alt="Bodegón 2" class="ratio-square" /></div>
+		<div class="img-wrap"><img src="https://i.postimg.cc/4dgfqJBP/rebel-editorial-01.jpg" alt="Bodegón 3" class="ratio-square" /></div>
+      </div>
+    </div>
+
+    <div class="col-section">
+      <p class="section-label reveal">Presentación</p>
+      <h3 class="section-title reveal">Lookbook <em>Rebel</em></h3>
+      <div class="mockup-wrap reveal" style="margin-top: 36px;">
+        <img src="https://i.postimg.cc/TPm2tyq7/mockup-rebel.jpg" alt="Mockup Rebel" class="ratio-landscape" />
+        <p class="img-caption" style="text-align:center; margin-top:14px;">Mockup presentación · 2026</p>
+      </div>
+    </div>
+
+  </article>
+  <!-- FIN PROYECTO 01 -->
+
+
+  <!-- ░░░  PROYECTO 02 — TROQUEL COLLECTION  ░░░ -->
+  <article class="proyecto" id="proyecto-02">
+
+    <div class="proyecto-header">
+      <div class="proyecto-num">02</div>
+      <div class="proyecto-header-text">
+        <p class="proyecto-label">Inspiración · Soporte Luz Exterior</p>
+        <h2 class="proyecto-title">Troquel<br><em>Collection</em></h2>
+      </div>
+    </div>
+
+    <div class="col-section">
+      <p class="section-label reveal">Inspiración</p>
+      <div class="layout-text-image">
+        <div>
+          <h3 class="section-title reveal">El <em>origen</em></h3>
+          <div class="section-text reveal">
+            <p>Quietud. Café. Sonido de pájaros. Una avispa revoloteando alrededor de la luz. Siempre había estado ahí. Pero no lo había mirado como hasta entonces.</p>
+          </div>
+        </div>
+        <div class="img-wrap reveal">
+          <img src="https://i.postimg.cc/DZ2TwV2v/Whats-App-Image-2026-04-25-at-09-34-43.jpg" alt="Inspiración Troquel" class="ratio-landscape" />
+          <p class="img-caption">Troquel Collection | Beatriz Morón | 2026</p>
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="col-section">
+      <p class="section-label reveal">Ideas desarrolladas</p>
+      <h3 class="section-title reveal">La <em>colección</em></h3>
+      <div class="section-text reveal" style="margin-bottom: 36px;">
+        <p>Descripción breve de las piezas o ideas que se desarrollaron a partir de la inspiración.</p>
+      </div>
+      <div class="gallery-scroll reveal">
+        <img src="https://i.postimg.cc/rFLP6B91/troquelado-polipiel.png" alt="Idea 1" class="img-h" />
+        <img src="https://i.postimg.cc/FsQBtMxj/troquelado-bolso.png" alt="Idea 2" class="img-h" />
+        <img src="https://i.postimg.cc/m2G5xvSD/troquel-monedero.jpg" alt="Idea 3" class="img-h" />
+        <img src="https://i.postimg.cc/pXt6NwBK/portabotellas-troquelado.png" alt="Idea 4" class="img-h" />
+      </div>
+    </div>-->
+
+    <div class="col-section">
+      <p class="section-label reveal">Bodegones</p>
+      <h3 class="section-title reveal">Fotografía <em>Lifestyle</em></h3>
+      <div class="img-grid-3 reveal" style="margin-top: 36px;">
+        <div class="img-wrap"><img src="https://i.postimg.cc/zBMzxzmw/troquel-editorial-01.jpg" alt="" class="ratio-square" /></div>
+        <div class="img-wrap"><img src="https://i.postimg.cc/3R68t8MF/troquel-editorial-03.jpg" alt="" class="ratio-square" /></div>
+        <div class="img-wrap"><img src="https://i.postimg.cc/mDhZ3cn6/troquel-editorial-02.jpg" alt="" class="ratio-square" /></div>
+      </div>
+    </div>
+
+    <div class="col-section">
+      <p class="section-label reveal">Presentación</p>
+      <h3 class="section-title reveal">Lookbook <em>Troquel</em></h3>
+      <div class="mockup-wrap reveal" style="margin-top: 36px;">
+        <img src="https://i.postimg.cc/cCB3K95m/BOOK-TROQUEL.jpg" alt="Mockup Troquel" class="ratio-landscape" />
+        <p class="img-caption" style="text-align:center; margin-top:14px;">Mockup presentación · 2026</p>
+      </div>
+    </div>
+
+  </article>
+  <!-- FIN PROYECTO 02 -->
+
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Beatriz Morón</p>
+    <a href="../#ia" class="footer-back">← Volver al portfolio</a>
+  </footer>
+
+
+  <script>
+    // Cursor personalizado — solo aparece tras primer movimiento de ratón real
+    const cursor    = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    if (cursor) {
+      document.addEventListener('mousemove', e => {
+        cursor.style.visibility = 'visible';
+        cursorRing.style.visibility = 'visible';
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top  = e.clientY + 'px';
+        setTimeout(() => {
+          cursorRing.style.left = e.clientX + 'px';
+          cursorRing.style.top  = e.clientY + 'px';
+        }, 80);
+      });
+    }
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), 80);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    reveals.forEach(el => revealObserver.observe(el));
+
+    // Submenú activo según scroll
+    const proyectos = document.querySelectorAll('.proyecto');
+    const navItems  = document.querySelectorAll('.proj-nav-item');
+    const activarNav = () => {
+      let current = '';
+      proyectos.forEach(p => {
+        if (p.getBoundingClientRect().top <= 130) current = p.id;
+      });
+      navItems.forEach(item => {
+        item.classList.toggle('active', item.getAttribute('href') === '#' + current);
+      });
+    };
+    window.addEventListener('scroll', activarNav, { passive: true });
+    activarNav();
+  </script>
+
+</body>
+</html>
