@@ -1041,12 +1041,12 @@ function restoreCanvasBehaviors(){
   });
 }
 
-function fitStickyTextbox(tb, maxH){
+function fitStickyTextbox(tb, maxH, minFontSize=8, width=null){
   if(!tb)return;
-  tb.set({width:STICKY_W-STICKY_PAD*2, splitByGrapheme:false, breakWords:true});
+  tb.set({width:width??tb.width??(STICKY_W-STICKY_PAD*2), splitByGrapheme:false, breakWords:true});
   tb.initDimensions();
   let guard=0;
-  while(tb.height>maxH && tb.fontSize>8 && guard<12){
+  while(tb.height>maxH && tb.fontSize>minFontSize && guard<12){
     tb.set('fontSize',tb.fontSize-1);
     tb.initDimensions();
     guard++;
@@ -1069,6 +1069,14 @@ function attachStickyDblClick(grp, bg){
     const originalAngle = g.angle || 0;
     const originalScaleX = g.scaleX || 1;
     const originalScaleY = g.scaleY || 1;
+    const scaleAbsX = Math.max(Math.abs(originalScaleX), 0.05);
+    const scaleAbsY = Math.max(Math.abs(originalScaleY), 0.05);
+    const visualW = STICKY_W * scaleAbsX;
+    const visualH = STICKY_H * scaleAbsY;
+    const editPadX = STICKY_PAD * scaleAbsX;
+    const editPadY = STICKY_PAD * scaleAbsY;
+    const editFontScale = Math.min(scaleAbsX, scaleAbsY);
+    const baseFontSize = itext.fontSize || 13;
 
     // Break group - individual objects on canvas
     g.toActiveSelection();
@@ -1076,20 +1084,36 @@ function attachStickyDblClick(grp, bg){
 
     allItems.forEach(o => { o.selectable = false; o.evented = false; });
     const bgRect = allItems.find(o=>o.type==='rect');
-    if(bgRect)bgRect.set({left:grpLeft, top:grpTop, originX:'center', originY:'center', width:STICKY_W, height:STICKY_H});
+    if(bgRect)bgRect.set({
+      left:grpLeft,
+      top:grpTop,
+      originX:'center',
+      originY:'center',
+      width:visualW,
+      height:visualH,
+      scaleX:1,
+      scaleY:1,
+      angle:0
+    });
     itext.selectable = true;
     itext.evented    = true;
     itext.set({
-      left:grpLeft-(STICKY_W/2)+STICKY_PAD,
-      top:grpTop-(STICKY_H/2)+STICKY_PAD,
-      width:STICKY_W-STICKY_PAD*2,
+      left:grpLeft-(visualW/2)+editPadX,
+      top:grpTop-(visualH/2)+editPadY,
+      width:Math.max(36, visualW-editPadX*2),
+      fontSize:Math.max(6, baseFontSize*editFontScale),
       splitByGrapheme:false,
       breakWords:true,
       originX:'left',
       originY:'top',
+      scaleX:1,
+      scaleY:1,
+      angle:0,
     });
+    const editTextW=Math.max(36, visualW-editPadX*2);
+    fitStickyTextbox(itext, Math.max(24, visualH-editPadY*2), 6, editTextW);
     itext.setCoords();
-    itext.on('changed',()=>{fitStickyTextbox(itext,STICKY_H-STICKY_PAD*2);cv.requestRenderAll();});
+    itext.on('changed',()=>{fitStickyTextbox(itext,Math.max(24, visualH-editPadY*2),6,editTextW);cv.requestRenderAll();});
 
     cv.setActiveObject(itext);
     itext.enterEditing();
@@ -1101,7 +1125,7 @@ function attachStickyDblClick(grp, bg){
       itext.exitEditing();
 
       const nextText = itext.text || '';
-      const nextFontSize = itext.fontSize || 13;
+      const nextFontSize = Math.max(8, (itext.fontSize || Math.max(6, baseFontSize*editFontScale)) / editFontScale);
 
       const stillOn = allItems.filter(o => cv.getObjects().includes(o));
       stillOn.forEach(o => cv.remove(o));

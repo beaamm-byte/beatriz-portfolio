@@ -169,7 +169,7 @@ function renderCompareTool(){
   const displayPalette=getComparePalette(summary);
   const convertBtn=document.getElementById('compare-convert-btn');
   if(convertBtn){
-    convertBtn.disabled=active.length===0||active.some(x=>x.loading);
+    convertBtn.disabled=compareConverting||active.length===0||active.some(x=>x.loading);
     convertBtn.style.opacity=convertBtn.disabled?'.55':'';
   }
   common.innerHTML=summary.chips.map(t=>`<span class="compare-chip">${escHtml(t)}</span>`).join('')||'<div class="compare-empty">Carga al menos dos imágenes para comparar</div>';
@@ -516,13 +516,18 @@ function saveComparatorAssets(pid,cid,payload){
 }
 
 async function convertComparatorToBoard(){
+  if(compareConverting)return toast('Ya se esta creando el board');
   const payload=getComparatorPayload();
   if(!payload.refs.length)return toast('Añade al menos una referencia');
+  compareConverting=true;
+  renderCompareTool();
   await Promise.all(payload.refs.map(async r=>{
     r.src=await compressImageDataUrl(r.src,520,.62);
   }));
   let pid=curProj;
   if(compareReturnScreen!=='editor-screen'||!pid||!projects[pid]){
+    compareConverting=false;
+    renderCompareTool();
     _pendingComparePayload=payload;
     const input=document.getElementById('m-compare-proj-n');
     if(input)input.value='Visual Direction';
@@ -539,8 +544,11 @@ function cancelCompareProjectModal(){
 }
 
 function confirmCompareProjectModal(){
+  if(compareConverting)return toast('Ya se esta creando el board');
   const payload=_pendingComparePayload;
   if(!payload)return closeM('m-compare-proj');
+  compareConverting=true;
+  renderCompareTool();
   const name=(document.getElementById('m-compare-proj-n')?.value||'Visual Direction').trim()||'Visual Direction';
   const pid=createProjWithTags(name,[],'in_progress');
   _pendingComparePayload=null;
@@ -553,7 +561,19 @@ function createVisualDirectionFromPayload(payload,pid){
   const cid=createCv(pid,'Visual Direction');
   saveComparatorAssets(pid,cid,payload);
   openEditor(pid,cid);
-  setTimeout(()=>buildVisualDirectionCanvas(payload,pid,cid),120);
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      Promise.resolve(buildVisualDirectionCanvas(payload,pid,cid))
+        .catch(err=>{
+          console.warn('MoodBoard Pro compare conversion failed',err);
+          toast('No se pudo crear el board desde la comparacion');
+        })
+        .finally(()=>{
+          compareConverting=false;
+          renderCompareTool();
+        });
+    });
+  });
 }
 
 function addBoardObject(o,layerId){

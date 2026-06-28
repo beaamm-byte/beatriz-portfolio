@@ -72,6 +72,7 @@ let comparePickColorIndex=null;
 let compareSlots=[];
 let comparePendingSlot=null;
 let compareReturnScreen='home-screen';
+let compareConverting=false;
 let _switchLoadSeq=0;
 const _collapsedLayers=new Set();
 const RULER_SIZE=20;
