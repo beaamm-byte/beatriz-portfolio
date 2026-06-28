@@ -701,21 +701,27 @@ function endGuideDrag(e){
 }
 function snapToGuides(moving, opt={}){
   if(!cv||!moving)return;
+  const ignored=new Set([moving]);
+  if(moving.type==='activeSelection'&&typeof moving.getObjects==='function'){
+    moving.getObjects().forEach(o=>ignored.add(o));
+  }
+  moving.setCoords();
   const mb=moving.getBoundingRect(true,true);
   const refsX=[
-    {pos:mb.left,delta:0},
-    {pos:mb.left+(mb.width/2),delta:0},
-    {pos:mb.left+mb.width,delta:0}
+    {kind:'start',pos:mb.left},
+    {kind:'center',pos:mb.left+(mb.width/2)},
+    {kind:'end',pos:mb.left+mb.width}
   ];
   const refsY=[
-    {pos:mb.top,delta:0},
-    {pos:mb.top+(mb.height/2),delta:0},
-    {pos:mb.top+mb.height,delta:0}
+    {kind:'start',pos:mb.top},
+    {kind:'center',pos:mb.top+(mb.height/2)},
+    {kind:'end',pos:mb.top+mb.height}
   ];
   const candidates={manualX:[...manualGuides.x],manualY:[...manualGuides.y],autoX:[],autoY:[]};
   cv.getObjects().forEach(o=>{
-    if(o===moving||o.name==='__cropRect'||o.__guide)return;
+    if(ignored.has(o)||o.name==='__cropRect'||o.__guide)return;
     if(o.visible===false)return;
+    o.setCoords();
     const b=o.getBoundingRect(true,true);
     candidates.autoX.push(b.left,b.left+(b.width/2),b.left+b.width);
     candidates.autoY.push(b.top,b.top+(b.height/2),b.top+b.height);
@@ -726,7 +732,7 @@ function snapToGuides(moving, opt={}){
       positions.forEach(pos=>{
         const diff=pos-ref.pos;
         const abs=Math.abs(diff);
-        if(abs<=GUIDE_SNAP&&(!best||abs<best.abs))best={abs,delta:diff,ref:ref.pos,pos};
+        if(abs<=GUIDE_SNAP&&(!best||abs<best.abs))best={abs,delta:diff,kind:ref.kind,ref:ref.pos,pos};
       });
     });
     return best;
@@ -744,6 +750,28 @@ function snapToGuides(moving, opt={}){
   if(dx||dy){
     moving.left+=dx;
     moving.top+=dy;
+    moving.setCoords();
+    const corrected=moving.getBoundingRect(true,true);
+    const currentX=manualX||autoX;
+    const currentY=manualY||autoY;
+    if(currentX){
+      const xNow=currentX.kind==='start'
+        ?corrected.left
+        :currentX.kind==='center'
+          ?corrected.left+(corrected.width/2)
+          :corrected.left+corrected.width;
+      const fix=currentX.pos-xNow;
+      if(Math.abs(fix)>0.01)moving.left+=fix;
+    }
+    if(currentY){
+      const yNow=currentY.kind==='start'
+        ?corrected.top
+        :currentY.kind==='center'
+          ?corrected.top+(corrected.height/2)
+          :corrected.top+corrected.height;
+      const fix=currentY.pos-yNow;
+      if(Math.abs(fix)>0.01)moving.top+=fix;
+    }
     moving.setCoords();
   }
   renderGuideLayer();

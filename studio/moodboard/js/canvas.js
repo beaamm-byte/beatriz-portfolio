@@ -506,18 +506,27 @@ function openRenameObjectModal(obj){
 }
 function confirmRenameLayer(){
   const name=document.getElementById('m-ly-n').value.trim();
+  let changed=false;
   if(name&&_renamingObjectId){
     const obj=cv.getObjects().find(o=>o.__id===_renamingObjectId);
-    if(obj)obj.__name=name;
+    if(obj&&obj.__name!==name){obj.__name=name;changed=true;}
   } else if(name&&_renamingLayerId){
     const layer=layers.find(l=>l.id===_renamingLayerId);
-    if(layer) layer.name=name;
+    if(layer&&layer.name!==name){layer.name=name;changed=true;}
   }
   _renamingLayerId=null;
   _renamingObjectId=null;
   closeM('m-ly');
+  const active=cv?.getActiveObject();
+  if(active)active.setCoords();
   renderLayers();
-  commitCanvasChange({persistDelay:500});
+  updateLayerBadge();
+  updateStatus();
+  if(changed&&!histLock){
+    normalizeLayerMembership(false);
+    saveH();
+    schedulePersist(500);
+  }
 }
 // Allow Enter key in rename modal
 document.addEventListener('keydown',e=>{

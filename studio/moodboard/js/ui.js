@@ -1237,8 +1237,10 @@ function openEditor(pid,cid){
   // Re-attach smart guides
   cv.off('object:moving',showSmartGuides);
   cv.off('object:moved', clearSmartGuides);
+  cv.off('object:modified', clearSmartGuides);
   cv.on('object:moving',showSmartGuides);
   cv.on('object:moved', clearSmartGuides);
+  cv.on('object:modified', clearSmartGuides);
   // Second resize after a tick in case layout shifted
   setTimeout(()=>{
     fitEditorCanvas();
