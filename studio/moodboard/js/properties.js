@@ -166,6 +166,7 @@ function setPropOnTarget(el,prop,val){
   const o=cv.getActiveObject()||propTarget;
   if(!o)return;
   o.set(prop,val);
+  if(prop==='fontFamily')o.__fontFamily=val;
   if(prop==='fontFamily'||prop==='fontSize'||prop==='fontWeight'||prop==='fontStyle'){
     normalizeTextBox(o);
   }
@@ -179,6 +180,7 @@ function setProp(prop,val){
   const o=cv.getActiveObject()||propTarget;
   if(!o)return;
   o.set(prop,val);
+  if(prop==='fontFamily')o.__fontFamily=val;
   if(prop==='fontFamily'||prop==='fontSize'||prop==='fontWeight'||prop==='fontStyle'){
     normalizeTextBox(o);
   }

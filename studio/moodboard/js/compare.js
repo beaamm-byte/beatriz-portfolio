@@ -589,6 +589,7 @@ function makeBoardText(text,left,top,width,opts={}){
   const t=new fabric.Textbox(text,{
     left,top,width,
     fontFamily:opts.fontFamily||'Syne',
+    __fontFamily:opts.fontFamily||'Syne',
     fontSize:opts.fontSize||18,
     fontWeight:opts.fontWeight||'600',
     fill:opts.fill||'#111827',
@@ -738,7 +739,7 @@ function placeProjectPalette(paletteId){
   items.push(bg);
   colors.forEach((col,i)=>{
     items.push(new fabric.Rect({left:-totalW/2+pad+i*(sw+gap),top:-24,width:sw,height:42,fill:col,rx:4,ry:4,originX:'left',originY:'top',objectCaching:false}));
-    items.push(new fabric.Text(col,{left:-totalW/2+pad+i*(sw+gap),top:24,fontSize:9,fontFamily:'DM Mono',fill:'#78716C',originX:'left',originY:'top',objectCaching:false}));
+    items.push(new fabric.Text(col,{left:-totalW/2+pad+i*(sw+gap),top:24,fontSize:9,fontFamily:'DM Mono',__fontFamily:'DM Mono',fill:'#78716C',originX:'left',originY:'top',objectCaching:false}));
   });
   const group=new fabric.Group(items,{left:cv.width/2,top:cv.height/2,originX:'center',originY:'center',objectCaching:false,noScaleCache:true});
   addObj(group);

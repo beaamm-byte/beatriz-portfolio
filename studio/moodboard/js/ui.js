@@ -677,6 +677,7 @@ function applyFrame(){
       width:iw,                          // constrained to image width
       fontSize:Math.max(14,bottomExtra/3.5),
       fontFamily:'Special Elite',
+      __fontFamily:'Special Elite',
       fill:'#374151',
       textAlign:'center',
       breakWords:true,

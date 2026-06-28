@@ -793,7 +793,7 @@ function projectStatusBadge(statusId){
 function renderProjectStatusOptions(selected='draft'){
   return PROJECT_STATUSES.map(s=>`<option value="${s.id}" ${s.id===selected?'selected':''}>${s.label}</option>`).join('');
 }
-const FABRIC_CUSTOM_PROPS=['__id','__lid','__name','_isSticky','_stickyColor','_isFrame','_isPolaroid'];
+const FABRIC_CUSTOM_PROPS=['__id','__lid','__name','__fontFamily','_isSticky','_stickyColor','_isFrame','_isPolaroid'];
 
 if(typeof fabric!=='undefined'&&fabric.Image&&fabric.Image.prototype&&!fabric.Image.prototype.__mbpToObjectPatched){
   const _origImgToObject=fabric.Image.prototype.toObject;

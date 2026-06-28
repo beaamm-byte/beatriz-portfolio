@@ -714,8 +714,54 @@ function addObj(o){
   commitCanvasChange({persistDelay:500});
 }
 
+function isTextObject(o){
+  return !!o&&['i-text','text','textbox'].includes(o.type);
+}
+function rememberTextFont(o){
+  if(!isTextObject(o))return;
+  if(o.fontFamily){
+    o.__fontFamily=o.fontFamily;
+  }else if(o.__fontFamily){
+    o.set('fontFamily',o.__fontFamily);
+  }else{
+    o.__fontFamily='Syne';
+    o.set('fontFamily','Syne');
+  }
+}
+window._fontReadyTextRefreshQueued=window._fontReadyTextRefreshQueued||false;
+function refreshTextLayoutAfterFontsReady(){
+  if(!cv)return;
+  const refresh=o=>{
+    if(!isTextObject(o))return;
+    rememberTextFont(o);
+    if(o.isEditing)return;
+    o.initDimensions&&o.initDimensions();
+    o.setCoords();
+  };
+  cv.getObjects().forEach(o=>{
+    refresh(o);
+    if(o.type==='group'&&o.getObjects)o.getObjects().forEach(refresh);
+  });
+  cv.requestRenderAll();
+}
+function scheduleFontReadyTextRefresh(target=null){
+  if(document.fonts?.ready){
+    if(!target&&window._fontReadyTextRefreshQueued)return;
+    if(!target)window._fontReadyTextRefreshQueued=true;
+    document.fonts.ready.then(()=>{
+      if(target)normalizeTextBox(target);
+      else{
+        window._fontReadyTextRefreshQueued=false;
+        refreshTextLayoutAfterFontsReady();
+      }
+    }).catch(()=>{window._fontReadyTextRefreshQueued=false;});
+  }else if(target){
+    setTimeout(()=>normalizeTextBox(target),250);
+  }
+}
 function normalizeTextBox(o){
-  if(!o||!['i-text','text','textbox'].includes(o.type))return;
+  if(!isTextObject(o))return;
+  rememberTextFont(o);
   if(o.isEditing)return;
   applyObjectControls(o);
   o.set({originX:'left',originY:'top',padding:8,splitByGrapheme:false,objectCaching:false,noScaleCache:true});
@@ -730,6 +776,7 @@ function addText(){
     top:cv.height/2-22,
     width:290,
     fontFamily:'Syne',
+    __fontFamily:'Syne',
     fontSize:24,
     fill:'#111827',
     fontWeight:'700',
@@ -742,11 +789,7 @@ function addText(){
   normalizeTextBox(txt);
   txt.on('editing:exited',()=>{normalizeTextBox(txt);commitCanvasChange({historyDelay:200,persistDelay:600});});
   addObj(txt);
-  if(document.fonts?.ready){
-    document.fonts.ready.then(()=>{normalizeTextBox(txt);commitCanvasChange({historyDelay:200,persistDelay:600});});
-  }else{
-    setTimeout(()=>normalizeTextBox(txt),250);
-  }
+  scheduleFontReadyTextRefresh(txt);
 }
 
 function addSticky(){
@@ -766,7 +809,7 @@ function createStickyGroup(left, top, bg, text, opts={}){
   });
   const t=new fabric.Textbox(text||'Your note...',{
     width:noteW-pad*2,
-    fontSize:13, fontFamily:'DM Mono', fill:'#374151', editable:true,
+    fontSize:13, fontFamily:'DM Mono', __fontFamily:'DM Mono', fill:'#374151', editable:true,
     splitByGrapheme:false, breakWords:true, originX:'left', originY:'top',
     left:-(noteW/2)+pad, top:-(noteH/2)+pad,
   });

@@ -6,7 +6,7 @@ function renderPropContent(o){
   // TEXT
   if(o.type==='i-text'||o.type==='text'||o.type==='textbox'){
     const fontRow=document.createElement('div');fontRow.className='pp-row';
-    const curFont=o.fontFamily||'Syne';
+    const curFont=o.__fontFamily||o.fontFamily||'Syne';
     fontRow.innerHTML=`<div class="pp-lbl">Font</div><select class="font-select" onchange="setPropOnTarget(this,'fontFamily',this.value)" style="font-family:${curFont}">${FONTS.map(f=>`<option value="${f.name}" style="font-family:${f.name}" ${f.name===curFont?'selected':''}>${f.label}</option>`).join('')}</select>`;
     c.appendChild(fontRow);
     const sizeRow=document.createElement('div');sizeRow.className='pp-row';
