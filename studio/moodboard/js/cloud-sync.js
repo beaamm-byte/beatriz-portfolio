@@ -2,6 +2,11 @@ let mbpCloudClient=null;
 let mbpCloudSaveTimer=null;
 let mbpCloudSaving=false;
 let mbpCloudSession=null;
+const MBP_PUBLIC_APP_URL='https://www.beatrizmoron.com/studio/moodboard/';
+
+function getPublicAppUrl(){
+  return MBP_PUBLIC_APP_URL;
+}
 
 function initCloudClient(){
   if(mbpCloudClient)return mbpCloudClient;
@@ -193,7 +198,7 @@ function cloudShowRecovery(){
   const copyLink=()=>{
     const latest=getCloudWorkspace();
     if(!latest.id||!latest.token)return toast?.('No cloud workspace linked yet');
-    const recovery=`${location.origin}${location.pathname}?workspace=${encodeURIComponent(latest.id)}&token=${encodeURIComponent(latest.token)}`;
+    const recovery=`${getPublicAppUrl()}?workspace=${encodeURIComponent(latest.id)}&token=${encodeURIComponent(latest.token)}`;
     navigator.clipboard?.writeText(recovery).then(()=>toast?.('Workspace link copied')).catch(()=>{
       prompt('Workspace link',recovery);
     });
@@ -256,7 +261,7 @@ async function cloudSendEmailLink(){
     localStorage.setItem('mbp_cloud_email_pending','1');
     const {error}=await client.auth.signInWithOtp({
       email,
-      options:{emailRedirectTo:location.origin+location.pathname}
+      options:{emailRedirectTo:getPublicAppUrl()}
     });
     if(error)throw error;
     closeM?.('m-cloud-email');
