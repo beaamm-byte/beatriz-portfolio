@@ -70,18 +70,23 @@ document.addEventListener('click', e => {
 // -
 // CUSTOM CONFIRM DIALOG (replaces native confirm())
 // -
-function customConfirm(msg, onOk, title='¿Estás segura?', okLabel='Eliminar', okDanger=true){
+function customConfirm(msg, onOk, title='¿Estás segura?', okLabel='Eliminar', okDanger=true, onCancel=null, cancelLabel='Cancelar'){
   const ov=document.getElementById('confirm-overlay');
   document.getElementById('confirm-title').textContent=title;
   document.getElementById('confirm-msg').textContent=msg;
   const okBtn=document.getElementById('confirm-ok');
+  const cancelBtn=document.getElementById('confirm-cancel');
   okBtn.textContent=okLabel;
+  cancelBtn.textContent=cancelLabel;
   okBtn.style.background=okDanger?'var(--red)':'var(--accent)';
   okBtn.style.borderColor=okDanger?'var(--red)':'var(--accent)';
   ov.classList.add('on');
-  const close=()=>ov.classList.remove('on');
+  const close=()=>{
+    ov.classList.remove('on');
+    cancelBtn.textContent='Cancelar';
+  };
   okBtn.onclick=()=>{ close(); onOk(); };
-  document.getElementById('confirm-cancel').onclick=close;
+  cancelBtn.onclick=()=>{ close(); if(typeof onCancel==='function')onCancel(); };
 }
 
 // -
@@ -307,16 +312,47 @@ function confirmCv(){
     saveLS();switchCv(newCvForProj,cid);newCvForProj=null;
   }
 }
+function getCanvasLinkedPalettes(pid,cid){
+  const palettes=projects?.[pid]?.palettes;
+  if(!Array.isArray(palettes))return [];
+  return palettes.filter(p=>p&&p.canvasId===cid&&p.source==='comparison');
+}
+function deleteCanvasRecord(pid,cid,{deleteLinkedPalettes=false}={}){
+  const project=projects?.[pid];
+  if(!project?.canvases?.[cid])return;
+  if(deleteLinkedPalettes&&Array.isArray(project.palettes)){
+    project.palettes=project.palettes.filter(p=>p.canvasId!==cid);
+  }
+  if(Array.isArray(project.comparisons)){
+    project.comparisons=project.comparisons.filter(c=>c.canvasId!==cid);
+  }
+  delete project.canvases[cid];
+  saveLS();
+  if(curProj===pid&&curCv===cid){
+    curCv=null;
+    const ncid=Object.keys(project.canvases)[0];
+    switchCv(pid,ncid);
+  }else{
+    renderCvList();
+    renderProjectPalettes?.();
+  }
+}
 function delCv(pid,cid,e){
   e.stopPropagation();
   if(Object.keys(projects[pid].canvases).length===1)return toast('Cannot delete the only canvas');
-  customConfirm(`Delete canvas "${projects[pid].canvases[cid].name}"?`, ()=>{
-    delete projects[pid].canvases[cid]; saveLS();
-    if(curProj===pid&&curCv===cid){
-      curCv=null;
-      const ncid=Object.keys(projects[pid].canvases)[0];
-      switchCv(pid,ncid);
-    } else renderCvList();
+  const canvasName=projects[pid].canvases[cid].name;
+  const linkedPalettes=getCanvasLinkedPalettes(pid,cid);
+  customConfirm(`Delete canvas "${canvasName}"?`, ()=>{
+    if(linkedPalettes.length){
+      const palLabel=linkedPalettes.length===1?`the palette "${linkedPalettes[0].name||'Palette'}"`:`${linkedPalettes.length} linked palettes`;
+      customConfirm(`This canvas was created from Compare and has ${palLabel}. Delete the linked palette too?`, ()=>{
+        deleteCanvasRecord(pid,cid,{deleteLinkedPalettes:true});
+      },'Delete linked palette?','Delete both',true,()=>{
+        deleteCanvasRecord(pid,cid,{deleteLinkedPalettes:false});
+      },'Only canvas');
+      return;
+    }
+    deleteCanvasRecord(pid,cid);
   });
 }
 

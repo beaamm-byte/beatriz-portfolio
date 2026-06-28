@@ -49,12 +49,13 @@ function loadCompareFileToSlot(index,file){
   compareSlots[index]={name,src:'',analysis:null,loading:true};
   renderCompareTool();
   reader.onload=ev=>{
-    compressImageDataUrl(ev.target.result,1000,.76).then(src=>{
+    const originalSrc=ev.target.result;
+    compressImageDataUrl(originalSrc,1200,.86).then(src=>{
       compareSlots[index]={name,src,analysis:null,loading:true};
       comparePaletteOverride=null;
       renderCompareTool();
-      analyzeCompareImage(src).then(analysis=>{
-        compareSlots[index]={name,src,analysis,loading:false};
+      analyzeCompareImage(originalSrc).then(analysis=>{
+        compareSlots[index]={name,src,analysis:{...analysis,src},loading:false};
         renderCompareTool();
       });
     });
@@ -287,27 +288,131 @@ function analyzeCompareImage(src){
   });
 }
 
+function rgbToHsl(r,g,b){
+  r/=255;g/=255;b/=255;
+  const max=Math.max(r,g,b),min=Math.min(r,g,b);
+  let h=0,s=0;
+  const l=(max+min)/2;
+  const d=max-min;
+  if(d){
+    s=l>.5?d/(2-max-min):d/(max+min);
+    switch(max){
+      case r:h=(g-b)/d+(g<b?6:0);break;
+      case g:h=(b-r)/d+2;break;
+      default:h=(r-g)/d+4;break;
+    }
+    h*=60;
+  }
+  return [h,s*100,l*100];
+}
+
+function perceptualRgbDistance(a,b){
+  const dr=a[0]-b[0],dg=a[1]-b[1],db=a[2]-b[2];
+  return Math.sqrt(.3*dr*dr+.59*dg*dg+.11*db*db);
+}
+
+function quantizedRgbKey(r,g,b,step=12){
+  const q=v=>Math.max(0,Math.min(255,Math.round(v/step)*step));
+  return `${q(r)},${q(g)},${q(b)}`;
+}
+
 function extractPaletteFromElement(el,count=5){
   const c=document.createElement('canvas');
-  const W=72,H=72;
+  const W=128,H=128;
   c.width=W;c.height=H;
   const ctx=c.getContext('2d');
   try{ctx.drawImage(el,0,0,W,H);}catch(e){return [];}
   const data=ctx.getImageData(0,0,W,H).data;
-  const buckets={};
-  for(let i=0;i<data.length;i+=4){
-    const r=Math.round(data[i]/32)*32;
-    const g=Math.round(data[i+1]/32)*32;
-    const b=Math.round(data[i+2]/32)*32;
-    const key=`${r},${g},${b}`;
-    buckets[key]=(buckets[key]||0)+1;
+  const border=new Map();
+  const borderKeyAt=(x,y)=>{
+    const i=(y*W+x)*4;
+    if(data[i+3]<30)return null;
+    return quantizedRgbKey(data[i],data[i+1],data[i+2],18);
+  };
+  for(let x=0;x<W;x++){
+    [borderKeyAt(x,0),borderKeyAt(x,H-1)].forEach(k=>{if(k)border.set(k,(border.get(k)||0)+1);});
   }
-  return Object.entries(buckets)
-    .sort((a,b)=>b[1]-a[1])
-    .map(([k])=>k.split(',').map(Number))
-    .filter(([r,g,b])=>!(r>245&&g>245&&b>245)&&!(r<15&&g<15&&b<15))
-    .slice(0,count)
-    .map(([r,g,b])=>`#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`);
+  for(let y=1;y<H-1;y++){
+    [borderKeyAt(0,y),borderKeyAt(W-1,y)].forEach(k=>{if(k)border.set(k,(border.get(k)||0)+1);});
+  }
+  const borderTotal=[...border.values()].reduce((a,b)=>a+b,0)||1;
+  const backgroundKeys=new Set([...border.entries()].filter(([,n])=>n/borderTotal>.18).map(([k])=>k));
+
+  const buckets=new Map();
+  for(let i=0;i<data.length;i+=4){
+    const a=data[i+3];
+    if(a<35)continue;
+    const r=data[i],g=data[i+1],b=data[i+2];
+    const [h,s,l]=rgbToHsl(r,g,b);
+    if(l>98||l<2)continue;
+    const borderKey=quantizedRgbKey(r,g,b,18);
+    let weight=1;
+    if(s<7)weight*=.22;
+    if(l>92||l<8)weight*=.32;
+    if(backgroundKeys.has(borderKey)&&(s<18||l>84||l<16))weight*=.14;
+    weight*=.65+Math.min(1.35,s/55);
+    const key=quantizedRgbKey(r,g,b,10);
+    const bucket=buckets.get(key)||{r:0,g:0,b:0,weight:0,raw:0,h:0,s:0,l:0};
+    bucket.r+=r*weight;bucket.g+=g*weight;bucket.b+=b*weight;
+    bucket.h+=h*weight;bucket.s+=s*weight;bucket.l+=l*weight;
+    bucket.weight+=weight;bucket.raw++;
+    buckets.set(key,bucket);
+  }
+
+  let candidates=[...buckets.values()].filter(x=>x.weight>.8).map(x=>{
+    const rgb=[x.r/x.weight,x.g/x.weight,x.b/x.weight];
+    const hsl=rgbToHsl(rgb[0],rgb[1],rgb[2]);
+    const centerBonus=1-Math.min(.55,Math.abs(hsl[2]-55)/110);
+    const satBonus=.7+Math.min(1.15,hsl[1]/70);
+    return {rgb,weight:x.weight,score:x.weight*satBonus*centerBonus,hsl};
+  }).sort((a,b)=>b.score-a.score).slice(0,80);
+
+  if(!candidates.length)return [];
+  const seeds=[];
+  for(const cnd of candidates){
+    if(seeds.length>=count)break;
+    if(seeds.every(seed=>perceptualRgbDistance(seed.rgb,cnd.rgb)>28))seeds.push({rgb:[...cnd.rgb]});
+  }
+  for(const cnd of candidates){
+    if(seeds.length>=count)break;
+    if(!seeds.some(seed=>perceptualRgbDistance(seed.rgb,cnd.rgb)<16))seeds.push({rgb:[...cnd.rgb]});
+  }
+  const centroids=seeds.length?seeds:candidates.slice(0,count).map(cnd=>({rgb:[...cnd.rgb]}));
+  for(let iter=0;iter<7;iter++){
+    const groups=centroids.map(()=>({r:0,g:0,b:0,w:0,score:0}));
+    candidates.forEach(cnd=>{
+      let best=0,bestD=Infinity;
+      centroids.forEach((centroid,idx)=>{
+        const d=perceptualRgbDistance(centroid.rgb,cnd.rgb);
+        if(d<bestD){bestD=d;best=idx;}
+      });
+      groups[best].r+=cnd.rgb[0]*cnd.weight;
+      groups[best].g+=cnd.rgb[1]*cnd.weight;
+      groups[best].b+=cnd.rgb[2]*cnd.weight;
+      groups[best].w+=cnd.weight;
+      groups[best].score+=cnd.score;
+    });
+    groups.forEach((g,idx)=>{
+      if(g.w)centroids[idx].rgb=[g.r/g.w,g.g/g.w,g.b/g.w];
+      centroids[idx].score=g.score;
+    });
+  }
+
+  const palette=centroids
+    .map(c=>({rgb:c.rgb,hsl:rgbToHsl(c.rgb[0],c.rgb[1],c.rgb[2]),score:c.score||0}))
+    .filter(c=>c.hsl[2]>4&&c.hsl[2]<96)
+    .sort((a,b)=>b.score-a.score)
+    .reduce((acc,c)=>{
+      if(acc.length<count&&acc.every(x=>perceptualRgbDistance(x.rgb,c.rgb)>24))acc.push(c);
+      return acc;
+    },[]);
+
+  for(const cnd of candidates){
+    if(palette.length>=count)break;
+    if(palette.every(x=>perceptualRgbDistance(x.rgb,cnd.rgb)>24))palette.push(cnd);
+  }
+
+  return palette.slice(0,count).map(c=>rgbToHex(c.rgb[0],c.rgb[1],c.rgb[2]));
 }
 
 function extractImageStats(el){
@@ -317,28 +422,20 @@ function extractImageStats(el){
   const ctx=c.getContext('2d');
   try{ctx.drawImage(el,0,0,W,H);}catch(e){return {brightness:0,saturation:0,hue:0,contrast:0};}
   const data=ctx.getImageData(0,0,W,H).data;
-  let sumR=0,sumG=0,sumB=0,sumBright=0,sumSat=0,sumHue=0,count=0;
+  let sumR=0,sumG=0,sumB=0,sumBright=0,sumSat=0,hueX=0,hueY=0,count=0;
   for(let i=0;i<data.length;i+=4){
     const r=data[i],g=data[i+1],b=data[i+2],a=data[i+3];
     if(a<10)continue;
-    const max=Math.max(r,g,b), min=Math.min(r,g,b);
-    const d=max-min;
-    const sat=max===0?0:(d/max)*100;
-    let hue=0;
-    if(d!==0){
-      switch(max){
-        case r: hue=((g-b)/d)%6; break;
-        case g: hue=(b-r)/d+2; break;
-        default: hue=(r-g)/d+4; break;
-      }
-      hue*=60; if(hue<0)hue+=360;
-    }
+    const [hue,sat]=rgbToHsl(r,g,b);
+    const hueWeight=Math.max(.04,sat/100);
     sumR+=r;sumG+=g;sumB+=b;
     sumBright+=0.299*r+0.587*g+0.114*b;
     sumSat+=sat;
-    sumHue+=hue;
+    hueX+=Math.cos(hue*Math.PI/180)*hueWeight;
+    hueY+=Math.sin(hue*Math.PI/180)*hueWeight;
     count++;
   }
+  if(!count)return {brightness:0,saturation:0,hue:0,contrast:0,avgHex:'#000000'};
   const avgR=sumR/count, avgG=sumG/count, avgB=sumB/count;
   let variance=0;
   for(let i=0;i<data.length;i+=4){
@@ -348,10 +445,12 @@ function extractImageStats(el){
     variance+=(bright-(sumBright/count))**2;
   }
   variance=Math.sqrt(variance/Math.max(1,count));
+  let hue=Math.round(Math.atan2(hueY,hueX)*180/Math.PI);
+  if(hue<0)hue+=360;
   return {
     brightness:Math.round(sumBright/count),
     saturation:Math.round(sumSat/count),
-    hue:Math.round(sumHue/count)||0,
+    hue:hue||0,
     contrast:Math.round(variance),
     avgHex:`#${Math.round(avgR).toString(16).padStart(2,'0')}${Math.round(avgG).toString(16).padStart(2,'0')}${Math.round(avgB).toString(16).padStart(2,'0')}`
   };
@@ -492,9 +591,11 @@ function ensureProjectAssets(pid){
 function saveComparatorAssets(pid,cid,payload){
   const p=ensureProjectAssets(pid);
   if(!p)return;
+  let paletteId=null;
   if(payload.palette.length){
+    paletteId=genId();
     p.palettes.unshift({
-      id:genId(),
+      id:paletteId,
       name:'Visual Direction Palette',
       colors:[...payload.palette],
       source:'comparison',
@@ -506,6 +607,7 @@ function saveComparatorAssets(pid,cid,payload){
     id:genId(),
     name:'Visual Direction',
     canvasId:cid,
+    paletteId,
     createdAt:new Date().toISOString(),
     refs:payload.refs.map(r=>({name:r.name,palette:r.analysis.palette,tone:r.analysis.tone,mood:r.analysis.mood,contrast:r.analysis.contrast})),
     summary:payload.summary,
@@ -712,19 +814,46 @@ function renderProjectPalettes(){
     const colors=(pal.colors||[]).slice(0,6);
     row.innerHTML=`
       <div class="project-palette-name" title="${escHtml(pal.name||'Palette')}">${escHtml(pal.name||'Palette')}</div>
-      <div class="project-palette-swatches">${colors.map(c=>`<div class="project-palette-swatch" title="${c}" style="background:${c}" data-color="${c}"></div>`).join('')}</div>
-      <button class="ly-tool" title="Place palette on canvas" data-place="${pal.id}">Place</button>`;
-    row.querySelectorAll('[data-color]').forEach(sw=>{
-      sw.onclick=()=>{
-        const col=sw.dataset.color;
-        const o=cv?.getActiveObject();
-        if(o&&('fill' in o)){setProp('fill',col);toast(`Applied ${col}`);}
-        else{navigator.clipboard?.writeText(col).catch(()=>{});toast(`Copiado ${col}`);}
-      };
+      <div class="project-palette-swatches">${colors.map((c,i)=>`
+        <label class="project-palette-swatch-wrap" title="Edit ${c}">
+          <span class="project-palette-swatch" style="background:${c}" data-color="${c}"></span>
+          <input type="color" value="${c}" data-edit-color="${i}" aria-label="Edit color ${i+1}">
+        </label>`).join('')}</div>
+      <div class="project-palette-actions">
+        <button class="ly-tool" title="Place palette on canvas" data-place="${pal.id}">Place</button>
+        <button class="ly-tool red" title="Delete palette" data-delete-palette="${pal.id}">Del</button>
+      </div>`;
+    row.querySelectorAll('[data-edit-color]').forEach(input=>{
+      input.oninput=e=>setProjectPaletteColor(pal.id,+e.target.dataset.editColor,e.target.value);
     });
     row.querySelector('[data-place]').onclick=()=>placeProjectPalette(pal.id);
+    row.querySelector('[data-delete-palette]').onclick=()=>deleteProjectPalette(pal.id);
     list.appendChild(row);
   });
+}
+
+function setProjectPaletteColor(paletteId,index,color){
+  if(!/^#[0-9a-f]{6}$/i.test(color||''))return;
+  const palettes=projects[curProj]?.palettes;
+  const pal=Array.isArray(palettes)?palettes.find(p=>p.id===paletteId):null;
+  if(!pal||!Array.isArray(pal.colors)||index<0||index>=pal.colors.length)return;
+  pal.colors[index]=color.toLowerCase();
+  saveLS();
+  renderProjectPalettes();
+}
+
+function deleteProjectPalette(paletteId){
+  const project=projects[curProj];
+  const pal=project?.palettes?.find(p=>p.id===paletteId);
+  if(!project||!pal)return;
+  customConfirm(`Delete palette "${pal.name||'Palette'}"?`,()=>{
+    project.palettes=project.palettes.filter(p=>p.id!==paletteId);
+    if(Array.isArray(project.comparisons)){
+      project.comparisons.forEach(c=>{if(c.paletteId===paletteId)c.paletteId=null;});
+    }
+    saveLS();
+    renderProjectPalettes();
+  },'Delete palette','Delete',true);
 }
 
 function placeProjectPalette(paletteId){

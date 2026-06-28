@@ -30,6 +30,8 @@ function hasDragType(e,type){
 }
 function onPathCreated(opt){
   const path=opt.path; if(!path)return;
+  path.set({strokeLineCap:'round',strokeLineJoin:'round',objectCaching:false,noScaleCache:true});
+  applyObjectControls(path);
   path.__id=genId(); ensureDefaultLayer(); assignToLayer(path,activeLayerId); onMod();
 }
 function syncLayerVisibility(){
@@ -184,94 +186,26 @@ function _renderLayersImpl(){
       renderLayers();updateLayerBadge();
     });
 
-    // - Drag via document-level mousemove (reliable, works through overflow containers) -
+    // Drag layers only from the handle; the row itself remains a drop target.
     row.draggable=false;
     if(!isLocked){
-      handle.addEventListener('mousedown',e=>{
-        e.stopPropagation();
-        row.draggable=true;
-        return;
-        e.preventDefault(); e.stopPropagation();
-        const srcIdx=idx;
-        let targetIdx=srcIdx;
-        handle.style.cursor='grabbing';
-        row.style.opacity='0.5';
-        row.style.outline='1px dashed var(--accent)';
-
-        const allRowEls=[...list.querySelectorAll('.ly')];
-        const getRows=()=>allRowEls.map(r=>{
-          const rect=r.getBoundingClientRect();
-          return {top:rect.top,bottom:rect.bottom,mid:rect.top+rect.height/2,el:r,idx:+r.dataset.idx};
-        });
-
-        const onMove=ev=>{
-          const y=ev.clientY;
-          allRowEls.forEach(r=>{r.style.borderTop='';r.style.borderBottom='';});
-          const rows=getRows();
-          const hit=rows.find(r=>y>=r.top&&y<=r.bottom);
-          if(!hit)return;
-          const after=y>hit.mid;
-          targetIdx=hit.idx+(after?1:0);
-          if(targetIdx>srcIdx)targetIdx--;
-          if(targetIdx<0)targetIdx=0;
-          if(targetIdx>layers.length-1)targetIdx=layers.length-1;
-          hit.el.style[after?'borderBottom':'borderTop']='2px solid var(--accent)';
-        };
-        const onUp=()=>{
-          document.removeEventListener('mousemove',onMove);
-          document.removeEventListener('mouseup',onUp);
-          handle.style.cursor='grab';
-          row.style.opacity='';
-          row.style.outline='';
-          allRowEls.forEach(r=>{r.style.borderTop='';r.style.borderBottom='';});
-          if(targetIdx!==srcIdx) moveLayer(srcIdx,targetIdx);
-        };
-        document.addEventListener('mousemove',onMove);
-        document.addEventListener('mouseup',onUp);
-      });
-      row.addEventListener('dragstart',e=>{
-        if(!row.draggable){e.preventDefault();return;}
-        dragSrcIdx=idx;
-        e.dataTransfer.effectAllowed='move';
-        e.dataTransfer.setData('text/plain',String(idx));
-        row.style.opacity='0.45';
-      });
-      row.addEventListener('dragover',e=>{
-        e.preventDefault();
-        const r=row.getBoundingClientRect();
-        const after=e.clientY>r.top+r.height/2;
-        row.style.borderTop=after?'':'2px solid var(--accent)';
-        row.style.borderBottom=after?'2px solid var(--accent)':'';
-      });
-      row.addEventListener('dragleave',()=>{
-        row.style.borderTop='';
-        row.style.borderBottom='';
-      });
-      row.addEventListener('drop',e=>{
-        e.preventDefault();e.stopPropagation();
-        if(hasDragType(e,'application/x-mbp-layer')||hasDragType(e,'application/x-mbp-object'))return;
-        const from=dragSrcIdx??parseInt(e.dataTransfer.getData('text/plain'),10);
-        const r=row.getBoundingClientRect();
-        const after=e.clientY>r.top+r.height/2;
-        let to=idx+(after?1:0);
-        if(from<to)to--;
-        moveLayer(from,to);
-      });
-      row.addEventListener('dragend',()=>{
-        row.draggable=false;
-        dragSrcIdx=null;
-        [...list.querySelectorAll('.ly')].forEach(r=>{r.style.opacity='';r.style.borderTop='';r.style.borderBottom='';});
-      });
       handle.addEventListener('dragstart',e=>{
+        e.stopPropagation();
         dragSrcIdx=idx;
         e.dataTransfer.effectAllowed='move';
         e.dataTransfer.setData('application/x-mbp-layer',JSON.stringify({fromIdx:idx,layerId:layer.id}));
+        e.dataTransfer.setData('text/plain',layer.name);
         row.style.opacity='0.45';
+      });
+      handle.addEventListener('dragend',()=>{
+        dragSrcIdx=null;
+        [...list.querySelectorAll('.ly,.ly-child')].forEach(el=>{el.style.opacity='';el.style.borderTop='';el.style.borderBottom='';});
       });
     }
 
     row.addEventListener('dragover',e=>{
       if(!hasDragType(e,'application/x-mbp-layer')&&!hasDragType(e,'application/x-mbp-object'))return;
+      if(isLocked&&hasDragType(e,'application/x-mbp-object'))return;
       e.preventDefault();
       e.stopImmediatePropagation();
       const r=row.getBoundingClientRect();
@@ -285,7 +219,8 @@ function _renderLayersImpl(){
       e.stopImmediatePropagation();
       if(hasDragType(e,'application/x-mbp-layer')){
         const data=JSON.parse(e.dataTransfer.getData('application/x-mbp-layer')||'{}');
-        const from=data.fromIdx??dragSrcIdx;
+        const from=Number.isInteger(data.fromIdx)?data.fromIdx:dragSrcIdx;
+        if(!Number.isInteger(from))return;
         const r=row.getBoundingClientRect();
         const after=e.clientY>r.top+r.height/2;
         let to=idx+(after?1:0);
@@ -296,6 +231,7 @@ function _renderLayersImpl(){
         moveObjectToLayer(data.objectId,layer.id);
       }
     },true);
+    row.addEventListener('dragleave',()=>{row.style.borderTop='';row.style.borderBottom='';});
 
     list.appendChild(row);
     if(isGroup&&!isCollapsed){
@@ -548,6 +484,7 @@ function moveLayer(fromIdx,toIdx){
   schedulePersist(500);
 }
 function moveObjectToLayer(objectId,targetLayerId,beforeObjectId=null,after=false){
+  if(objectId===beforeObjectId)return;
   const obj=cv.getObjects().find(o=>o.__id===objectId);
   const target=layers.find(l=>l.id===targetLayerId);
   if(!obj||!target)return;
@@ -555,8 +492,8 @@ function moveObjectToLayer(objectId,targetLayerId,beforeObjectId=null,after=fals
   layers.forEach(layer=>{layer.fabricIds=(layer.fabricIds||[]).filter(id=>id!==objectId);});
   obj.__lid=targetLayerId;
   target.fabricIds=target.fabricIds||[];
-  let insertIdx=beforeObjectId?target.fabricIds.indexOf(beforeObjectId):-1;
-  if(insertIdx<0)insertIdx=target.fabricIds.length;
+  let insertIdx=beforeObjectId?target.fabricIds.indexOf(beforeObjectId):0;
+  if(insertIdx<0)insertIdx=0;
   if(after)insertIdx++;
   target.fabricIds.splice(insertIdx,0,objectId);
   activeLayerId=targetLayerId;
@@ -598,6 +535,7 @@ function initCanvas(){
     selection:true,selectionColor:'rgba(200,16,46,0.07)',
     selectionBorderColor:'#C8102E',selectionLineWidth:1,
     allowTouchScrolling:false,
+    enablePointerEvents:true,
     enableRetinaScaling:true,
   });
   cv.backgroundColor=null;
@@ -683,7 +621,14 @@ function updBrush(){
   document.getElementById('bval').textContent=sz;
   if(!cv)return;
   if(!cv.freeDrawingBrush)cv.freeDrawingBrush=new fabric.PencilBrush(cv);
-  cv.freeDrawingBrush.width=sz;cv.freeDrawingBrush.color=col;
+  const brush=cv.freeDrawingBrush;
+  brush.width=sz;
+  brush.color=col;
+  brush.decimate=0;
+  brush.strokeLineCap='round';
+  brush.strokeLineJoin='round';
+  brush.limitedToCanvasSize=false;
+  cv.upperCanvasEl.style.touchAction='none';
 }
 
 function applyObjectControls(o){
@@ -728,6 +673,80 @@ function rememberTextFont(o){
     o.set('fontFamily','Syne');
   }
 }
+function textFontLoadSpec(o){
+  const family=String(o.__fontFamily||o.fontFamily||'Syne').replace(/["\\]/g,'');
+  const style=o.fontStyle||'normal';
+  const weight=o.fontWeight||'400';
+  const size=Math.max(1,o.fontSize||16);
+  return `${style} ${weight} ${size}px "${family}"`;
+}
+function loadTextObjectFont(o){
+  if(!document.fonts?.load||!isTextObject(o))return Promise.resolve();
+  return document.fonts.load(textFontLoadSpec(o),o.text||'M').catch(()=>{});
+}
+function syncTextEditingTextarea(o){
+  const ta=o?.hiddenTextarea;
+  if(!ta||!isTextObject(o))return;
+  ta.style.fontFamily=o.__fontFamily||o.fontFamily||'Syne';
+  ta.style.fontSize=(o.fontSize||16)+'px';
+  ta.style.fontWeight=o.fontWeight||'normal';
+  ta.style.fontStyle=o.fontStyle||'normal';
+}
+function selectFullText(o){
+  if(!isTextObject(o))return;
+  const len=(o.text||'').length;
+  o.selectionStart=0;
+  o.selectionEnd=len;
+  o.selectAll?.();
+  if(o.hiddenTextarea){
+    try{
+      o.hiddenTextarea.selectionStart=0;
+      o.hiddenTextarea.selectionEnd=len;
+    }catch(e){}
+  }
+}
+function bindTextEditingFeedback(o){
+  if(!isTextObject(o)||o.__textFeedbackBound)return;
+  o.__textFeedbackBound=true;
+  o.on('editing:entered',()=>{
+    rememberTextFont(o);
+    syncTextEditingTextarea(o);
+    loadTextObjectFont(o).finally(()=>{
+      if(o.isEditing){
+        syncTextEditingTextarea(o);
+        cv?.requestRenderAll();
+      }
+    });
+  });
+  o.on('selection:changed',()=>{
+    if(o.isEditing){
+      syncTextEditingTextarea(o);
+      cv?.requestRenderAll();
+    }
+  });
+}
+function beginTextEditing(o,selectAll=true){
+  if(!cv||!isTextObject(o))return;
+  const focus=()=>{
+    if(!o.canvas)return;
+    cv.setActiveObject(o);
+    o.enterEditing?.();
+    syncTextEditingTextarea(o);
+    if(selectAll)selectFullText(o);
+    cv.requestRenderAll();
+  };
+  requestAnimationFrame(()=>{
+    focus();
+    loadTextObjectFont(o).finally(()=>{
+      requestAnimationFrame(()=>{
+        if(!o.isEditing)return;
+        syncTextEditingTextarea(o);
+        if(selectAll)selectFullText(o);
+        cv.requestRenderAll();
+      });
+    });
+  });
+}
 window._fontReadyTextRefreshQueued=window._fontReadyTextRefreshQueued||false;
 function refreshTextLayoutAfterFontsReady(){
   if(!cv)return;
@@ -762,9 +781,10 @@ function scheduleFontReadyTextRefresh(target=null){
 function normalizeTextBox(o){
   if(!isTextObject(o))return;
   rememberTextFont(o);
+  bindTextEditingFeedback(o);
   if(o.isEditing)return;
   applyObjectControls(o);
-  o.set({originX:'left',originY:'top',padding:8,splitByGrapheme:false,objectCaching:false,noScaleCache:true});
+  o.set({originX:'left',originY:'top',padding:8,splitByGrapheme:false,objectCaching:false,noScaleCache:true,selectionColor:'rgba(37,99,235,.28)',cursorColor:'#C8102E',cursorWidth:2});
   o.initDimensions&&o.initDimensions();
   o.setCoords();
   cv?.requestRenderAll();
@@ -790,6 +810,7 @@ function addText(){
   txt.on('editing:exited',()=>{normalizeTextBox(txt);commitCanvasChange({historyDelay:200,persistDelay:600});});
   addObj(txt);
   scheduleFontReadyTextRefresh(txt);
+  beginTextEditing(txt,true);
 }
 
 function addSticky(){
