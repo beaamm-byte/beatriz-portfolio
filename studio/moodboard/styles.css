@@ -465,7 +465,7 @@ body.zen-mode #ruler-top,body.zen-mode #ruler-left,body.zen-mode #ruler-corner,b
 .ruler-label{position:absolute;font-size:9px;line-height:1;color:var(--txt3);font-family:'DM Mono',monospace;white-space:nowrap;letter-spacing:0;}
 .ruler-label.top{top:11px;transform:translateX(-50%);}
 .ruler-label.left{left:11px;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;}
-.guide-layer{position:absolute;inset:0;z-index:110;pointer-events:none;}
+.guide-layer{position:absolute;inset:0;z-index:45;pointer-events:none;}
 .guide-line{position:absolute;pointer-events:auto;}
 .guide-line.auto{background:#ef4444;}
 .guide-line.manual{background:#2563eb;}

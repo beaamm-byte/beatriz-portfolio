@@ -1163,6 +1163,7 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
+      white-space: nowrap;
       font-family: 'DM Sans', sans-serif;
       font-style: normal;
       font-size: 0.72rem;
@@ -1176,9 +1177,13 @@
       transition: color 0.3s, border-color 0.3s, background 0.3s;
     }
     .contact-link::after {
-      content: '↗';
-      font-size: 0.85rem;
-      letter-spacing: 0;
+      content: '';
+      width: 12px;
+      height: 12px;
+      flex: 0 0 12px;
+      background: currentColor;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 10L10 2' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M4 2h6v6' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") center / contain no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 10L10 2' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M4 2h6v6' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") center / contain no-repeat;
     }
     .contact-link:hover { color: var(--accent); border-color: var(--accent); background: rgba(255,255,255,0.04); }
 
