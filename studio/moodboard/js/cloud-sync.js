@@ -5,6 +5,9 @@ let mbpCloudSession=null;
 const MBP_PUBLIC_APP_URL='https://www.beatrizmoron.com/studio/moodboard/';
 
 function getPublicAppUrl(){
+  if(location.hostname==='127.0.0.1'||location.hostname==='localhost'){
+    return location.origin+location.pathname;
+  }
   return MBP_PUBLIC_APP_URL;
 }
 
