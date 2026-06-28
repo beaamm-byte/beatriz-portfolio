@@ -31,6 +31,7 @@ Web estatica multipagina preparada para publicarse en GitHub Pages o en un domin
 - `soft-goods/` apunta a la coleccion.
 - `../#ia` vuelve desde una subpagina a la seccion IA del portfolio.
 - La seccion Studio actual esta en `index.html#herramientas`.
+- `studio/moodboard/` publica la herramienta Moodboard Creativo bajo el dominio principal.
 
 ## Studio
 
