@@ -38,7 +38,8 @@
         "IA aplicada a procesos creativos"
       ],
       "sameAs": [
-        "https://beatrizmoron.com"
+        "https://beatrizmoron.com",
+        "https://www.linkedin.com/in/beatriz-mor%C3%B3n-72a23a167/"
       ]
     }
   </script>
@@ -1159,18 +1160,27 @@
       margin-bottom: 48px;
     }
     .contact-link {
-      display: block;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 1.4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-style: normal;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       color: var(--white);
       text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-      padding-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.22);
+      padding: 16px 18px;
       margin-bottom: 16px;
-      transition: color 0.3s, border-color 0.3s;
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
     }
-    .contact-link:hover { color: var(--accent); border-color: var(--accent); }
+    .contact-link::after {
+      content: '↗';
+      font-size: 0.85rem;
+      letter-spacing: 0;
+    }
+    .contact-link:hover { color: var(--accent); border-color: var(--accent); background: rgba(255,255,255,0.04); }
 
     /* FOOTER */
     footer {
@@ -2179,7 +2189,7 @@
     </div>
     <div class="contact-info">
       <p class="reveal">Si tienes un proyecto que necesita ser visto — no solo diseñado — me interesa escucharte. Trabajo con marcas y producciones que no tienen miedo a tener una personalidad diferenciadora.</p>
-      <a href="https://beatrizmoron.com" class="contact-link reveal" target="_blank">beatrizmoron.com</a>
+      <a href="https://www.linkedin.com/in/beatriz-mor%C3%B3n-72a23a167/" class="contact-link reveal" target="_blank" rel="me noopener" aria-label="Contactar con Beatriz Morón por LinkedIn">Contactar por LinkedIn</a>
     </div>
   </section>
 
