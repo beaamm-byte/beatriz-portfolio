@@ -8,8 +8,8 @@ if (!source || !output || !password) {
   console.error('Uso: node tools/encrypt-proposal.js <origen.html> <destino.html> <clave>');
   process.exit(1);
 }
-if (password.length < 12) {
-  console.error('La clave debe tener al menos 12 caracteres.');
+if (password.length < 8) {
+  console.error('La clave debe tener al menos 8 caracteres.');
   process.exit(1);
 }
 
