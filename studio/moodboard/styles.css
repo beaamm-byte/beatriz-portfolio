@@ -498,3 +498,72 @@ body.zen-mode #ruler-top,body.zen-mode #ruler-left,body.zen-mode #ruler-corner,b
 .frame-slider-row input[type=range]{flex:1;-webkit-appearance:none;height:3px;background:var(--border2);border-radius:99px;outline:none;}
 .frame-slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--accent);border-radius:50%;cursor:pointer;}
 .frame-preview-val{font-family:'DM Mono',monospace;font-size:11px;color:var(--txt3);min-width:32px;}
+
+/* - RESPONSIVE DESKTOP / TABLET - */
+#sidebar-toggle,#sidebar-scrim{display:none;}
+#cw .canvas-container,.cv-item,.ly,.ly-child,#tool-draw{-webkit-touch-callout:none;}
+
+/* Compact laptop layouts without changing the editor workflow. */
+@media (max-width:1400px){
+  :root{--sw:220px;}
+  #topbar{gap:2px;padding-inline:8px;}
+  #editor-tools{min-width:0;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;}
+  #editor-tools .btn{font-size:0;gap:0;padding-inline:7px;}
+  #editor-tools .btn svg{width:14px;height:14px;}
+  #editor-tools .sep{margin-inline:2px;}
+  #proj-crumb{max-width:180px;overflow:hidden;}
+  #proj-crumb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .compare-stage{padding:18px;}
+  .compare-grid{grid-template-columns:repeat(2,minmax(260px,1fr));flex:none;}
+  #compare-shell,.compare-stage{overflow:auto;}
+}
+
+/* Tablet: the project/layers rail becomes a drawer, leaving room for the canvas. */
+@media (max-width:1024px){
+  :root{--sw:min(290px,82vw);--th:50px;}
+  #topbar{min-width:0;}
+  .logo{margin-right:2px;}
+  .logo span:last-child{display:none;}
+  #btn-projects,#compare-btn,#topbar>button.btn,#export-btn{font-size:0;gap:0;padding-inline:7px;}
+  #proj-crumb,#session-timer,#topbar>.sep{display:none!important;}
+  #editor-tools{flex:1 1 auto;}
+  #sidebar-toggle{display:flex!important;}
+  #layout{position:relative;}
+  #sidebar{
+    position:absolute;inset:0 auto 0 0;width:var(--sw);z-index:260;
+    transform:translateX(-101%);transition:transform .2s ease;
+    box-shadow:12px 0 30px rgba(0,0,0,.15);
+  }
+  body.tablet-sidebar-open #sidebar{transform:translateX(0);}
+  #sidebar-scrim{
+    position:absolute;inset:0;z-index:250;border:0;background:rgba(13,13,13,.22);
+    cursor:pointer;
+  }
+  body.tablet-sidebar-open #sidebar-scrim{display:block;}
+  #right-panel-wrap #prop-panel.pinned{width:210px;}
+  #prop-panel{max-width:calc(100vw - 24px);max-height:calc(100% - 24px);}
+  .home-content{padding:24px;}
+  .proj-grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));}
+  .compare-stage{padding:16px;min-width:620px;}
+  .compare-grid{grid-template-columns:repeat(2,minmax(280px,1fr));}
+  #compare-shell{overflow:auto;}
+  #guide-box{max-height:94vh;}
+  #guide-header{padding-inline:14px;overflow-x:auto;}
+  #guide-body{padding:18px;}
+  .mbg{padding:14px;}
+  .mbox{max-height:calc(100vh - 28px);overflow-y:auto;}
+  #zen-cv-strip{min-width:0;width:calc(100vw - 28px);}
+  .zen-strip-meta{min-width:110px;}
+}
+
+/* Portrait tablets remain supported, but deliberately do not become a mobile UI. */
+@media (max-width:820px){
+  .logo span{display:none;}
+  .logo{margin-right:0;}
+  #topbar{padding-inline:5px;}
+  #right-panel-wrap #prop-panel.pinned{width:190px;}
+  #statusbar{gap:8px;padding-inline:8px;overflow:hidden;}
+  .home-content{padding:20px 16px;}
+  .home-title{font-size:22px;}
+  .guide-grid{grid-template-columns:1fr;}
+}
