@@ -508,25 +508,26 @@ body.zen-mode #ruler-top,body.zen-mode #ruler-left,body.zen-mode #ruler-corner,b
   :root{--sw:220px;}
   #topbar{gap:2px;padding-inline:8px;}
   #editor-tools{min-width:0;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;}
-  #editor-tools .btn{font-size:0;gap:0;padding-inline:7px;}
+  #editor-tools .btn{font-size:0;gap:0;min-width:30px;padding-inline:6px;}
   #editor-tools .btn svg{width:14px;height:14px;}
-  #editor-tools .sep{margin-inline:2px;}
+  #editor-tools .sep{display:none;}
+  #editor-tools #zlbl{min-width:30px;margin-inline:0;}
   /* The canvas/sidebar already show this context; hiding it keeps zoom/actions visible. */
   #proj-crumb{display:none!important;}
-  #session-timer{margin-left:2px;padding-inline:6px;}
+  /* The timer is informative, while zoom, clear and Zen are actionable. */
+  #session-timer{display:none!important;}
   .compare-stage{padding:18px;}
   .compare-grid{grid-template-columns:repeat(2,minmax(260px,1fr));flex:none;}
   #compare-shell,.compare-stage{overflow:auto;}
 }
 
-@media (max-width:1200px) and (min-width:1025px){
+@media (max-width:1320px) and (min-width:1025px){
   .logo span:last-child{display:none;}
   #btn-projects,#compare-btn{font-size:0;gap:0;padding-inline:7px;}
 }
 
-@media (max-width:1120px) and (min-width:1025px){
+@media (max-width:1180px) and (min-width:1025px){
   .logo span{display:none;}
-  #session-timer{display:none!important;}
 }
 
 /* Tablet: the project/layers rail becomes a drawer, leaving room for the canvas. */
