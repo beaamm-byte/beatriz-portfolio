@@ -510,7 +510,10 @@ body.zen-mode #ruler-top,body.zen-mode #ruler-left,body.zen-mode #ruler-corner,b
   #editor-tools{min-width:0;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;}
   #editor-tools .btn{font-size:0;gap:0;min-width:30px;padding-inline:6px;}
   #editor-tools .btn svg{width:14px;height:14px;}
-  #editor-tools .sep{display:block;margin-inline:2px;}
+  #editor-tools .sep{
+    display:block!important;width:1px;height:22px;flex:0 0 1px;
+    margin-inline:6px;background:var(--border2);opacity:.9;
+  }
   #editor-tools #zlbl{min-width:30px;margin-inline:0;}
   /* The canvas/sidebar already show this context; hiding it keeps zoom/actions visible. */
   #proj-crumb{display:none!important;}
