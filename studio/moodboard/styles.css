@@ -511,11 +511,22 @@ body.zen-mode #ruler-top,body.zen-mode #ruler-left,body.zen-mode #ruler-corner,b
   #editor-tools .btn{font-size:0;gap:0;padding-inline:7px;}
   #editor-tools .btn svg{width:14px;height:14px;}
   #editor-tools .sep{margin-inline:2px;}
-  #proj-crumb{max-width:180px;overflow:hidden;}
-  #proj-crumb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  /* The canvas/sidebar already show this context; hiding it keeps zoom/actions visible. */
+  #proj-crumb{display:none!important;}
+  #session-timer{margin-left:2px;padding-inline:6px;}
   .compare-stage{padding:18px;}
   .compare-grid{grid-template-columns:repeat(2,minmax(260px,1fr));flex:none;}
   #compare-shell,.compare-stage{overflow:auto;}
+}
+
+@media (max-width:1200px) and (min-width:1025px){
+  .logo span:last-child{display:none;}
+  #btn-projects,#compare-btn{font-size:0;gap:0;padding-inline:7px;}
+}
+
+@media (max-width:1120px) and (min-width:1025px){
+  .logo span{display:none;}
+  #session-timer{display:none!important;}
 }
 
 /* Tablet: the project/layers rail becomes a drawer, leaving room for the canvas. */
