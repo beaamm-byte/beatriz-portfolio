@@ -1,0 +1,46 @@
+.report-page{width:210mm;height:297mm;padding:17mm 18mm;overflow:hidden;position:relative;background:#fbfaf7;color:#171714;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.report-cover{background:var(--report-bg,#f3efe7);color:var(--report-ink,#191b19);display:flex;flex-direction:column}
+.report-top{display:flex;justify-content:space-between;align-items:flex-start}
+.report-monogram{width:17mm;height:17mm;border:1px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 12pt var(--report-display,var(--display))}
+.report-sector{max-width:65mm;text-align:right;font:500 7pt 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.12em}
+.report-cover-main{margin:25mm 0 auto}
+.report-kicker{font:500 7pt 'DM Mono',monospace;letter-spacing:.13em;opacity:.72;margin-bottom:8mm}
+.report-cover h1{font:500 48pt/.78 var(--report-display,var(--display));letter-spacing:-.045em}
+.report-promise{max-width:105mm;margin-top:12mm;font:500 15pt/1.22 var(--report-display,var(--display))}
+.report-colors{display:grid;grid-template-columns:repeat(5,1fr);height:18mm;margin-bottom:9mm}
+.report-colors span{background:var(--color);position:relative}
+.report-colors small{position:absolute;bottom:-5mm;font:400 5pt 'DM Mono',monospace}
+.report-cover-meta{display:grid;grid-template-columns:1fr 1fr;gap:10mm;border-top:1px solid currentColor;padding-top:8mm;margin-top:7mm}
+.report-cover-meta span,.report-label{display:block;font:500 6pt 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.1em;opacity:.65}
+.report-cover-meta strong{display:block;margin-top:3mm;font-size:8pt;text-transform:uppercase}
+.report-cover-direction{margin-top:7mm;font-size:9pt;line-height:1.5}
+.report-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:6mm;border-bottom:1px solid #d9d4cc;font:500 7pt 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.1em}
+.report-header b{color:#c8102e}
+.report-title{font:500 34pt/.95 var(--display);margin:12mm 0 5mm}
+.report-intro{max-width:135mm;color:#756f67;font-size:9pt;line-height:1.55;margin-bottom:11mm}
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:7mm}
+.report-block{border-top:1px solid #d9d4cc;padding-top:4mm;min-width:0}
+.report-block.full{grid-column:1/-1}
+.report-block h3{font-size:8pt;margin:2mm 0 3mm;text-transform:uppercase}
+.report-block p{font-size:8pt;line-height:1.55;color:#4f4a44}
+.report-axis{margin-bottom:5mm}
+.report-axis-head{display:flex;justify-content:space-between;font-size:7pt;margin-bottom:2mm}
+.report-axis-track{height:2px;background:#d9d4cc;position:relative}
+.report-axis-track i{position:absolute;top:50%;left:var(--value);width:3mm;height:3mm;border-radius:50%;background:#c8102e;transform:translate(-50%,-50%)}
+.report-reference-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+.report-reference{break-inside:avoid}
+.report-reference img{width:100%;height:40mm;object-fit:contain;display:block;background:#f2efea}
+.report-reference h3{font:500 7pt 'DM Mono',monospace;margin:3mm 0 2mm}
+.report-reference p{font-size:7pt;line-height:1.45;color:#5d5750}
+.report-reference-tags{color:#c8102e!important;text-transform:uppercase;font:500 6pt 'DM Mono',monospace!important;margin-bottom:1.5mm}
+.report-empty{padding:18mm;border:1px solid #d9d4cc;color:#756f67;font-size:9pt;line-height:1.5}
+.report-rules{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+.report-rule{padding:6mm;border:1px solid #d9d4cc;min-height:31mm}
+.report-rule.delegated{background:#f2efea;color:#756f67}
+.report-rule span{font:500 6pt 'DM Mono',monospace;color:#c8102e;text-transform:uppercase}
+.report-rule.delegated span{color:#756f67}
+.report-rule strong{display:block;margin-top:4mm;font-size:9pt;line-height:1.45}
+.report-delegate{margin-top:9mm;padding:7mm;background:#f8e9ec;border-left:2px solid #c8102e}
+.report-delegate strong{display:block;font-size:9pt}
+.report-delegate p{font-size:7pt;line-height:1.5;margin-top:2mm;color:#5d5750}
+.report-footer{position:absolute;left:18mm;right:18mm;bottom:10mm;display:flex;justify-content:space-between;font:400 6pt 'DM Mono',monospace;color:#756f67}

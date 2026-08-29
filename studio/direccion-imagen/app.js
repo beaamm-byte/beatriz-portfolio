@@ -242,7 +242,6 @@ function showStep(step){
   $$('.step').forEach((button,index)=>button.classList.toggle('active',index===state.step));
   $('#progress-label').textContent=`Paso ${state.step+1} de ${totalSteps}`;$('#progress-bar').style.width=`${((state.step+1)/totalSteps)*100}%`;
   $('#prev-step').style.visibility=state.step?'visible':'hidden';$('#next-step').textContent=state.step===totalSteps-1?'Volver al inicio ↺':'Continuar →';$('#step-hint').textContent=hints[state.step];
-  if(window.matchMedia('(max-width:800px)').matches){const list=$('.step-list'),active=$$('.step')[state.step];list.scrollTo({left:active.offsetLeft-(list.clientWidth-active.offsetWidth)/2,behavior:'smooth'})}
   $('.workspace').scrollTo?.({top:0,behavior:'smooth'});
 }
 function navigateToStep(step){
@@ -340,7 +339,25 @@ $('#custom-font-file').addEventListener('change',async event=>{
   try{const customData=await readAsDataURL(file),loaded=await activateCustomFont(customData);if(!loaded){event.target.value='';return}state.typography={style:'custom',display:'BM Project Custom',body:'DM Sans',customName:file.name,customData};markDirty();syncControls();toast('Tipografía personalizada aplicada')}catch{toast('No se pudo cargar esa tipografía')}
   event.target.value='';
 });
-function printDirection(){window.print()}
+function pdfFilename(){return `${(state.name||'proyecto').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'proyecto'}-direccion-imagen.pdf`}
+async function printDirection(){
+  if(!window.html2canvas||!window.jspdf?.jsPDF){toast('No se ha cargado el generador. Recarga la página.');return}
+  const buttons=[$('#export-btn'),$('#print-board')];buttons.forEach(button=>button.disabled=true);renderPrintReport();toast('Preparando PDF · página 1 de 4');
+  try{
+    await document.fonts?.ready;
+    await Promise.all($$('#print-report img').map(image=>image.complete?Promise.resolve():image.decode?.().catch(()=>{})||Promise.resolve()));
+    const pages=$$('#print-report .report-page'),pdf=new window.jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true}),scale=window.innerWidth<=800?1.35:1.7;
+    for(let index=0;index<pages.length;index++){
+      toast(`Preparando PDF · página ${index+1} de ${pages.length}`);
+      const canvas=await window.html2canvas(pages[index],{scale,useCORS:true,backgroundColor:null,logging:false,imageTimeout:0,windowWidth:794,windowHeight:1123,onclone:documentClone=>{
+        const report=documentClone.querySelector('#print-report');report.style.display='block';report.style.width='210mm';report.style.position='absolute';report.style.left='0';report.style.top='0';
+      }});
+      if(index)pdf.addPage('a4','portrait');pdf.addImage(canvas.toDataURL('image/jpeg',.92),'JPEG',0,0,210,297,undefined,'FAST');canvas.width=1;canvas.height=1;
+    }
+    pdf.save(pdfFilename());toast('PDF descargado');
+  }catch(error){console.error(error);toast('No se ha podido generar el PDF. Recarga e inténtalo de nuevo.')}
+  finally{buttons.forEach(button=>button.disabled=false)}
+}
 window.addEventListener('beforeprint',renderPrintReport);
 $('#save-btn').addEventListener('click',save);$('#export-btn').addEventListener('click',printDirection);$('#print-board').addEventListener('click',printDirection);
 
