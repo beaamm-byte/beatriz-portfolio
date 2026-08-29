@@ -33,6 +33,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--txt
 .logo{font-size:14px;font-weight:800;letter-spacing:-.4px;display:flex;align-items:center;gap:6px;margin-right:8px;white-space:nowrap;cursor:pointer;}
 .logo:hover{opacity:.8;}
 .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.suite-brand,.suite-product{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.2px;color:var(--txt);}.suite-product em{font-style:normal;color:var(--accent)}.suite-divider{width:1px;height:22px;background:var(--border);margin:0 6px;flex:0 0 auto}
 .sep{width:1px;height:22px;background:var(--border);margin:0 4px;flex-shrink:0;}
 .spacer{flex:1;}
 .btn{height:32px;min-width:32px;padding:0 9px;background:transparent;border:1px solid transparent;border-radius:6px;color:var(--txt2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;transition:all .12s;white-space:nowrap;flex-shrink:0;}
@@ -522,12 +523,12 @@ body.zen-mode #ruler-top,body.zen-mode #ruler-left,body.zen-mode #ruler-corner,b
 }
 
 @media (max-width:1320px) and (min-width:1025px){
-  .logo span:last-child{display:none;}
+  .suite-brand,.suite-divider{display:none;}
   #btn-projects,#compare-btn{font-size:0;gap:0;padding-inline:7px;}
 }
 
 @media (max-width:1180px) and (min-width:1025px){
-  .logo span{display:none;}
+  .suite-product{display:none;}
 }
 
 /* Tablet: the project/layers rail becomes a drawer, leaving room for the canvas. */
@@ -535,7 +536,7 @@ body.zen-mode #ruler-top,body.zen-mode #ruler-left,body.zen-mode #ruler-corner,b
   :root{--sw:min(290px,82vw);--th:50px;}
   #topbar{min-width:0;}
   .logo{margin-right:2px;}
-  .logo span:last-child{display:none;}
+  .suite-brand,.suite-divider,.suite-product{display:none;}
   #btn-projects,#compare-btn,#topbar>button.btn,#export-btn{font-size:0;gap:0;padding-inline:7px;}
   #proj-crumb,#session-timer,#topbar>.sep{display:none!important;}
   #editor-tools{flex:1 1 auto;}

@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kit de Dirección de Imagen — Beatriz Morón</title>
+  <meta name="description" content="Herramienta gratuita para definir percepción, paleta, tipografía, referencias y reglas visuales, y exportar un brief completo de dirección de imagen.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://www.beatrizmoron.com/studio/direccion-imagen/">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../favicon-48.png">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Beatriz Morón">
+  <meta property="og:title" content="Kit de Dirección de Imagen — Beatriz Morón">
+  <meta property="og:description" content="Define la imagen que debe proyectar tu proyecto y conviértela en un brief visual listo para producir.">
+  <meta property="og:url" content="https://www.beatrizmoron.com/studio/direccion-imagen/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kit de Dirección de Imagen — Beatriz Morón">
+  <meta name="twitter:description" content="Percepción, color, tipografía, referencias y reglas de imagen reunidas en un único brief visual.">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Kit de Dirección de Imagen",
+    "applicationCategory":"DesignApplication",
+    "operatingSystem":"Web",
+    "url":"https://www.beatrizmoron.com/studio/direccion-imagen/",
+    "creator":{"@type":"Person","name":"Beatriz Morón","url":"https://www.beatrizmoron.com/"},
+    "description":"Herramienta para definir percepción, paleta, tipografía, referencias y reglas visuales y exportarlas como brief de dirección de imagen."
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Playfair+Display:ital,wght@0,600;1,600&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../../#herramientas" aria-label="Volver al portfolio">
+      <span class="brand-dot"></span>
+      <span>BM / STUDIO</span>
+    </a>
+    <div class="tool-title">
+      <span>Kit de Dirección de Imagen</span>
+      <span class="local-badge">Beta</span>
+    </div>
+    <div class="top-actions">
+      <span class="save-state" id="save-state">Sin guardar</span>
+      <button class="button ghost" id="reset-btn" type="button">Reiniciar</button>
+      <button class="button ghost" id="save-btn" type="button">Guardar</button>
+      <button class="button primary" id="export-btn" type="button">Exportar dirección PDF</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="steps" aria-label="Pasos del kit">
+      <div class="steps-heading">
+        <span class="eyebrow">Tu dirección</span>
+        <strong id="progress-label">Paso 1 de 6</strong>
+      </div>
+      <div class="progress"><span id="progress-bar"></span></div>
+      <nav class="step-list">
+        <button class="step active" type="button" data-step="0">
+          <span class="step-number">01</span>
+          <span><strong>Percepción</strong><small>Qué debe hacer sentir</small></span>
+        </button>
+        <button class="step" type="button" data-step="1">
+          <span class="step-number">02</span>
+          <span><strong>Territorio visual</strong><small>Color y atmósfera</small></span>
+        </button>
+        <button class="step" type="button" data-step="2">
+          <span class="step-number">03</span>
+          <span><strong>Lenguaje de imagen</strong><small>Fotografía y composición</small></span>
+        </button>
+        <button class="step" type="button" data-step="3">
+          <span class="step-number">04</span>
+          <span><strong>Referencias</strong><small>Producción visual</small></span>
+        </button>
+        <button class="step" type="button" data-step="4">
+          <span class="step-number">05</span>
+          <span><strong>Reglas de imagen</strong><small>Sistematización</small></span>
+        </button>
+        <button class="step" type="button" data-step="5">
+          <span class="step-number">06</span>
+          <span><strong>Dirección final</strong><small>Brief completo y PDF</small></span>
+        </button>
+      </nav>
+      <div class="steps-note">
+        <span>◈</span>
+        <p>Una herramienta para decidir qué debe transmitir la imagen antes de producirla.</p>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <div class="panel active" data-panel="0">
+        <div class="panel-head">
+          <span class="eyebrow">01 / Percepción</span>
+          <h1>¿Qué imagen quieres<br><em>dejar en la mirada?</em></h1>
+          <p>No definimos toda la marca: definimos cómo debe ser percibida a través de sus imágenes.</p>
+        </div>
+        <div class="form-grid two">
+          <label class="field">
+            <span>Nombre de la marca</span>
+            <input id="brand-name" type="text" maxlength="32" value="Lumen Studio">
+          </label>
+          <label class="field">
+            <span>Sector</span>
+            <input id="brand-sector" type="text" maxlength="48" value="Diseño de interiores">
+          </label>
+          <label class="field full">
+            <span>¿Quién debe reconocerse en esta imagen?</span>
+            <textarea id="brand-audience" rows="3" maxlength="180">Personas que valoran la calma, la materia y una estética honesta.</textarea>
+          </label>
+          <label class="field full">
+            <span>¿Qué debería pensar o sentir al verla?</span>
+            <input id="brand-promise" type="text" maxlength="110" value="Aquí cada decisión visual tiene intención y deja espacio a lo esencial.">
+          </label>
+        </div>
+        <div class="choice-block">
+          <div class="choice-title"><span>La imagen debe sentirse</span><small>Elige hasta tres</small></div>
+          <div class="chips" id="personality-chips">
+            <button type="button" class="chip selected" data-value="Serena">Serena</button>
+            <button type="button" class="chip selected" data-value="Precisa">Precisa</button>
+            <button type="button" class="chip" data-value="Audaz">Audaz</button>
+            <button type="button" class="chip selected" data-value="Cálida">Cálida</button>
+            <button type="button" class="chip" data-value="Experimental">Experimental</button>
+            <button type="button" class="chip" data-value="Honesta">Honesta</button>
+          </div>
+        </div>
+        <div class="choice-block">
+          <div class="choice-title"><span>Qué debe provocar</span><small>El efecto principal</small></div>
+          <div class="archetypes" id="archetypes">
+            <button type="button" data-value="Deseo"><b>✦</b><strong>Deseo</strong><small>Atrae y eleva la percepción</small></button>
+            <button type="button" class="selected" data-value="Confianza"><b>○</b><strong>Confianza</strong><small>Transmite criterio y coherencia</small></button>
+            <button type="button" data-value="Cercanía"><b>↗</b><strong>Cercanía</strong><small>Hace sentir dentro de la escena</small></button>
+            <button type="button" data-value="Otro"><b>＋</b><strong>Otro</strong><small>Define un efecto diferente</small></button>
+          </div>
+          <label class="field custom-effect-field" id="custom-effect-field" hidden>
+            <span>¿Qué efecto principal debe provocar?</span>
+            <input id="custom-effect" type="text" maxlength="42" placeholder="Por ejemplo: curiosidad, calma, sorpresa…">
+          </label>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="1">
+        <div class="panel-head">
+          <span class="eyebrow">02 / Territorio visual</span>
+          <h1>Construye una<br><em>atmósfera reconocible.</em></h1>
+          <p>Color, contraste y ritmo deben sostener la percepción que acabas de definir.</p>
+        </div>
+        <div class="choice-block first">
+          <div class="choice-title"><span>Tipo de paleta</span><small>Automática interpreta tus decisiones visuales</small></div>
+          <div class="chips palette-modes" id="palette-modes">
+            <button type="button" class="chip selected" data-mode="auto">Automática</button>
+            <button type="button" class="chip" data-mode="warm">Cálida</button>
+            <button type="button" class="chip" data-mode="cool">Fría</button>
+            <button type="button" class="chip" data-mode="earth">Tierra</button>
+            <button type="button" class="chip" data-mode="neutral">Neutra</button>
+            <button type="button" class="chip" data-mode="vibrant">Vibrante</button>
+            <button type="button" class="chip" data-mode="pastel">Pastel</button>
+            <button type="button" class="chip" data-mode="dark">Oscura</button>
+          </div>
+          <p class="palette-context" id="palette-context"></p>
+        </div>
+        <div class="choice-block">
+          <div class="choice-title"><span>Direcciones de color</span><button class="text-button" id="shuffle-palette" type="button">Crear variación ↻</button></div>
+          <div class="palette-presets" id="palette-presets">
+            <button type="button" class="selected" data-palette="#F3EFE7,#D9CBB8,#A36D4F,#4A5147,#191B19"><span style="--c:#F3EFE7"></span><span style="--c:#D9CBB8"></span><span style="--c:#A36D4F"></span><span style="--c:#4A5147"></span><span style="--c:#191B19"></span><b>Tierra serena</b></button>
+            <button type="button" data-palette="#F4F0EA,#E7A6A1,#C8102E,#32445A,#151515"><span style="--c:#F4F0EA"></span><span style="--c:#E7A6A1"></span><span style="--c:#C8102E"></span><span style="--c:#32445A"></span><span style="--c:#151515"></span><b>Contraste editorial</b></button>
+            <button type="button" data-palette="#F7F4ED,#DCE7E1,#91A89D,#48675A,#10261E"><span style="--c:#F7F4ED"></span><span style="--c:#DCE7E1"></span><span style="--c:#91A89D"></span><span style="--c:#48675A"></span><span style="--c:#10261E"></span><b>Botánica moderna</b></button>
+          </div>
+          <div class="editable-palette" id="editable-palette" aria-label="Colores editables"></div>
+        </div>
+        <div class="choice-block">
+          <div class="choice-title"><span>Estilo tipográfico</span><small>Define el carácter de la dirección</small></div>
+          <div class="type-pairs" id="typography-options">
+            <button type="button" data-style="neutral" data-display="Manrope" data-body="DM Sans"><span class="font-manrope">Aa</span><b>Neutro</b><small>Limpio, actual y funcional</small></button>
+            <button type="button" class="selected" data-style="editorial" data-display="Cormorant Garamond" data-body="DM Sans"><span class="font-cormorant">Aa</span><b>Editorial</b><small>Sensible, elegante y con contraste</small></button>
+            <button type="button" data-style="classic" data-display="Playfair Display" data-body="Manrope"><span class="font-playfair">Aa</span><b>Clásico</b><small>Cultural, sólido y refinado</small></button>
+            <button type="button" data-style="bold" data-display="Syne" data-body="DM Sans"><span class="font-syne">Aa</span><b>Gamberro</b><small>Expresivo, directo y poco convencional</small></button>
+          </div>
+          <label class="font-upload" for="custom-font-file"><strong>Subir una tipografía propia</strong><small id="custom-font-state">WOFF, WOFF2, TTF u OTF · se utilizará en la ficha y el PDF</small><input id="custom-font-file" type="file" accept=".woff,.woff2,.ttf,.otf,font/woff,font/woff2,font/ttf,font/otf"></label>
+        </div>
+        <div class="choice-block">
+          <div class="choice-title"><span>Ejes de la imagen</span><small>Ajusta la tensión visual</small></div>
+          <div class="visual-axes" id="visual-axes">
+            <label><span><b>Sobria</b><b>Expresiva</b></span><input type="range" id="axis-expression" min="0" max="100" value="34"></label>
+            <label><span><b>Cercana</b><b>Aspiracional</b></span><input type="range" id="axis-distance" min="0" max="100" value="42"></label>
+            <label><span><b>Orgánica</b><b>Pulida</b></span><input type="range" id="axis-finish" min="0" max="100" value="30"></label>
+            <label><span><b>Atemporal</b><b>Tendencia</b></span><input type="range" id="axis-time" min="0" max="100" value="24"></label>
+          </div>
+          <p class="axis-reading" id="axis-reading"></p>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="2">
+        <div class="panel-head">
+          <span class="eyebrow">03 / Lenguaje de imagen</span>
+          <h1>Decide cómo debe<br><em>mirar la cámara.</em></h1>
+          <p>Define las reglas que guiarán fotografía, estilismo, luz, composición y producción.</p>
+        </div>
+        <div class="choice-block first">
+          <div class="choice-title"><span>Enfoque visual</span><small>Elige hasta tres</small></div>
+          <div class="voice-grid" id="voice-options">
+            <button type="button" class="selected" data-value="Editorial"><strong>Editorial</strong><small>Composición con intención</small></button>
+            <button type="button" class="selected" data-value="Sensorial"><strong>Sensorial</strong><small>Textura, detalle y materia</small></button>
+            <button type="button" data-value="Documental"><strong>Documental</strong><small>Naturalidad y verdad</small></button>
+            <button type="button" class="selected" data-value="Conceptual"><strong>Conceptual</strong><small>Una idea visual dominante</small></button>
+            <button type="button" data-value="Producto"><strong>Producto</strong><small>Forma, función y precisión</small></button>
+            <button type="button" data-value="Lifestyle"><strong>Lifestyle</strong><small>La imagen dentro de la vida</small></button>
+          </div>
+        </div>
+        <div class="form-grid">
+          <label class="field">
+            <span>Dirección fotográfica en una frase</span>
+            <textarea id="brand-message" rows="4" maxlength="240">Luz natural lateral, materiales honestos y composiciones con aire; cada escena debe sentirse serena, táctil y vivida.</textarea>
+          </label>
+          <label class="field">
+            <span>Elementos que deben aparecer <small>separados por comas</small></span>
+            <input id="brand-keywords" type="text" maxlength="120" value="luz natural, materia, detalle, espacio negativo">
+          </label>
+          <label class="field">
+            <span>La imagen nunca debería parecer</span>
+            <input id="brand-avoid" type="text" maxlength="140" value="artificial, recargada, excesivamente perfecta o genérica">
+          </label>
+        </div>
+        <div class="voice-example">
+          <span>Síntesis de dirección</span>
+          <blockquote id="voice-example">“Una imagen serena y precisa, construida desde la luz, la materia y el espacio.”</blockquote>
+          <button class="text-button" id="new-phrase" type="button">Reformular síntesis ↻</button>
+          <small>Basado en percepción, territorio y lenguaje de imagen.</small>
+        </div>
+      </div>
+
+      <div class="panel" data-panel="3">
+        <div class="panel-head">
+          <span class="eyebrow">04 / Producción visual</span>
+          <h1>Reúne referencias<br><em>con una intención.</em></h1>
+          <p>Añade imágenes y explica qué decisión te interesa de cada una. No buscamos copiarlas, sino entender qué deben aportar a la producción.</p>
+        </div>
+        <label class="reference-upload" id="reference-upload-zone" for="reference-files">
+          <span class="upload-mark">＋</span>
+          <strong>Añadir imágenes de referencia</strong>
+          <small>JPG, PNG o WEBP · hasta 6 imágenes · se guardan únicamente en este navegador</small>
+          <input id="reference-files" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+        </label>
+        <div class="upload-progress" id="reference-upload-progress" role="progressbar" aria-label="Preparando imágenes" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden>
+          <div><span id="upload-progress-label">Preparando imágenes…</span><strong id="upload-progress-value">0%</strong></div>
+          <div class="upload-progress-track"><i id="upload-progress-bar"></i></div>
+        </div>
+        <div class="reference-empty" id="reference-empty">
+          <span>04 — REFERENCIAS</span>
+          <p>Cuando añadas imágenes aparecerán aquí para indicar si te interesa su luz, encuadre, color, atmósfera, estilismo o textura.</p>
+        </div>
+        <div class="reference-grid" id="reference-grid"></div>
+      </div>
+
+      <div class="panel" data-panel="4">
+        <div class="panel-head">
+          <span class="eyebrow">05 / Sistematización</span>
+          <h1>Convierte la intención<br><em>en reglas de imagen.</em></h1>
+          <p>Selecciona los recursos que deberían repetirse para construir coherencia. Puedes definirlos o delegar su traducción técnica.</p>
+        </div>
+        <div class="rule-groups">
+          <div class="rule-group" data-rule="shots">
+            <div class="choice-title"><span>Tipos de plano</span><small>Elige hasta tres</small></div>
+            <div class="chips rule-options"><button type="button" class="chip" data-value="Plano general">Plano general</button><button type="button" class="chip" data-value="Plano medio">Plano medio</button><button type="button" class="chip" data-value="Primer plano">Primer plano</button><button type="button" class="chip" data-value="Detalle">Detalle</button></div>
+          </div>
+          <div class="rule-group" data-rule="framing">
+            <div class="choice-title"><span>Encuadre y composición</span><small>Elige hasta tres</small></div>
+            <div class="chips rule-options"><button type="button" class="chip" data-value="Con aire">Con aire</button><button type="button" class="chip" data-value="Centrado">Centrado</button><button type="button" class="chip" data-value="Asimétrico">Asimétrico</button><button type="button" class="chip" data-value="Cerrado">Cerrado</button><button type="button" class="chip" data-value="Cenital">Cenital</button></div>
+          </div>
+          <div class="rule-group" data-rule="light">
+            <div class="choice-title"><span>Tratamiento de la luz</span><small>Elige hasta tres</small></div>
+            <div class="chips rule-options"><button type="button" class="chip" data-value="Natural difusa">Natural difusa</button><button type="button" class="chip" data-value="Lateral">Lateral</button><button type="button" class="chip" data-value="Dura">Dura</button><button type="button" class="chip" data-value="Contraluz">Contraluz</button><button type="button" class="chip" data-value="Flash directo">Flash directo</button></div>
+          </div>
+          <div class="rule-group" data-rule="setting">
+            <div class="choice-title"><span>Fondo y contexto</span><small>Elige hasta tres</small></div>
+            <div class="chips rule-options"><button type="button" class="chip" data-value="Limpio">Limpio</button><button type="button" class="chip" data-value="Contextual">Contextual</button><button type="button" class="chip" data-value="Orgánico">Orgánico</button><button type="button" class="chip" data-value="Arquitectónico">Arquitectónico</button></div>
+          </div>
+          <div class="rule-group" data-rule="presence">
+            <div class="choice-title"><span>Presencia humana</span><small>Elige hasta dos</small></div>
+            <div class="chips rule-options"><button type="button" class="chip" data-value="Sin personas">Sin personas</button><button type="button" class="chip" data-value="Protagonista">Protagonista</button><button type="button" class="chip" data-value="Parcial">Parcial</button><button type="button" class="chip" data-value="Espontánea">Espontánea</button></div>
+          </div>
+          <div class="rule-group" data-rule="rhythm">
+            <div class="choice-title"><span>Ritmo de la serie</span><small>Elige hasta dos</small></div>
+            <div class="chips rule-options"><button type="button" class="chip" data-value="Contemplativo">Contemplativo</button><button type="button" class="chip" data-value="Editorial">Editorial</button><button type="button" class="chip" data-value="Dinámico">Dinámico</button><button type="button" class="chip" data-value="Uniforme">Uniforme</button></div>
+          </div>
+        </div>
+        <button class="delegate-card" id="delegate-direction" type="button" aria-pressed="false">
+          <span class="delegate-check">✓</span>
+          <span><strong>Lo dejo en manos de dirección creativa</strong><small>Tengo clara la intención, pero prefiero que una profesional traduzca estas preferencias en decisiones técnicas.</small></span>
+        </button>
+      </div>
+
+      <div class="panel" data-panel="5">
+        <div class="panel-head">
+          <span class="eyebrow">06 / Dirección final</span>
+          <h1>Ya tienes un<br><em>brief de imagen.</em></h1>
+          <p>Una síntesis completa para alinear percepción, referencias, fotografía, composición y producción visual.</p>
+        </div>
+        <div class="delivery-card">
+          <div><span>Marca</span><strong id="summary-name">Lumen Studio</strong></div>
+          <div><span>Percepción</span><strong id="summary-territory">Serena · Precisa · Cálida</strong></div>
+          <div><span>Lenguaje</span><strong id="summary-voice">Editorial · Sensorial · Conceptual</strong></div>
+          <div><span>Efecto</span><strong id="summary-archetype">Confianza</strong></div>
+          <div><span>Ejes visuales</span><strong id="summary-axes">Sobria · Cercana · Orgánica · Atemporal</strong></div>
+          <div><span>Estilo tipográfico</span><strong id="summary-typography">Editorial</strong></div>
+          <div><span>Dirección de color</span><strong id="summary-palette-mode">Automática</strong></div>
+          <div><span>Referencias</span><strong id="summary-references">Sin imágenes añadidas</strong></div>
+          <div><span>Reglas seleccionadas</span><strong id="summary-rules">Pendientes de definir</strong></div>
+          <div><span>Decisión técnica</span><strong id="summary-delegate">Definida por el proyecto</strong></div>
+        </div>
+        <div class="next-grid">
+          <article><span>01 — VALIDACIÓN</span><h3>Intención definida</h3><p>Percepción, efecto, color y lenguaje visual quedan reunidos en el brief.</p></article>
+          <article><span>02 — PRODUCCIÓN</span><h3 id="production-status">Referencias pendientes</h3><p>Las imágenes comentadas convierten el gusto en decisiones observables.</p></article>
+          <article><span>03 — SISTEMA</span><h3 id="system-status">Reglas preparadas</h3><p>Encuadre, luz y ritmo ayudan a mantener coherencia entre nuevas imágenes.</p></article>
+        </div>
+        <div class="delivery-actions">
+          <button class="button primary large" id="print-board" type="button">Descargar dirección completa PDF</button>
+        </div>
+        <div class="tool-credit">Herramienta creada por <a href="https://www.beatrizmoron.com/" target="_blank" rel="noopener">Beatriz Morón</a> · Dirección Creativa &amp; Estrategia de Imagen · www.beatrizmoron.com</div>
+      </div>
+
+      <footer class="workspace-nav">
+        <button class="button ghost" id="prev-step" type="button">← Anterior</button>
+        <span id="step-hint">La imagen empieza por una percepción clara.</span>
+        <button class="button dark" id="next-step" type="button">Continuar →</button>
+      </footer>
+    </section>
+
+    <aside class="preview" aria-label="Vista previa de la dirección de imagen">
+      <div class="preview-head">
+        <span class="eyebrow">Vista en directo</span>
+        <span>01 — Image direction</span>
+      </div>
+      <article class="brand-sheet" id="brand-sheet">
+        <div class="sheet-top">
+          <div class="monogram" id="preview-monogram">LS</div>
+          <span class="sheet-sector" id="preview-sector">Diseño de interiores</span>
+        </div>
+        <div class="sheet-main">
+          <p class="sheet-kicker" id="preview-archetype">EFECTO / CONFIANZA</p>
+          <h2 id="preview-name">Lumen<br>Studio</h2>
+          <p class="sheet-promise" id="preview-promise">Una imagen serena, precisa y construida con intención.</p>
+        </div>
+        <div class="sheet-palette" id="preview-palette"></div>
+        <div class="sheet-language">
+          <div>
+            <span>Percepción</span>
+            <strong id="preview-personality">Serena / Precisa / Cálida</strong>
+          </div>
+          <div>
+            <span>Lenguaje</span>
+            <strong id="preview-voice">Editorial / Sensorial / Conceptual</strong>
+          </div>
+        </div>
+        <div class="sheet-message" id="preview-message">Luz natural lateral, materiales honestos y composiciones con aire; cada escena debe sentirse serena, táctil y vivida.</div>
+        <div class="sheet-type">
+          <span id="preview-display-font">Luz / Natural lateral</span>
+          <span id="preview-body-font">Composición / Editorial</span>
+        </div>
+      </article>
+      <p class="preview-note">La ficha es orientativa. El objetivo es visualizar una dirección, no automatizar el criterio creativo.</p>
+    </aside>
+  </main>
+
+  <section class="print-report" id="print-report" aria-hidden="true"></section>
+
+  <dialog class="kit-dialog" id="reset-dialog">
+    <div class="dialog-mark"><span class="brand-dot"></span><span>BM / STUDIO</span></div>
+    <span class="eyebrow">Reiniciar kit</span>
+    <h2>¿Volvemos al<br><em>punto de partida?</em></h2>
+    <p>Se borrarán los cambios guardados en este navegador y recuperaremos la dirección de imagen de muestra.</p>
+    <div class="dialog-actions">
+      <button class="button ghost large" id="cancel-reset" type="button">Cancelar</button>
+      <button class="button primary large" id="confirm-reset" type="button">Sí, reiniciar</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
