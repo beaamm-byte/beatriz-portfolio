@@ -162,7 +162,7 @@ function renderReferences(){
       const tags=state.references[index].tags||[],tag=button.dataset.tag;
       state.references[index].tags=tags.includes(tag)?tags.filter(item=>item!==tag):[...tags,tag];markDirty();renderReferences();renderPreview();
     }));
-    card.querySelector('.reference-note').addEventListener('input',event=>{state.references[index].note=event.target.value;markDirty()});
+    card.querySelector('.reference-note').addEventListener('input',event=>{state.references[index].note=event.target.value;markDirty();renderPrintReport()});
   });
 }
 function renderRules(){
@@ -232,6 +232,7 @@ function renderPreview(){
   setText('#summary-rules',state.delegate?'Delegadas en dirección creativa':(selectedRuleCount()?`${selectedRuleCount()} decisiones seleccionadas`:'Pendientes de definir'));setText('#summary-delegate',state.delegate?'En manos de dirección creativa':'Definida por el proyecto');
   setText('#production-status',state.references.length?`${state.references.length} ${state.references.length===1?'referencia preparada':'referencias preparadas'}`:'Referencias pendientes');setText('#system-status',state.delegate?'Criterio técnico delegado':`${selectedRuleCount()} reglas preparadas`);
   const summaries=directionSummaries();setText('#voice-example',`“${summaries[state.summaryIndex%summaries.length]}”`);
+  renderPrintReport();
 }
 
 function showStep(step){
@@ -241,7 +242,12 @@ function showStep(step){
   $$('.step').forEach((button,index)=>button.classList.toggle('active',index===state.step));
   $('#progress-label').textContent=`Paso ${state.step+1} de ${totalSteps}`;$('#progress-bar').style.width=`${((state.step+1)/totalSteps)*100}%`;
   $('#prev-step').style.visibility=state.step?'visible':'hidden';$('#next-step').textContent=state.step===totalSteps-1?'Volver al inicio ↺':'Continuar →';$('#step-hint').textContent=hints[state.step];
+  if(window.matchMedia('(max-width:800px)').matches){const list=$('.step-list'),active=$$('.step')[state.step];list.scrollTo({left:active.offsetLeft-(list.clientWidth-active.offsetWidth)/2,behavior:'smooth'})}
   $('.workspace').scrollTo?.({top:0,behavior:'smooth'});
+}
+function navigateToStep(step){
+  showStep(step);
+  if(window.matchMedia('(max-width:800px)').matches)requestAnimationFrame(()=>window.scrollTo({top:Math.max(0,$('.workspace').offsetTop-105),behavior:'smooth'}));
 }
 
 function syncControls(){
@@ -304,9 +310,9 @@ $$('#typography-options button').forEach(button=>button.addEventListener('click'
 $$('#palette-modes .chip').forEach(button=>button.addEventListener('click',()=>{
   state.paletteMode=button.dataset.mode;applyPaletteVariation();markDirty();syncControls();toast(`Nueva paleta ${paletteModeNames[state.paletteMode].toLowerCase()}`);
 }));
-$$('.step').forEach(button=>button.addEventListener('click',()=>showStep(Number(button.dataset.step))));
-$('#prev-step').addEventListener('click',()=>showStep(state.step-1));
-$('#next-step').addEventListener('click',()=>showStep(state.step===$$('.panel').length-1?0:state.step+1));
+$$('.step').forEach(button=>button.addEventListener('click',()=>navigateToStep(Number(button.dataset.step))));
+$('#prev-step').addEventListener('click',()=>navigateToStep(state.step-1));
+$('#next-step').addEventListener('click',()=>navigateToStep(state.step===$$('.panel').length-1?0:state.step+1));
 $('#new-phrase').addEventListener('click',()=>{state.summaryIndex=(state.summaryIndex+1)%directionSummaries().length;markDirty();renderPreview()});
 $('#shuffle-palette').addEventListener('click',()=>{applyPaletteVariation();markDirty();syncControls();toast('Nueva variación de color')});
 $$('.rule-group').forEach(group=>group.querySelectorAll('[data-value]').forEach(button=>button.addEventListener('click',()=>{
@@ -334,11 +340,8 @@ $('#custom-font-file').addEventListener('change',async event=>{
   try{const customData=await readAsDataURL(file),loaded=await activateCustomFont(customData);if(!loaded){event.target.value='';return}state.typography={style:'custom',display:'BM Project Custom',body:'DM Sans',customName:file.name,customData};markDirty();syncControls();toast('Tipografía personalizada aplicada')}catch{toast('No se pudo cargar esa tipografía')}
   event.target.value='';
 });
-async function printDirection(){
-  renderPrintReport();
-  await Promise.all($$('#print-report img').map(image=>image.complete?Promise.resolve():image.decode?.().catch(()=>{})||Promise.resolve()));
-  await document.fonts?.ready;await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));window.print();
-}
+function printDirection(){window.print()}
+window.addEventListener('beforeprint',renderPrintReport);
 $('#save-btn').addEventListener('click',save);$('#export-btn').addEventListener('click',printDirection);$('#print-board').addEventListener('click',printDirection);
 
 const resetDialog=$('#reset-dialog');

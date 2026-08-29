@@ -48,7 +48,7 @@
       <span class="save-state" id="save-state">Sin guardar</span>
       <button class="button ghost" id="reset-btn" type="button">Reiniciar</button>
       <button class="button ghost" id="save-btn" type="button">Guardar</button>
-      <button class="button primary" id="export-btn" type="button">Exportar dirección PDF</button>
+      <button class="button primary" id="export-btn" type="button"><span class="desktop-label">Exportar dirección PDF</span><span class="mobile-label">PDF</span></button>
     </div>
   </header>
 
@@ -130,10 +130,10 @@
         <div class="choice-block">
           <div class="choice-title"><span>Qué debe provocar</span><small>El efecto principal</small></div>
           <div class="archetypes" id="archetypes">
-            <button type="button" data-value="Deseo"><b>✦</b><strong>Deseo</strong><small>Atrae y eleva la percepción</small></button>
-            <button type="button" class="selected" data-value="Confianza"><b>○</b><strong>Confianza</strong><small>Transmite criterio y coherencia</small></button>
-            <button type="button" data-value="Cercanía"><b>↗</b><strong>Cercanía</strong><small>Hace sentir dentro de la escena</small></button>
-            <button type="button" data-value="Otro"><b>＋</b><strong>Otro</strong><small>Define un efecto diferente</small></button>
+            <button type="button" data-value="Deseo"><span class="effect-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.7 5.3 3.7 8.3 9 9-5.3.7-8.3 3.7-9 9-.7-5.3-3.7-8.3-9-9 5.3-.7 8.3-3.7 9-9Z"/></svg></span><strong>Deseo</strong><small>Atrae y eleva la percepción</small></button>
+            <button type="button" class="selected" data-value="Confianza"><span class="effect-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6"/></svg></span><strong>Confianza</strong><small>Transmite criterio y coherencia</small></button>
+            <button type="button" data-value="Cercanía"><span class="effect-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></span><strong>Cercanía</strong><small>Hace sentir dentro de la escena</small></button>
+            <button type="button" data-value="Otro"><span class="effect-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><strong>Otro</strong><small>Define un efecto diferente</small></button>
           </div>
           <label class="field custom-effect-field" id="custom-effect-field" hidden>
             <span>¿Qué efecto principal debe provocar?</span>
