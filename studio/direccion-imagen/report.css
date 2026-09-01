@@ -2,11 +2,14 @@
 .report-cover{background:var(--report-bg,#f3efe7);color:var(--report-ink,#191b19);display:flex;flex-direction:column}
 .report-top{display:flex;justify-content:space-between;align-items:flex-start}
 .report-monogram{width:17mm;height:17mm;border:1px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 12pt var(--report-display,var(--display))}
-.report-sector{max-width:65mm;text-align:right;font:500 7pt 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.12em}
+.report-sector{max-width:84mm;text-align:right;font:500 7pt 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.1em}
 .report-cover-main{margin:25mm 0 auto}
 .report-kicker{font:500 7pt 'DM Mono',monospace;letter-spacing:.13em;opacity:.72;margin-bottom:8mm}
 .report-cover h1{font:500 48pt/.78 var(--report-display,var(--display));letter-spacing:-.045em}
 .report-promise{max-width:105mm;margin-top:12mm;font:500 15pt/1.22 var(--report-display,var(--display))}
+.report-cover-scene{max-width:138mm;margin-top:8mm;margin-bottom:12mm;padding-top:5mm;border-top:1px solid currentColor}
+.report-cover-scene span{display:block;font:500 6pt 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.12em;opacity:.66;margin-bottom:2.5mm}
+.report-cover-scene p{font:400 8pt/1.45 var(--body);opacity:.86}
 .report-colors{display:grid;grid-template-columns:repeat(5,1fr);height:18mm;margin-bottom:9mm}
 .report-colors span{background:var(--color);position:relative}
 .report-colors small{position:absolute;bottom:-5mm;font:400 5pt 'DM Mono',monospace}

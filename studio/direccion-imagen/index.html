@@ -101,19 +101,23 @@
         <div class="form-grid two">
           <label class="field">
             <span>Nombre del proyecto o campaña</span>
-            <input id="brand-name" type="text" maxlength="32" value="Lumen Studio">
+            <input id="brand-name" type="text" maxlength="70" value="Lumen Studio">
+            <small class="char-count" data-count-for="brand-name"></small>
           </label>
           <label class="field">
             <span>Territorio visual / contexto</span>
-            <input id="brand-sector" type="text" maxlength="48" value="Home | Winter">
+            <input id="brand-sector" type="text" maxlength="80" value="Home | Winter">
+            <small class="char-count" data-count-for="brand-sector"></small>
           </label>
           <label class="field full">
             <span>Describe la escena o las ideas clave que tienes en mente</span>
-            <textarea id="brand-audience" rows="3" maxlength="180">Personas que valoran la calma, la materia y una estética honesta.</textarea>
+            <textarea id="brand-audience" rows="4" maxlength="420">Personas que valoran la calma, la materia y una estética honesta.</textarea>
+            <small class="char-count" data-count-for="brand-audience"></small>
           </label>
           <label class="field full">
             <span>¿Qué debería pensar o sentir al verla?</span>
-            <input id="brand-promise" type="text" maxlength="110" value="Aquí cada decisión visual tiene intención y deja espacio a lo esencial.">
+            <input id="brand-promise" type="text" maxlength="180" value="Aquí cada decisión visual tiene intención y deja espacio a lo esencial.">
+            <small class="char-count" data-count-for="brand-promise"></small>
           </label>
         </div>
         <div class="choice-block">
@@ -137,7 +141,8 @@
           </div>
           <label class="field custom-effect-field" id="custom-effect-field" hidden>
             <span>¿Qué efecto principal debe provocar?</span>
-            <input id="custom-effect" type="text" maxlength="42" placeholder="Por ejemplo: curiosidad, calma, sorpresa…">
+            <input id="custom-effect" type="text" maxlength="80" placeholder="Por ejemplo: curiosidad, calma, sorpresa…">
+            <small class="char-count" data-count-for="custom-effect"></small>
           </label>
         </div>
       </div>
@@ -217,15 +222,18 @@
         <div class="form-grid">
           <label class="field">
             <span>Dirección fotográfica en una frase</span>
-            <textarea id="brand-message" rows="4" maxlength="240">Luz natural lateral, materiales honestos y composiciones con aire; cada escena debe sentirse serena, táctil y vivida.</textarea>
+            <textarea id="brand-message" rows="4" maxlength="360">Luz natural lateral, materiales honestos y composiciones con aire; cada escena debe sentirse serena, táctil y vivida.</textarea>
+            <small class="char-count" data-count-for="brand-message"></small>
           </label>
           <label class="field">
             <span>Elementos que deben aparecer <small>separados por comas</small></span>
-            <input id="brand-keywords" type="text" maxlength="120" value="luz natural, materia, detalle, espacio negativo">
+            <input id="brand-keywords" type="text" maxlength="180" value="luz natural, materia, detalle, espacio negativo">
+            <small class="char-count" data-count-for="brand-keywords"></small>
           </label>
           <label class="field">
             <span>La imagen nunca debería parecer</span>
-            <input id="brand-avoid" type="text" maxlength="140" value="artificial, recargada, excesivamente perfecta o genérica">
+            <input id="brand-avoid" type="text" maxlength="220" value="artificial, recargada, excesivamente perfecta o genérica">
+            <small class="char-count" data-count-for="brand-avoid"></small>
           </label>
         </div>
         <div class="voice-example">
@@ -359,6 +367,7 @@
           <p class="sheet-kicker" id="preview-archetype">EFECTO / CONFIANZA</p>
           <h2 id="preview-name">Lumen<br>Studio</h2>
           <p class="sheet-promise" id="preview-promise">Una imagen serena, precisa y construida con intención.</p>
+          <div class="sheet-scene"><span>Escena / ideas clave</span><p id="preview-scene">Personas que valoran la calma, la materia y una estética honesta.</p></div>
         </div>
         <div class="sheet-palette" id="preview-palette"></div>
         <div class="sheet-language">

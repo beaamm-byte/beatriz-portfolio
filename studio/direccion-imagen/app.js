@@ -42,6 +42,18 @@ const inputs={
 };
 const skipTypographyButton=$('#skip-typography');
 const axisInputs={expression:$('#axis-expression'),distance:$('#axis-distance'),finish:$('#axis-finish'),time:$('#axis-time')};
+function counterForInput(input){
+  return input.id?$(`[data-count-for="${input.id}"]`):input.parentElement?.querySelector('.char-count');
+}
+function updateCharacterCounter(input){
+  const counter=counterForInput(input);
+  if(!counter||!input.maxLength||input.maxLength<0)return;
+  counter.textContent=`${input.value.length}/${input.maxLength}`;
+  counter.classList.toggle('near-limit',input.value.length>=Math.floor(input.maxLength*.9));
+}
+function updateCharacterCounters(root=document){
+  root.querySelectorAll('input[maxlength],textarea[maxlength]').forEach(updateCharacterCounter);
+}
 const hints=[
   'La imagen empieza por una percepción clara.',
   'Una atmósfera coherente hace reconocible una dirección.',
@@ -172,7 +184,8 @@ function renderReferences(){
       <div class="reference-image"><img src="${reference.dataUrl}" alt="Referencia ${index+1}"><button class="reference-remove" type="button" aria-label="Eliminar referencia">×</button></div>
       <div class="reference-body"><span>REFERENCIA ${String(index+1).padStart(2,'0')}</span>
         <div class="reference-tags">${referenceTags.map(tag=>`<button type="button" class="${reference.tags?.includes(tag)?'selected':''}" data-tag="${tag}">${tag}</button>`).join('')}</div>
-        <textarea class="reference-note" maxlength="150" placeholder="¿Qué te interesa de esta imagen?">${escapeHTML(reference.note||'')}</textarea>
+        <textarea class="reference-note" maxlength="240" placeholder="¿Qué te interesa de esta imagen?">${escapeHTML(reference.note||'')}</textarea>
+        <small class="char-count"></small>
       </div>
     </article>`).join('');
   $$('.reference-card').forEach(card=>{
@@ -182,8 +195,9 @@ function renderReferences(){
       const tags=state.references[index].tags||[],tag=button.dataset.tag;
       state.references[index].tags=tags.includes(tag)?tags.filter(item=>item!==tag):[...tags,tag];markDirty();renderReferences();renderPreview();
     }));
-    card.querySelector('.reference-note').addEventListener('input',event=>{state.references[index].note=event.target.value;markDirty();renderPrintReport()});
+    card.querySelector('.reference-note').addEventListener('input',event=>{state.references[index].note=event.target.value;updateCharacterCounter(event.target);markDirty();renderPrintReport()});
   });
+  updateCharacterCounters(grid);
 }
 function renderRules(){
   const groups=$('.rule-groups');groups.classList.toggle('delegated',state.delegate);groups.setAttribute('aria-disabled',String(state.delegate));
@@ -202,7 +216,7 @@ function renderPrintReport(){
   report.innerHTML=`
     <article class="report-page report-cover" style="--report-bg:${background};--report-ink:${ink};--report-display:'${escapeHTML(displayFont())}',serif">
       <div class="report-top"><div class="report-monogram">${escapeHTML(initials(state.name))}</div><span class="report-sector">${escapeHTML(state.sector)}</span></div>
-      <div class="report-cover-main"><p class="report-kicker">EFECTO / ${escapeHTML(effectValue().toUpperCase())}</p><h1>${formatReportName(state.name)}</h1><p class="report-promise">${escapeHTML(state.promise)}</p></div>
+      <div class="report-cover-main"><p class="report-kicker">EFECTO / ${escapeHTML(effectValue().toUpperCase())}</p><h1>${formatReportName(state.name)}</h1><p class="report-promise">${escapeHTML(state.promise)}</p><div class="report-cover-scene"><span>Escena / ideas clave</span><p>${escapeHTML(state.audience)}</p></div></div>
       <div class="report-colors">${state.palette.map(color=>`<span style="--color:${color}"><small>${color}</small></span>`).join('')}</div>
       <div class="report-cover-meta"><div><span>Percepción</span><strong>${escapeHTML(state.perception.join(' / '))}</strong></div><div><span>Lenguaje</span><strong>${escapeHTML(state.imageStyles.join(' / '))}</strong></div></div>
       <p class="report-cover-direction">${escapeHTML(state.direction)}</p>${reportFooter(1)}
@@ -242,8 +256,9 @@ function renderPreview(){
   sheet.style.background=background;sheet.style.color=ink;sheet.style.setProperty('--sheet-display',`'${displayFont()}', serif`);sheet.style.setProperty('--sheet-body',`'${state.typography.body}', sans-serif`);
   setText('#preview-monogram',initials(state.name));setText('#preview-sector',state.sector);
   $('#preview-name').innerHTML=splitName(state.name);
-  setText('#preview-promise',state.promise);setText('#preview-archetype',`EFECTO / ${effectValue().toUpperCase()}`);
+  setText('#preview-promise',state.promise);setText('#preview-scene',state.audience);setText('#preview-archetype',`EFECTO / ${effectValue().toUpperCase()}`);
   setText('#preview-personality',state.perception.join(' / '));setText('#preview-voice',state.imageStyles.join(' / '));setText('#preview-message',state.direction);
+  renderPrintReport();
   setText('#preview-display-font',`ATMÓSFERA / ${axisWord('distance',state.axes.distance)}`);
   setText('#preview-body-font',`ACABADO / ${axisWord('finish',state.axes.finish)}`);
   $('#preview-palette').innerHTML=state.palette.map(color=>`<span style="--color:${color}"><small>${color}</small></span>`).join('');
@@ -272,6 +287,7 @@ function navigateToStep(step){
 
 function syncControls(){
   Object.entries(inputs).forEach(([key,input])=>input.value=state[key]);
+  updateCharacterCounters();
   Object.entries(axisInputs).forEach(([key,input])=>{input.value=state.axes[key];input.style.setProperty('--axis',`${state.axes[key]}%`)});
   $$('#personality-chips .chip').forEach(button=>button.classList.toggle('selected',state.perception.includes(button.dataset.value)));
   $$('#archetypes button').forEach(button=>button.classList.toggle('selected',state.effect===button.dataset.value));
@@ -323,7 +339,7 @@ function multiChoice(selector,key,max=3){
   }));
 }
 
-Object.entries(inputs).forEach(([key,input])=>input.addEventListener('input',()=>{state[key]=input.value;markDirty();renderPreview();if(state.paletteMode==='auto')renderPaletteContext()}));
+Object.entries(inputs).forEach(([key,input])=>input.addEventListener('input',()=>{state[key]=input.value;updateCharacterCounter(input);markDirty();renderPreview();if(state.paletteMode==='auto')renderPaletteContext()}));
 Object.entries(axisInputs).forEach(([key,input])=>input.addEventListener('input',()=>{state.axes[key]=Number(input.value);input.style.setProperty('--axis',`${state.axes[key]}%`);markDirty();renderAxisReading();renderPreview()}));
 multiChoice('#personality-chips .chip','perception');multiChoice('#voice-options button','imageStyles');
 $$('#archetypes button').forEach(button=>button.addEventListener('click',()=>{state.effect=button.dataset.value;markDirty();syncControls()}));
