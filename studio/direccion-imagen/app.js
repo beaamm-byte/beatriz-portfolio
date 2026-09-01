@@ -23,7 +23,10 @@ const defaults={
     light:['Natural difusa','Lateral'],
     setting:['Contextual','Orgánico'],
     presence:['Espontánea'],
-    rhythm:['Contemplativo']
+    rhythm:['Contemplativo'],
+    temperature:[],
+    production:[],
+    format:['4:5 vertical social']
   },
   delegate:false,
   summaryIndex:0,
@@ -46,9 +49,9 @@ const hints=[
   'Una regla útil mantiene coherencia sin volver rígida la creatividad.',
   'El PDF reúne validación, producción y sistematización.'
 ];
-const ruleLabels={shots:'Tipos de plano',framing:'Encuadre y composición',light:'Tratamiento de la luz',setting:'Fondo y contexto',presence:'Presencia humana',rhythm:'Ritmo de la serie'};
+const ruleLabels={shots:'Tipos de plano',framing:'Encuadre y composición',light:'Tratamiento de la luz',setting:'Fondo y contexto',presence:'Presencia humana',rhythm:'Ritmo de la serie',temperature:'Temperatura y color de luz',production:'Producción y acabado',format:'Formato de imagen'};
 const referenceTags=['Luz','Encuadre','Color','Atmósfera','Estilismo','Textura'];
-const typographyNames={neutral:'Neutro',editorial:'Editorial',classic:'Clásico',bold:'Gamberro',custom:'Personalizada'};
+const typographyNames={neutral:'Neutro',editorial:'Editorial',classic:'Clásico',bold:'Gamberro',none:'Sin tipografía',custom:'Personalizada'};
 const paletteModeNames={auto:'Automática',warm:'Cálida',cool:'Fría',earth:'Tierra',neutral:'Neutra',vibrant:'Vibrante',pastel:'Pastel',dark:'Oscura'};
 const paletteModeDescriptions={
   warm:'rojos, arenas y matices solares que transmiten cercanía',
@@ -137,7 +140,23 @@ function axisWord(key,value){
 function axisSummary(){return Object.entries(state.axes).map(([key,value])=>axisWord(key,value))}
 function effectValue(){return state.effect==='Otro'?(clean(state.customEffect)||'Otro'):state.effect}
 function escapeHTML(value=''){return String(value).replace(/[&<>'"]/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[character]))}
-function displayFont(){return state.typography.customData?'BM Project Custom':state.typography.display}
+function hasTypography(){return state.typography.style!=='none'}
+function displayFont(){return state.typography.customData?'BM Project Custom':(state.typography.display||defaults.typography.display)}
+function customFontStyle(data=state.typography.customData){
+  const elementId='bm-custom-font-style';
+  let element=document.getElementById(elementId);
+  if(!data){element?.remove();return}
+  if(!element){element=document.createElement('style');element.id=elementId;document.head.append(element)}
+  element.textContent=`@font-face{font-family:"BM Project Custom";src:url("${data}");font-display:block;}`;
+}
+function referenceOrientation(reference){
+  const width=Number(reference.width)||0,height=Number(reference.height)||0;
+  if(!width||!height)return 'square';
+  const ratio=width/height;
+  if(ratio>1.22)return 'landscape';
+  if(ratio<.82)return 'portrait';
+  return 'square';
+}
 function formatReportName(name){const words=(String(name).trim()||'Tu Proyecto').split(/\s+/).map(escapeHTML);return words.length>1?`${words.slice(0,-1).join(' ')}<br>${words.at(-1)}`:words[0]}
 function selectedRuleCount(){return Object.values(state.rules).reduce((total,items)=>total+items.length,0)}
 function renderAxisReading(){
@@ -175,9 +194,10 @@ function renderPrintReport(){
   const report=$('#print-report'),background=state.palette[0],ink=contrast(background)==='#fff'?'#FFFFFF':state.palette[4],axes=[
     ['expression','Sobria','Expresiva',state.axes.expression],['distance','Cercana','Aspiracional',state.axes.distance],['finish','Orgánica','Pulida',state.axes.finish],['time','Atemporal','Tendencia',state.axes.time]
   ];
-  const references=state.references.length?`<div class="report-reference-grid">${state.references.map((reference,index)=>`<article class="report-reference"><img src="${reference.dataUrl}" alt=""><h3>REFERENCIA ${String(index+1).padStart(2,'0')}</h3><p class="report-reference-tags">${escapeHTML((reference.tags||[]).join(' · ')||'Referencia visual')}</p><p>${escapeHTML(reference.note||'Sin comentario añadido.')}</p></article>`).join('')}</div>`:'<div class="report-empty">No se han añadido imágenes. Esta sección queda abierta para incorporar referencias comentadas antes de producir.</div>';
+  const references=state.references.length?`<div class="report-reference-grid">${state.references.map((reference,index)=>`<article class="report-reference ${referenceOrientation(reference)}"><figure><img src="${reference.dataUrl}" alt=""></figure><h3>REFERENCIA ${String(index+1).padStart(2,'0')}</h3><p class="report-reference-tags">${escapeHTML((reference.tags||[]).join(' · ')||'Referencia visual')}</p><p>${escapeHTML(reference.note||'Sin comentario añadido.')}</p></article>`).join('')}</div>`:'<div class="report-empty">No se han añadido imágenes. Esta sección queda abierta para incorporar referencias comentadas antes de producir.</div>';
   const rules=Object.entries(ruleLabels).map(([key,label])=>`<div class="report-rule ${state.delegate?'delegated':''}"><span>${escapeHTML(label)}</span><strong>${state.delegate?'A definir por dirección creativa':escapeHTML(state.rules[key].join(' · ')||'Por definir')}</strong></div>`).join('');
   const typeName=state.typography.customData?`Personalizada · ${state.typography.customName}`:(typographyNames[state.typography.style]||'Editorial');
+  const typeDetail=hasTypography()?`${displayFont()} + ${state.typography.body}`:'No se define tipografía; el documento usa la fuente base de la herramienta.';
   report.innerHTML=`
     <article class="report-page report-cover" style="--report-bg:${background};--report-ink:${ink};--report-display:'${escapeHTML(displayFont())}',serif">
       <div class="report-top"><div class="report-monogram">${escapeHTML(initials(state.name))}</div><span class="report-sector">${escapeHTML(state.sector)}</span></div>
@@ -187,7 +207,7 @@ function renderPrintReport(){
       <p class="report-cover-direction">${escapeHTML(state.direction)}</p>${reportFooter(1)}
     </article>
     <article class="report-page"><div class="report-header"><b>01 — Validación</b><span>Kit de Dirección de Imagen</span></div><h2 class="report-title">Intención y<br>territorio visual.</h2><p class="report-intro">Las decisiones iniciales definen qué debe hacer sentir la imagen y cómo trasladarlo a color, tipografía, fotografía y composición.</p>
-      <div class="report-grid"><div class="report-block"><span class="report-label">Público</span><h3>Quién debe reconocerse</h3><p>${escapeHTML(state.audience)}</p></div><div class="report-block"><span class="report-label">Efecto</span><h3>${escapeHTML(effectValue())}</h3><p>${escapeHTML(state.perception.join(' · '))}</p></div><div class="report-block"><span class="report-label">Dirección fotográfica</span><h3>Lenguaje</h3><p>${escapeHTML(state.direction)}</p></div><div class="report-block"><span class="report-label">Elementos</span><h3>Deben aparecer</h3><p>${escapeHTML(state.elements)}</p></div><div class="report-block"><span class="report-label">Límites</span><h3>Debe evitarse</h3><p>${escapeHTML(state.avoid)}</p></div><div class="report-block"><span class="report-label">Tipografía</span><h3>${escapeHTML(typeName)}</h3><p>${escapeHTML(displayFont())} + ${escapeHTML(state.typography.body)}</p></div><div class="report-block full"><span class="report-label">Ejes de imagen</span><h3>Tensión visual seleccionada</h3>${axes.map(([key,left,right,value])=>`<div class="report-axis"><div class="report-axis-head"><span>${left}</span><b>${axisWord(key,value)} · ${value}/100</b><span>${right}</span></div><div class="report-axis-track"><i style="--value:${value}%"></i></div></div>`).join('')}</div></div>${reportFooter(2)}</article>
+      <div class="report-grid"><div class="report-block"><span class="report-label">Escena / ideas clave</span><h3>Brief visual inicial</h3><p>${escapeHTML(state.audience)}</p></div><div class="report-block"><span class="report-label">Efecto</span><h3>${escapeHTML(effectValue())}</h3><p>${escapeHTML(state.perception.join(' · '))}</p></div><div class="report-block"><span class="report-label">Dirección fotográfica</span><h3>Lenguaje</h3><p>${escapeHTML(state.direction)}</p></div><div class="report-block"><span class="report-label">Elementos</span><h3>Deben aparecer</h3><p>${escapeHTML(state.elements)}</p></div><div class="report-block"><span class="report-label">Límites</span><h3>Debe evitarse</h3><p>${escapeHTML(state.avoid)}</p></div><div class="report-block"><span class="report-label">Tipografía</span><h3>${escapeHTML(typeName)}</h3><p>${escapeHTML(typeDetail)}</p></div><div class="report-block full"><span class="report-label">Ejes de imagen</span><h3>Tensión visual seleccionada</h3>${axes.map(([key,left,right,value])=>`<div class="report-axis"><div class="report-axis-head"><span>${left}</span><b>${axisWord(key,value)} · ${value}/100</b><span>${right}</span></div><div class="report-axis-track"><i style="--value:${value}%"></i></div></div>`).join('')}</div></div>${reportFooter(2)}</article>
     <article class="report-page"><div class="report-header"><b>02 — Producción</b><span>Referencias comentadas</span></div><h2 class="report-title">Lo que debe aportar<br>cada referencia.</h2><p class="report-intro">Las imágenes funcionan como indicaciones de luz, encuadre, color, atmósfera, estilismo o textura; no como modelos para copiar.</p>${references}${reportFooter(3)}</article>
     <article class="report-page"><div class="report-header"><b>03 — Sistematización</b><span>Reglas de imagen</span></div><h2 class="report-title">Coherencia para<br>seguir produciendo.</h2><p class="report-intro">Estas reglas convierten la dirección en decisiones repetibles sin eliminar el criterio creativo de cada producción.</p><div class="report-rules">${rules}</div><div class="report-delegate"><strong>${state.delegate?'Decisión técnica delegada en dirección creativa':'Decisiones técnicas definidas por el proyecto'}</strong><p>${state.delegate?'La intención está validada y su traducción a shot list, luz, encuadre y producción queda en manos de dirección creativa.':'Las selecciones funcionan como punto de partida y pueden revisarse junto a dirección creativa antes de producir.'}</p></div>${reportFooter(4)}</article>`;
 }
@@ -276,7 +296,7 @@ async function compressReference(file){
   const maxSide=1100,scale=Math.min(1,maxSide/Math.max(image.naturalWidth,image.naturalHeight)),canvas=document.createElement('canvas');
   canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
   canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
-  return canvas.toDataURL('image/jpeg',.76);
+  return {dataUrl:canvas.toDataURL('image/jpeg',.76),width:image.naturalWidth,height:image.naturalHeight};
 }
 function setReferenceProgress(current,total,complete=false){
   const progress=$('#reference-upload-progress'),percent=total?Math.round(current/total*100):0;
@@ -286,7 +306,7 @@ function setReferenceProgress(current,total,complete=false){
 }
 async function activateCustomFont(data){
   if(!data||!window.FontFace)return false;
-  try{const face=new FontFace('BM Project Custom',`url(${data})`);await face.load();document.fonts.add(face);return true}catch{toast('No se ha podido cargar esa tipografía');return false}
+  try{customFontStyle(data);const face=new FontFace('BM Project Custom',`url(${data})`);await face.load();document.fonts.add(face);return true}catch{toast('No se ha podido cargar esa tipografía');return false}
 }
 function multiChoice(selector,key,max=3){
   $$(selector).forEach(button=>button.addEventListener('click',()=>{
@@ -304,7 +324,7 @@ multiChoice('#personality-chips .chip','perception');multiChoice('#voice-options
 $$('#archetypes button').forEach(button=>button.addEventListener('click',()=>{state.effect=button.dataset.value;markDirty();syncControls()}));
 $$('#palette-presets button').forEach(button=>button.addEventListener('click',()=>{state.palette=button.dataset.palette.split(',');markDirty();syncControls()}));
 $$('#typography-options button').forEach(button=>button.addEventListener('click',()=>{
-  state.typography={style:button.dataset.style,display:button.dataset.display,body:button.dataset.body,customName:'',customData:''};markDirty();syncControls();toast(`Estilo ${typographyNames[button.dataset.style].toLowerCase()} seleccionado`);
+  state.typography={style:button.dataset.style,display:button.dataset.display,body:button.dataset.body,customName:'',customData:''};customFontStyle();markDirty();syncControls();toast(`Estilo ${typographyNames[button.dataset.style].toLowerCase()} seleccionado`);
 }));
 $$('#palette-modes .chip').forEach(button=>button.addEventListener('click',()=>{
   state.paletteMode=button.dataset.mode;applyPaletteVariation();markDirty();syncControls();toast(`Nueva paleta ${paletteModeNames[state.paletteMode].toLowerCase()}`);
@@ -315,7 +335,7 @@ $('#next-step').addEventListener('click',()=>navigateToStep(state.step===$$('.pa
 $('#new-phrase').addEventListener('click',()=>{state.summaryIndex=(state.summaryIndex+1)%directionSummaries().length;markDirty();renderPreview()});
 $('#shuffle-palette').addEventListener('click',()=>{applyPaletteVariation();markDirty();syncControls();toast('Nueva variación de color')});
 $$('.rule-group').forEach(group=>group.querySelectorAll('[data-value]').forEach(button=>button.addEventListener('click',()=>{
-  const key=group.dataset.rule,current=state.rules[key],value=button.dataset.value,max=['presence','rhythm'].includes(key)?2:3;
+  const key=group.dataset.rule,current=state.rules[key],value=button.dataset.value,max=key==='light'?4:(['presence','rhythm','temperature'].includes(key)?2:3);
   if(current.includes(value))state.rules[key]=current.filter(item=>item!==value);else if(current.length<max)state.rules[key]=[...current,value];else return toast(`Puedes elegir hasta ${max}`);
   markDirty();renderRules();renderPreview();
 })));
@@ -327,7 +347,7 @@ $('#reference-files').addEventListener('change',async event=>{
   try{
     for(let index=0;index<files.length;index++){
       setReferenceProgress(index,files.length);await new Promise(resolve=>requestAnimationFrame(resolve));
-      try{const dataUrl=await compressReference(files[index]);state.references.push({name:files[index].name,dataUrl,tags:[],note:''});added+=1}catch{toast('Una de las imágenes no se ha podido preparar')}
+      try{const prepared=await compressReference(files[index]);state.references.push({name:files[index].name,...prepared,tags:[],note:''});added+=1}catch{toast('Una de las imágenes no se ha podido preparar')}
       setReferenceProgress(index+1,files.length,index===files.length-1);
     }
     if(added){markDirty();renderReferences();renderPreview();toast(`${added} ${added===1?'referencia añadida':'referencias añadidas'}`)}
@@ -340,9 +360,18 @@ $('#custom-font-file').addEventListener('change',async event=>{
   event.target.value='';
 });
 function pdfFilename(){return `${(state.name||'proyecto').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'proyecto'}-direccion-imagen.pdf`}
-async function printDirection(){
+function openPdfPreview(){
+  renderPrintReport();
+  const dialog=$('#pdf-preview-dialog'),pages=$('#pdf-preview-pages');
+  if(!dialog||!pages)return;
+  pages.innerHTML=$('#print-report').innerHTML;
+  setText('#pdf-preview-name',`Archivo: ${pdfFilename()}`);
+  dialog.showModal();
+}
+function closePdfPreview(){ $('#pdf-preview-dialog')?.close() }
+async function downloadDirectionPdf(){
   if(!window.html2canvas||!window.jspdf?.jsPDF){toast('No se ha cargado el generador. Recarga la página.');return}
-  const buttons=[$('#export-btn'),$('#print-board')];buttons.forEach(button=>button.disabled=true);renderPrintReport();toast('Preparando PDF · página 1 de 4');
+  const buttons=[$('#export-btn'),$('#print-board'),$('#download-pdf')].filter(Boolean);buttons.forEach(button=>button.disabled=true);renderPrintReport();toast('Preparando PDF · página 1 de 4');
   try{
     await document.fonts?.ready;
     await Promise.all($$('#print-report img').map(image=>image.complete?Promise.resolve():image.decode?.().catch(()=>{})||Promise.resolve()));
@@ -359,7 +388,7 @@ async function printDirection(){
   finally{buttons.forEach(button=>button.disabled=false)}
 }
 window.addEventListener('beforeprint',renderPrintReport);
-$('#save-btn').addEventListener('click',save);$('#export-btn').addEventListener('click',printDirection);$('#print-board').addEventListener('click',printDirection);
+$('#save-btn').addEventListener('click',save);$('#export-btn').addEventListener('click',openPdfPreview);$('#print-board').addEventListener('click',openPdfPreview);$('#download-pdf').addEventListener('click',downloadDirectionPdf);$('#close-pdf-preview').addEventListener('click',closePdfPreview);
 
 const resetDialog=$('#reset-dialog');
 $('#reset-btn').addEventListener('click',()=>resetDialog.showModal());$('#cancel-reset').addEventListener('click',()=>resetDialog.close());

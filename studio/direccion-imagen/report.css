@@ -27,9 +27,13 @@
 .report-axis-head{display:flex;justify-content:space-between;font-size:7pt;margin-bottom:2mm}
 .report-axis-track{height:2px;background:#d9d4cc;position:relative}
 .report-axis-track i{position:absolute;top:50%;left:var(--value);width:3mm;height:3mm;border-radius:50%;background:#c8102e;transform:translate(-50%,-50%)}
-.report-reference-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+.report-reference-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;align-items:start}
 .report-reference{break-inside:avoid}
-.report-reference img{width:100%;height:40mm;object-fit:contain;display:block;background:#f2efea}
+.report-reference.landscape{grid-column:1/-1}
+.report-reference figure{width:100%;height:40mm;background:#f2efea;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.report-reference.landscape figure{height:54mm}
+.report-reference.portrait figure{height:54mm}
+.report-reference img{width:100%;height:100%;object-fit:contain;display:block}
 .report-reference h3{font:500 7pt 'DM Mono',monospace;margin:3mm 0 2mm}
 .report-reference p{font-size:7pt;line-height:1.45;color:#5d5750}
 .report-reference-tags{color:#c8102e!important;text-transform:uppercase;font:500 6pt 'DM Mono',monospace!important;margin-bottom:1.5mm}
