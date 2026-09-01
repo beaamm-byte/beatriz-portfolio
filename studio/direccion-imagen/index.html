@@ -179,11 +179,11 @@
             <button type="button" data-style="classic" data-display="Playfair Display" data-body="Manrope"><span class="font-playfair">Aa</span><b>Clásico</b><small>Cultural, sólido y refinado</small></button>
             <button type="button" data-style="bold" data-display="Syne" data-body="DM Sans"><span class="font-syne">Aa</span><b>Gamberro</b><small>Expresivo, directo y poco convencional</small></button>
           </div>
-          <label class="skip-typography">
-            <input id="skip-typography" type="checkbox">
-            <span>No necesito definir estilo tipográfico para esta campaña</span>
-          </label>
           <label class="font-upload" for="custom-font-file"><strong>Subir una tipografía propia</strong><small id="custom-font-state">WOFF, WOFF2, TTF u OTF · se utilizará en la ficha y el PDF</small><input id="custom-font-file" type="file" accept=".woff,.woff2,.ttf,.otf,font/woff,font/woff2,font/ttf,font/otf"></label>
+          <button class="skip-typography" id="skip-typography" type="button" aria-pressed="false">
+            <span class="delegate-check">✓</span>
+            <span><strong>No necesito definir estilo tipográfico</strong><small>Para esta campaña no hace falta fijar una dirección tipográfica propia.</small></span>
+          </button>
         </div>
         <div class="choice-block">
           <div class="choice-title"><span>Ejes de la imagen</span><small>Ajusta la tensión visual</small></div>

@@ -38,13 +38,13 @@
 .report-reference p{font-size:7pt;line-height:1.45;color:#5d5750}
 .report-reference-tags{color:#c8102e!important;text-transform:uppercase;font:500 6pt 'DM Mono',monospace!important;margin-bottom:1.5mm}
 .report-empty{padding:18mm;border:1px solid #d9d4cc;color:#756f67;font-size:9pt;line-height:1.5}
-.report-rules{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
-.report-rule{padding:6mm;border:1px solid #d9d4cc;min-height:31mm}
+.report-rules{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.report-rule{padding:4mm;border:1px solid #d9d4cc;min-height:22mm}
 .report-rule.delegated{background:#f2efea;color:#756f67}
-.report-rule span{font:500 6pt 'DM Mono',monospace;color:#c8102e;text-transform:uppercase}
+.report-rule span{font:500 5.5pt 'DM Mono',monospace;color:#c8102e;text-transform:uppercase}
 .report-rule.delegated span{color:#756f67}
-.report-rule strong{display:block;margin-top:4mm;font-size:9pt;line-height:1.45}
-.report-delegate{margin-top:9mm;padding:7mm;background:#f8e9ec;border-left:2px solid #c8102e}
-.report-delegate strong{display:block;font-size:9pt}
-.report-delegate p{font-size:7pt;line-height:1.5;margin-top:2mm;color:#5d5750}
+.report-rule strong{display:block;margin-top:2.5mm;font-size:7.4pt;line-height:1.35}
+.report-delegate{margin-top:6mm;padding:5mm;background:#f8e9ec;border-left:2px solid #c8102e}
+.report-delegate strong{display:block;font-size:8pt}
+.report-delegate p{font-size:6.5pt;line-height:1.4;margin-top:1.5mm;color:#5d5750}
 .report-footer{position:absolute;left:18mm;right:18mm;bottom:10mm;display:flex;justify-content:space-between;font:400 6pt 'DM Mono',monospace;color:#756f67}

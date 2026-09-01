@@ -40,7 +40,7 @@ const inputs={
   name:$('#brand-name'),sector:$('#brand-sector'),audience:$('#brand-audience'),promise:$('#brand-promise'),
   direction:$('#brand-message'),elements:$('#brand-keywords'),avoid:$('#brand-avoid'),customEffect:$('#custom-effect')
 };
-const skipTypographyInput=$('#skip-typography');
+const skipTypographyButton=$('#skip-typography');
 const axisInputs={expression:$('#axis-expression'),distance:$('#axis-distance'),finish:$('#axis-finish'),time:$('#axis-time')};
 const hints=[
   'La imagen empieza por una percepción clara.',
@@ -277,9 +277,10 @@ function syncControls(){
   $$('#archetypes button').forEach(button=>button.classList.toggle('selected',state.effect===button.dataset.value));
   $('#custom-effect-field').hidden=state.effect!=='Otro';
   $$('#voice-options button').forEach(button=>button.classList.toggle('selected',state.imageStyles.includes(button.dataset.value)));
-  if(skipTypographyInput)skipTypographyInput.checked=state.typography.style==='none';
+  if(skipTypographyButton){skipTypographyButton.classList.toggle('selected',state.typography.style==='none');skipTypographyButton.setAttribute('aria-pressed',String(state.typography.style==='none'))}
   $('#typography-options')?.classList.toggle('disabled',state.typography.style==='none');
   $$('#typography-options button').forEach(button=>{button.classList.toggle('selected',!state.typography.customData&&state.typography.style===button.dataset.style);button.disabled=state.typography.style==='none'});
+  $('.font-upload')?.classList.toggle('disabled',state.typography.style==='none');
   $('#custom-font-file').disabled=state.typography.style==='none';
   $$('#palette-modes .chip').forEach(button=>button.classList.toggle('selected',state.paletteMode===button.dataset.mode));
   $$('#palette-presets button').forEach(button=>button.classList.toggle('selected',button.dataset.palette.toUpperCase()===state.palette.join(',').toUpperCase()));
@@ -330,11 +331,12 @@ $$('#palette-presets button').forEach(button=>button.addEventListener('click',()
 $$('#typography-options button').forEach(button=>button.addEventListener('click',()=>{
   state.typography={style:button.dataset.style,display:button.dataset.display,body:button.dataset.body,customName:'',customData:''};customFontStyle();markDirty();syncControls();toast(`Estilo ${typographyNames[button.dataset.style].toLowerCase()} seleccionado`);
 }));
-skipTypographyInput?.addEventListener('change',()=>{
-  state.typography=skipTypographyInput.checked
+skipTypographyButton?.addEventListener('click',()=>{
+  const nextState=state.typography.style!=='none';
+  state.typography=nextState
     ?{style:'none',display:defaults.typography.display,body:defaults.typography.body,customName:'',customData:''}
     :{...defaults.typography};
-  customFontStyle();markDirty();syncControls();toast(skipTypographyInput.checked?'Tipografía no definida para esta campaña':'Tipografía editorial activada');
+  customFontStyle();markDirty();syncControls();toast(nextState?'Tipografía no definida para esta campaña':'Tipografía editorial activada');
 });
 $$('#palette-modes .chip').forEach(button=>button.addEventListener('click',()=>{
   state.paletteMode=button.dataset.mode;applyPaletteVariation();markDirty();syncControls();toast(`Nueva paleta ${paletteModeNames[state.paletteMode].toLowerCase()}`);
