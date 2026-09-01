@@ -1,5 +1,5 @@
-.report-page{width:210mm;height:297mm;padding:17mm 18mm;overflow:hidden;position:relative;background:#fbfaf7;color:#171714;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-.report-cover{background:var(--report-bg,#f3efe7);color:var(--report-ink,#191b19);display:flex;flex-direction:column}
+.report-page{--page-bg:#fbfaf7;width:210mm;height:297mm;padding:17mm 18mm 10mm;overflow:hidden;position:relative;display:flex;flex-direction:column;background:var(--page-bg);color:#171714;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.report-cover{--page-bg:var(--report-bg,#f3efe7);background:var(--page-bg);color:var(--report-ink,#191b19);display:flex;flex-direction:column}
 .report-top{display:flex;justify-content:space-between;align-items:flex-start}
 .report-monogram{width:17mm;height:17mm;border:1px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 12pt var(--report-display,var(--display))}
 .report-sector{max-width:84mm;text-align:right;font:500 7pt 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.1em}
@@ -21,6 +21,7 @@
 .report-header b{color:#c8102e}
 .report-title{font:500 34pt/.95 var(--display);margin:12mm 0 5mm}
 .report-intro{max-width:135mm;color:#756f67;font-size:9pt;line-height:1.55;margin-bottom:11mm}
+.report-continuation-spacer{height:10mm}
 .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:7mm}
 .report-block{border-top:1px solid #d9d4cc;padding-top:4mm;min-width:0}
 .report-block.full{grid-column:1/-1}
@@ -36,7 +37,7 @@
 .report-reference figure{width:100%;height:40mm;background:#f2efea;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .report-reference.landscape figure{height:54mm}
 .report-reference.portrait figure{height:54mm}
-.report-reference img{width:100%;height:100%;object-fit:contain;display:block}
+.report-reference img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;display:block}
 .report-reference h3{font:500 7pt 'DM Mono',monospace;margin:3mm 0 2mm}
 .report-reference p{font-size:7pt;line-height:1.45;color:#5d5750}
 .report-reference-tags{color:#c8102e!important;text-transform:uppercase;font:500 6pt 'DM Mono',monospace!important;margin-bottom:1.5mm}
@@ -50,4 +51,4 @@
 .report-delegate{margin-top:6mm;padding:5mm;background:#f8e9ec;border-left:2px solid #c8102e}
 .report-delegate strong{display:block;font-size:8pt}
 .report-delegate p{font-size:6.5pt;line-height:1.4;margin-top:1.5mm;color:#5d5750}
-.report-footer{position:absolute;left:18mm;right:18mm;bottom:10mm;display:flex;justify-content:space-between;font:400 6pt 'DM Mono',monospace;color:#756f67}
+.report-footer{display:flex;justify-content:space-between;margin-top:auto;padding-top:7mm;background:var(--page-bg);font:400 6pt 'DM Mono',monospace;color:#756f67}

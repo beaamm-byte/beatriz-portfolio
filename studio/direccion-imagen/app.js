@@ -204,12 +204,35 @@ function renderRules(){
   $$('.rule-group').forEach(group=>group.querySelectorAll('[data-value]').forEach(button=>{button.classList.toggle('selected',state.rules[group.dataset.rule].includes(button.dataset.value));button.disabled=state.delegate}));
   const delegate=$('#delegate-direction');delegate.classList.toggle('selected',state.delegate);delegate.setAttribute('aria-pressed',String(state.delegate));
 }
-function reportFooter(page){return `<footer class="report-footer"><span>Herramienta creada por Beatriz Morón · Dirección Creativa &amp; Estrategia de Imagen</span><span>www.beatrizmoron.com · ${page}/4</span></footer>`}
+function reportFooter(page,total){return `<footer class="report-footer"><span>Herramienta creada por Beatriz Morón · Dirección Creativa &amp; Estrategia de Imagen</span><span>www.beatrizmoron.com · ${page}/${total}</span></footer>`}
+function referenceCard(reference,index){
+  return `<article class="report-reference ${referenceOrientation(reference)}"><figure><img src="${reference.dataUrl}" alt=""></figure><h3>REFERENCIA ${String(index+1).padStart(2,'0')}</h3><p class="report-reference-tags">${escapeHTML((reference.tags||[]).join(' · ')||'Referencia visual')}</p><p>${escapeHTML(reference.note||'Sin comentario añadido.')}</p></article>`;
+}
+function referenceChunks(){
+  if(!state.references.length)return [[]];
+  const chunks=[];let current=[],currentRows=0;
+  state.references.forEach((reference,index)=>{
+    const orientation=referenceOrientation(reference),noteLength=(reference.note||'').length;
+    const rowCost=orientation==='landscape'?1:.5;
+    const noteCost=noteLength>120?.35:noteLength>60?.18:0;
+    const cost=rowCost+noteCost;
+    const capacity=2;
+    if(current.length&&currentRows+cost>capacity){chunks.push(current);current=[];currentRows=0}
+    current.push({reference,index});currentRows+=cost;
+  });
+  if(current.length)chunks.push(current);
+  return chunks;
+}
 function renderPrintReport(){
   const report=$('#print-report'),background=state.palette[0],ink=contrast(background)==='#fff'?'#FFFFFF':state.palette[4],axes=[
     ['expression','Sobria','Expresiva',state.axes.expression],['distance','Cercana','Aspiracional',state.axes.distance],['finish','Orgánica','Pulida',state.axes.finish],['time','Atemporal','Tendencia',state.axes.time]
   ];
-  const references=state.references.length?`<div class="report-reference-grid">${state.references.map((reference,index)=>`<article class="report-reference ${referenceOrientation(reference)}"><figure><img src="${reference.dataUrl}" alt=""></figure><h3>REFERENCIA ${String(index+1).padStart(2,'0')}</h3><p class="report-reference-tags">${escapeHTML((reference.tags||[]).join(' · ')||'Referencia visual')}</p><p>${escapeHTML(reference.note||'Sin comentario añadido.')}</p></article>`).join('')}</div>`:'<div class="report-empty">No se han añadido imágenes. Esta sección queda abierta para incorporar referencias comentadas antes de producir.</div>';
+  const referenceGroups=referenceChunks(),totalPages=3+referenceGroups.length;
+  const referencePages=referenceGroups.map((group,groupIndex)=>{
+    const references=group.length?`<div class="report-reference-grid">${group.map(({reference,index})=>referenceCard(reference,index)).join('')}</div>`:'<div class="report-empty">No se han añadido imágenes. Esta sección queda abierta para incorporar referencias comentadas antes de producir.</div>';
+    const intro=groupIndex?'<div class="report-continuation-spacer"></div>':'<h2 class="report-title">Lo que debe aportar<br>cada referencia.</h2><p class="report-intro">Las imágenes funcionan como indicaciones de luz, encuadre, color, atmósfera, estilismo o textura; no como modelos para copiar.</p>';
+    return `<article class="report-page"><div class="report-header"><b>02${groupIndex?`.${groupIndex+1}`:''} — Producción</b><span>Referencias comentadas</span></div>${intro}${references}${reportFooter(3+groupIndex,totalPages)}</article>`;
+  }).join('');
   const rules=Object.entries(ruleLabels).map(([key,label])=>`<div class="report-rule ${state.delegate?'delegated':''}"><span>${escapeHTML(label)}</span><strong>${state.delegate?'A definir por dirección creativa':escapeHTML(state.rules[key].join(' · ')||'Por definir')}</strong></div>`).join('');
   const typeName=state.typography.customData?`Personalizada · ${state.typography.customName}`:(typographyNames[state.typography.style]||'Editorial');
   const typeDetail=hasTypography()?`${displayFont()} + ${state.typography.body}`:'No se define tipografía; el documento usa la fuente base de la herramienta.';
@@ -219,23 +242,22 @@ function renderPrintReport(){
       <div class="report-cover-main"><p class="report-kicker">EFECTO / ${escapeHTML(effectValue().toUpperCase())}</p><h1>${formatReportName(state.name)}</h1><p class="report-promise">${escapeHTML(state.promise)}</p><div class="report-cover-scene"><span>Escena / ideas clave</span><p>${escapeHTML(state.audience)}</p></div></div>
       <div class="report-colors">${state.palette.map(color=>`<span style="--color:${color}"><small>${color}</small></span>`).join('')}</div>
       <div class="report-cover-meta"><div><span>Percepción</span><strong>${escapeHTML(state.perception.join(' / '))}</strong></div><div><span>Lenguaje</span><strong>${escapeHTML(state.imageStyles.join(' / '))}</strong></div></div>
-      <p class="report-cover-direction">${escapeHTML(state.direction)}</p>${reportFooter(1)}
+      <p class="report-cover-direction">${escapeHTML(state.direction)}</p>${reportFooter(1,totalPages)}
     </article>
     <article class="report-page"><div class="report-header"><b>01 — Validación</b><span>Kit de Dirección de Imagen</span></div><h2 class="report-title">Intención y<br>territorio visual.</h2><p class="report-intro">Las decisiones iniciales definen qué debe hacer sentir la imagen y cómo trasladarlo a color, tipografía, fotografía y composición.</p>
-      <div class="report-grid"><div class="report-block"><span class="report-label">Escena / ideas clave</span><h3>Brief visual inicial</h3><p>${escapeHTML(state.audience)}</p></div><div class="report-block"><span class="report-label">Efecto</span><h3>${escapeHTML(effectValue())}</h3><p>${escapeHTML(state.perception.join(' · '))}</p></div><div class="report-block"><span class="report-label">Dirección fotográfica</span><h3>Lenguaje</h3><p>${escapeHTML(state.direction)}</p></div><div class="report-block"><span class="report-label">Elementos</span><h3>Deben aparecer</h3><p>${escapeHTML(state.elements)}</p></div><div class="report-block"><span class="report-label">Límites</span><h3>Debe evitarse</h3><p>${escapeHTML(state.avoid)}</p></div><div class="report-block"><span class="report-label">Tipografía</span><h3>${escapeHTML(typeName)}</h3><p>${escapeHTML(typeDetail)}</p></div><div class="report-block full"><span class="report-label">Ejes de imagen</span><h3>Tensión visual seleccionada</h3>${axes.map(([key,left,right,value])=>`<div class="report-axis"><div class="report-axis-head"><span>${left}</span><b>${axisWord(key,value)} · ${value}/100</b><span>${right}</span></div><div class="report-axis-track"><i style="--value:${value}%"></i></div></div>`).join('')}</div></div>${reportFooter(2)}</article>
-    <article class="report-page"><div class="report-header"><b>02 — Producción</b><span>Referencias comentadas</span></div><h2 class="report-title">Lo que debe aportar<br>cada referencia.</h2><p class="report-intro">Las imágenes funcionan como indicaciones de luz, encuadre, color, atmósfera, estilismo o textura; no como modelos para copiar.</p>${references}${reportFooter(3)}</article>
-    <article class="report-page"><div class="report-header"><b>03 — Sistematización</b><span>Reglas de imagen</span></div><h2 class="report-title">Coherencia para<br>seguir produciendo.</h2><p class="report-intro">Estas reglas convierten la dirección en decisiones repetibles sin eliminar el criterio creativo de cada producción.</p><div class="report-rules">${rules}</div><div class="report-delegate"><strong>${state.delegate?'Decisión técnica delegada en dirección creativa':'Decisiones técnicas definidas por el proyecto'}</strong><p>${state.delegate?'La intención está validada y su traducción a shot list, luz, encuadre y producción queda en manos de dirección creativa.':'Las selecciones funcionan como punto de partida y pueden revisarse junto a dirección creativa antes de producir.'}</p></div>${reportFooter(4)}</article>`;
+      <div class="report-grid"><div class="report-block"><span class="report-label">Escena / ideas clave</span><h3>Brief visual inicial</h3><p>${escapeHTML(state.audience)}</p></div><div class="report-block"><span class="report-label">Efecto</span><h3>${escapeHTML(effectValue())}</h3><p>${escapeHTML(state.perception.join(' · '))}</p></div><div class="report-block"><span class="report-label">Dirección fotográfica</span><h3>Lenguaje</h3><p>${escapeHTML(state.direction)}</p></div><div class="report-block"><span class="report-label">Elementos</span><h3>Deben aparecer</h3><p>${escapeHTML(state.elements)}</p></div><div class="report-block"><span class="report-label">Límites</span><h3>Debe evitarse</h3><p>${escapeHTML(state.avoid)}</p></div><div class="report-block"><span class="report-label">Tipografía</span><h3>${escapeHTML(typeName)}</h3><p>${escapeHTML(typeDetail)}</p></div><div class="report-block full"><span class="report-label">Ejes de imagen</span><h3>Tensión visual seleccionada</h3>${axes.map(([key,left,right,value])=>`<div class="report-axis"><div class="report-axis-head"><span>${left}</span><b>${axisWord(key,value)} · ${value}/100</b><span>${right}</span></div><div class="report-axis-track"><i style="--value:${value}%"></i></div></div>`).join('')}</div></div>${reportFooter(2,totalPages)}</article>
+    ${referencePages}
+    <article class="report-page"><div class="report-header"><b>03 — Sistematización</b><span>Reglas de imagen</span></div><h2 class="report-title">Coherencia para<br>seguir produciendo.</h2><p class="report-intro">Estas reglas convierten la dirección en decisiones repetibles sin eliminar el criterio creativo de cada producción.</p><div class="report-rules">${rules}</div><div class="report-delegate"><strong>${state.delegate?'Decisión técnica delegada en dirección creativa':'Decisiones técnicas definidas por el proyecto'}</strong><p>${state.delegate?'La intención está validada y su traducción a shot list, luz, encuadre y producción queda en manos de dirección creativa.':'Las selecciones funcionan como punto de partida y pueden revisarse junto a dirección creativa antes de producir.'}</p></div>${reportFooter(totalPages,totalPages)}</article>`;
 }
-function directionSummaries(){
-  const perception=lowerList(state.perception),styles=lowerList(state.imageStyles),elements=state.elements.split(',').map(clean).filter(Boolean);
-  const p1=perception[0]||'coherente',p2=perception[1]||'propia',s1=styles[0]||'editorial',s2=styles[1]||'sensorial';
-  const e1=elements[0]||'la luz',e2=elements[1]||'la materia';
+function directionReading(){
+  const scene=clean(state.audience),elements=clean(state.elements),avoid=clean(state.avoid);
   return [
-    `Una imagen ${p1} y ${p2}, construida desde ${e1} y ${e2}.`,
-    `${effectValue()} a través de un lenguaje ${s1} y ${s2}.`,
-    `Una dirección ${axisWord('expression',state.axes.expression).toLowerCase()}, ${axisWord('finish',state.axes.finish).toLowerCase()} y visualmente ${p1}.`,
-    `${clean(state.sector)||'El proyecto'}, visto desde el detalle, la intención y una atmósfera propia.`
-  ];
+    `<p>La imagen debe sentirse <strong>${escapeHTML(lowerList(state.perception).join(', ')||'coherente')}</strong>.</p>`,
+    `<p>El lenguaje visual será <strong>${escapeHTML(lowerList(state.imageStyles).join(', ')||'definido')}</strong>.</p>`,
+    scene?`<p>La escena parte de: ${escapeHTML(scene)}.</p>`:'',
+    elements?`<p>Debe incluir: ${escapeHTML(elements)}.</p>`:'',
+    avoid?`<p>Debe evitar: ${escapeHTML(avoid)}.</p>`:''
+  ].join('');
 }
 
 function renderPaletteEditor(){
@@ -258,7 +280,6 @@ function renderPreview(){
   $('#preview-name').innerHTML=splitName(state.name);
   setText('#preview-promise',state.promise);setText('#preview-scene',state.audience);setText('#preview-archetype',`EFECTO / ${effectValue().toUpperCase()}`);
   setText('#preview-personality',state.perception.join(' / '));setText('#preview-voice',state.imageStyles.join(' / '));setText('#preview-message',state.direction);
-  renderPrintReport();
   setText('#preview-display-font',`ATMÓSFERA / ${axisWord('distance',state.axes.distance)}`);
   setText('#preview-body-font',`ACABADO / ${axisWord('finish',state.axes.finish)}`);
   $('#preview-palette').innerHTML=state.palette.map(color=>`<span style="--color:${color}"><small>${color}</small></span>`).join('');
@@ -267,7 +288,7 @@ function renderPreview(){
   setText('#summary-palette-mode',paletteModeNames[state.paletteMode]);setText('#summary-references',state.references.length?`${state.references.length} ${state.references.length===1?'imagen comentada':'imágenes comentadas'}`:'Sin imágenes añadidas');
   setText('#summary-rules',state.delegate?'Delegadas en dirección creativa':(selectedRuleCount()?`${selectedRuleCount()} decisiones seleccionadas`:'Pendientes de definir'));setText('#summary-delegate',state.delegate?'En manos de dirección creativa':'Definida por el proyecto');
   setText('#production-status',state.references.length?`${state.references.length} ${state.references.length===1?'referencia preparada':'referencias preparadas'}`:'Referencias pendientes');setText('#system-status',state.delegate?'Criterio técnico delegado':`${selectedRuleCount()} reglas preparadas`);
-  const summaries=directionSummaries();setText('#voice-example',`“${summaries[state.summaryIndex%summaries.length]}”`);
+  $('#voice-example').innerHTML=directionReading();
   renderPrintReport();
 }
 
@@ -360,7 +381,6 @@ $$('#palette-modes .chip').forEach(button=>button.addEventListener('click',()=>{
 $$('.step').forEach(button=>button.addEventListener('click',()=>navigateToStep(Number(button.dataset.step))));
 $('#prev-step').addEventListener('click',()=>navigateToStep(state.step-1));
 $('#next-step').addEventListener('click',()=>navigateToStep(state.step===$$('.panel').length-1?0:state.step+1));
-$('#new-phrase').addEventListener('click',()=>{state.summaryIndex=(state.summaryIndex+1)%directionSummaries().length;markDirty();renderPreview()});
 $('#shuffle-palette').addEventListener('click',()=>{applyPaletteVariation();markDirty();syncControls();toast('Nueva variación de color')});
 $$('.rule-group').forEach(group=>group.querySelectorAll('[data-value]').forEach(button=>button.addEventListener('click',()=>{
   const key=group.dataset.rule,current=state.rules[key],value=button.dataset.value,max=key==='light'?4:(['presence','rhythm','temperature'].includes(key)?2:3);
@@ -399,7 +419,7 @@ function openPdfPreview(){
 function closePdfPreview(){ $('#pdf-preview-dialog')?.close() }
 async function downloadDirectionPdf(){
   if(!window.html2canvas||!window.jspdf?.jsPDF){toast('No se ha cargado el generador. Recarga la página.');return}
-  const buttons=[$('#export-btn'),$('#print-board'),$('#download-pdf')].filter(Boolean);buttons.forEach(button=>button.disabled=true);renderPrintReport();toast('Preparando PDF · página 1 de 4');
+  const buttons=[$('#export-btn'),$('#print-board'),$('#download-pdf')].filter(Boolean);buttons.forEach(button=>button.disabled=true);renderPrintReport();toast('Preparando PDF');
   try{
     await document.fonts?.ready;
     await Promise.all($$('#print-report img').map(image=>image.complete?Promise.resolve():image.decode?.().catch(()=>{})||Promise.resolve()));
