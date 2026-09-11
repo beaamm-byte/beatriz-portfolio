@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interferencia — Proyecto experimental de Beatriz Morón</title>
+  <meta name="description" content="Interferencia: ensayo visual abstracto sobre señal, error, repetición y huella.">
+  <link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&family=Rubik+Glitch&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f1eadf;
+      --ink: #0c0c0c;
+      --red: #a51f24;
+      --line: rgba(12,12,12,.18);
+      --mx: 0px;
+      --my: 0px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--paper); }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: .045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+    img { display: block; width: 100%; height: auto; }
+    a { color: inherit; }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--red);
+      z-index: 120;
+    }
+    .topbar {
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3.2vw;
+      border-bottom: 1px solid rgba(241,234,223,.18);
+      background: var(--ink);
+      color: var(--paper);
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 20;
+    }
+    .wordmark {
+      font: 400 17px 'Bebas Neue', sans-serif;
+      letter-spacing: .18em;
+      text-decoration: none;
+    }
+    .back {
+      font: 400 9px 'DM Mono', monospace;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .back::before { content: '\2190'; color: var(--red); margin-right: 12px; font-size: 15px; }
+
+    .hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: minmax(360px,.76fr) minmax(0,1.24fr);
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .hero-copy {
+      padding: clamp(120px,14vh,170px) 4.8vw 5vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 70px;
+      position: relative;
+      z-index: 2;
+    }
+    .eyebrow, .chapter-code {
+      font: 400 9px 'DM Mono', monospace;
+      letter-spacing: .27em;
+      text-transform: uppercase;
+      color: var(--red);
+      position: relative;
+      z-index: 3;
+    }
+    h1 {
+      font: 400 clamp(74px,8.8vw,154px)/.72 'Archivo Black', sans-serif;
+      letter-spacing: -.075em;
+      margin: 38px 0 0 -.04em;
+    }
+    h1 span { display: block; }
+    h1 span:nth-child(2) { color: var(--red); font-family: 'Rubik Glitch', sans-serif; font-weight: 400; letter-spacing: -.025em; transform: translateX(.1em); }
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 20px;
+      align-items: start;
+      max-width: 440px;
+    }
+    .hero-number { font: 400 42px/.8 'Bebas Neue', sans-serif; color: var(--red); }
+    .hero-line { font: 500 clamp(20px,2vw,34px)/1.08 'Space Grotesk', sans-serif; letter-spacing: -.045em; }
+    .hero-media { min-height: 100svh; position: relative; overflow: hidden; background: #15110f; }
+    .hero-media img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-media::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('01-ruptura.png') center/cover no-repeat;
+      pointer-events: none;
+      transition: transform .12s ease-out, opacity .2s ease;
+    }
+    .hero-media::after {
+      clip-path: polygon(0 43%,100% 36%,100% 58%,0 66%);
+      transform: translate(calc(var(--mx) * 1.08), calc(var(--my) * .45));
+      filter: saturate(1.42) contrast(1.12);
+      mix-blend-mode: screen;
+      opacity: .72;
+    }
+    .hero-axis {
+      position: absolute;
+      left: 28px;
+      bottom: 26px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 14px;
+      background: rgba(12,12,12,.72);
+      backdrop-filter: blur(8px);
+      font: 400 8px 'DM Mono', monospace;
+      letter-spacing: .2em;
+      color: var(--paper);
+      text-transform: uppercase;
+      z-index: 3;
+    }
+    .hero-axis::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--red); flex: 0 0 auto; }
+    .hero-axis-mobile { display: none; }
+    .hero-media:hover::after { opacity: .88; }
+
+    .ticker { overflow: hidden; background: var(--red); color: var(--paper); border-block: 1px solid var(--ink); }
+    .ticker-track {
+      display: flex;
+      gap: 44px;
+      width: max-content;
+      padding: 15px 0;
+      animation: run 23s linear infinite;
+      font: 400 18px 'Bebas Neue', sans-serif;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .ticker-track span::after { content: ' / '; margin-left: 44px; color: var(--ink); }
+    @keyframes run { to { transform: translateX(-50%); } }
+
+    .manifesto {
+      min-height: 92vh;
+      padding: 11vw 7vw;
+      display: grid;
+      grid-template-columns: .55fr 1.45fr;
+      gap: 10vw;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+    }
+    .manifesto-index { position: sticky; top: 40px; }
+    .manifesto h2 {
+      font: 400 clamp(46px,6.5vw,108px)/.88 'Archivo Black', sans-serif;
+      letter-spacing: -.072em;
+      max-width: 1080px;
+    }
+    .manifesto h2 em { color: var(--red); font: 400 1.04em 'Rubik Glitch', sans-serif; letter-spacing: -.015em; }
+    .manifesto-copy {
+      margin: 70px 0 0 auto;
+      max-width: 650px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      font-size: clamp(14px,1.2vw,18px);
+      line-height: 1.75;
+    }
+
+    .chapter {
+      display: grid;
+      grid-template-columns: minmax(260px,.55fr) minmax(0,1.45fr);
+      border-bottom: 1px solid var(--line);
+    }
+    .chapter-copy {
+      padding: 8vw 4.5vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 60px;
+      border-right: 1px solid var(--line);
+    }
+    .chapter h3 {
+      font: 400 clamp(44px,5vw,82px)/.88 'Archivo Black', sans-serif;
+      letter-spacing: -.065em;
+    }
+    .chapter h3 em { display: block; color: var(--red); font: 400 1.08em 'Rubik Glitch', sans-serif; letter-spacing: -.01em; }
+    .chapter-copy p:last-child { font-size: 15px; line-height: 1.75; max-width: 420px; }
+    .chapter-media { min-height: 84vh; overflow: hidden; position: relative; }
+    .chapter-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+    .chapter:hover .chapter-media img { transform: scale(1.018); }
+
+    .echo {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 10vw 7vw;
+      overflow: hidden;
+    }
+    .echo > .chapter-code { display: block; margin-bottom: clamp(62px,7vw,118px); }
+    .echo-word {
+      font: 400 clamp(92px,18vw,330px)/.68 'Archivo Black', sans-serif;
+      letter-spacing: -.075em;
+      white-space: nowrap;
+      color: var(--red);
+      transform: translateX(calc(var(--mx) * -.2));
+      transition: transform .2s ease-out;
+    }
+    .echo-word.ghost { color: rgba(241,234,223,.2); font-family: 'Rubik Glitch', sans-serif; font-weight: 400; letter-spacing: -.01em; margin-left: 9vw; }
+    .echo-note { margin: 8vw 0 0 auto; width: min(560px,100%); font: 500 clamp(23px,2.6vw,40px)/1.1 'Space Grotesk', sans-serif; letter-spacing: -.04em; }
+
+    .diptych {
+      padding: 8vw 6vw 12vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.2vw;
+      align-items: start;
+    }
+    .diptych figure { position: relative; }
+    .diptych figure:nth-child(2) { margin-top: 12vw; }
+    .diptych img { aspect-ratio: 4/3; object-fit: cover; }
+    figcaption {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 13px;
+      border-top: 1px solid var(--ink);
+      margin-top: 13px;
+      font: 400 8px 'DM Mono', monospace;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .residue {
+      min-height: 100svh;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .residue img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .72; }
+    .residue::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,rgba(12,12,12,.2),rgba(12,12,12,.05) 45%,rgba(12,12,12,.62)); }
+    .residue-copy { position: relative; z-index: 2; width: min(920px,86vw); text-align: center; }
+    .residue .chapter-code { display: block; margin-bottom: clamp(34px,4vw,64px); }
+    .residue h2 { font: 400 clamp(50px,6.7vw,112px)/.88 'Archivo Black', sans-serif; letter-spacing: -.075em; }
+    .residue h2 em { color: var(--red); font: 400 1.03em 'Rubik Glitch', sans-serif; letter-spacing: -.01em; }
+    .residue p { margin-top: 40px; font: 400 9px 'DM Mono', monospace; letter-spacing: .25em; text-transform: uppercase; }
+
+    footer {
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,.06);
+      background: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.2);
+    }
+
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .85s ease, transform .85s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 800px) {
+      .topbar { height: 56px; padding: 0 20px; }
+      .hero { display: block; }
+      .hero-copy { min-height: 72svh; padding: 110px 24px 42px; }
+      h1 { font-size: clamp(82px,26vw,120px); }
+      .hero-media { min-height: 0; height: 78vw; }
+      .hero-axis { left: 16px; bottom: 15px; max-width: calc(100% - 32px); padding: 9px 11px; font-size: 7px; letter-spacing: .14em; }
+      .hero-axis-desktop { display: none; }
+      .hero-axis-mobile { display: inline; }
+      .manifesto { min-height: 0; padding: 90px 24px; grid-template-columns: 1fr; gap: 50px; }
+      .manifesto-index { position: static; }
+      .manifesto h2 { font-size: 48px; }
+      .manifesto-copy { margin-top: 48px; grid-template-columns: 1fr; gap: 20px; }
+      .chapter { grid-template-columns: 1fr; }
+      .chapter-copy { min-height: 62vh; padding: 80px 24px 45px; border-right: 0; }
+      .chapter-media { min-height: 0; height: 76vw; }
+      .echo { padding: 100px 24px; }
+      .echo-word { font-size: 36vw; }
+      .diptych { grid-template-columns: 1fr; padding: 24px; gap: 55px; }
+      .diptych figure:nth-child(2) { margin-top: 0; }
+      .residue { min-height: 78svh; }
+      .residue h2 { font-size: 48px; }
+      footer { align-items: flex-start; flex-direction: column; gap: 22px; padding: 34px 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .ticker-track { animation: none; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hero-media::after, .echo-word { transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="wordmark" href="../">Beatriz Morón</a>
+    <a class="back" href="../#ia">Volver al laboratorio</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div>
+          <p class="eyebrow">Ensayo visual / 001</p>
+          <h1><span>Inter</span><span>feren</span><span>cia</span></h1>
+        </div>
+        <div class="hero-bottom">
+          <span class="hero-number">00</span>
+          <p class="hero-line">El ruido no interrumpe la imagen. La termina.</p>
+        </div>
+      </div>
+      <figure class="hero-media">
+        <img src="01-ruptura.png" alt="Instalación abstracta de resina roja atravesando una estructura negra" width="1456" height="1088" fetchpriority="high">
+        <span class="hero-axis"><span class="hero-axis-desktop">Mueve el cursor sobre la imagen para alterar la señal</span><span class="hero-axis-mobile">Desliza para alterar la señal</span></span>
+      </figure>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Señal</span><span>Error</span><span>Desfase</span><span>Eco</span><span>Huella</span><span>Residuo</span>
+        <span>Señal</span><span>Error</span><span>Desfase</span><span>Eco</span><span>Huella</span><span>Residuo</span>
+      </div>
+    </div>
+
+    <section class="manifesto">
+      <div class="manifesto-index reveal">
+        <p class="chapter-code">00 / Hipótesis</p>
+      </div>
+      <div>
+        <h2 class="reveal">Una señal nunca llega <em>intacta.</em></h2>
+        <div class="manifesto-copy reveal">
+          <p>Se dobla, se repite, pierde información. En esa pérdida aparece otra cosa: carácter.</p>
+          <p>Interferencia estudia el error como materia: vidrio que desplaza, papel que recuerda y pigmento que dibuja una ausencia.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter-copy">
+        <p class="chapter-code">01 / Señal</p>
+        <h3 class="reveal">Todo empieza <em>limpio.</em></h3>
+        <p class="reveal">Una línea. Una regla. Una intención. Después, inevitablemente, el mundo entra en medio.</p>
+      </div>
+      <figure class="chapter-media">
+        <img src="02-senal.png" alt="Planos de vidrio ahumado con bandas rojas desplazadas" width="1456" height="1088" loading="lazy">
+      </figure>
+    </section>
+
+    <section class="echo">
+      <p class="chapter-code">02 / Desfase</p>
+      <div class="echo-word">REPETIR</div>
+      <div class="echo-word ghost">REPETIR</div>
+      <p class="echo-note reveal">Repetir no es copiar. Cada eco mueve el original unos milímetros hasta convertirlo en otra cosa.</p>
+    </section>
+
+    <section class="diptych" aria-label="Eco y ruptura">
+      <figure class="reveal">
+        <img src="03-eco.png" alt="Papeles unidos por hilo negro con círculos rojos desfasados" width="1456" height="1088" loading="lazy">
+        <figcaption><span>03 / Eco</span><span>La memoria pierde registro</span></figcaption>
+      </figure>
+      <figure class="reveal">
+        <img src="04-ruptura-liquida.png" alt="Líquido rojo que atraviesa y desborda una retícula negra" width="1456" height="1088" loading="lazy">
+        <figcaption><span>04 / Ruptura</span><span>La forma deja de obedecer</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="residue">
+      <img src="04-residuo.png" alt="Pigmento rojo suspendido dentro de un marco negro vacío" width="1456" height="1088" loading="lazy">
+      <div class="residue-copy reveal">
+        <p class="chapter-code">05 / Residuo</p>
+        <h2>Cuando la señal se va, <em>la imagen permanece.</em></h2>
+        <p>Lo que desaparece también modifica la mirada</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Beatriz Morón</p>
+    <p>Dirección Creativa & Estrategia de Imagen</p>
+    <p>Interferencia / Ensayo visual</p>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const progress = document.getElementById('progress');
+
+    window.addEventListener('pointermove', event => {
+      const x = (event.clientX / window.innerWidth - .5) * 54;
+      const y = (event.clientY / window.innerHeight - .5) * 30;
+      root.style.setProperty('--mx', `${x}px`);
+      root.style.setProperty('--my', `${y}px`);
+    }, { passive: true });
+
+    const updateProgress = () => {
+      const available = document.documentElement.scrollHeight - window.innerHeight;
+      const value = available > 0 ? (window.scrollY / available) * 100 : 0;
+      progress.style.width = `${Math.min(100, value)}%`;
+      if (window.matchMedia('(max-width: 800px)').matches) {
+        const hero = document.querySelector('.hero-media');
+        const rect = hero.getBoundingClientRect();
+        if (rect.bottom > 0 && rect.top < window.innerHeight) {
+          const phase = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+          root.style.setProperty('--mx', `${Math.sin(phase * Math.PI * 2) * 24}px`);
+          root.style.setProperty('--my', `${Math.cos(phase * Math.PI * 2) * 9}px`);
+        }
+      }
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+  </script>
+</body>
+</html>
