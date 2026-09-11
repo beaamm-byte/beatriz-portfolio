@@ -44,7 +44,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth;background:var(--paper)}
     body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
-    img{display:block;width:100%}
+    img{display:block;width:100%;height:auto}
     a{color:inherit}
     .scroll-progress{position:fixed;inset:0 auto auto 0;width:0;height:3px;background:var(--red);z-index:100;transition:width .08s linear}
     .topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 4.2vw;border-bottom:1px solid var(--line);background:rgba(245,239,229,.94);backdrop-filter:blur(14px);position:sticky;top:0;z-index:50}
@@ -74,7 +74,7 @@
     .meta span{font-size:11px;line-height:1.5}
     .gallery{padding:7vw;display:grid;gap:7vw}
     .frame{position:relative;overflow:hidden;background:#ddd}
-    .frame img{transition:transform .9s cubic-bezier(.2,.65,.2,1)}
+    .frame img{width:100%;height:auto;object-fit:contain;transition:transform .9s cubic-bezier(.2,.65,.2,1)}
     .frame:hover img{transform:scale(1.018)}
     .frame-number{position:absolute;left:18px;bottom:16px;background:var(--paper);padding:7px 10px;font:500 9px 'DM Sans',sans-serif;letter-spacing:.18em}
     .gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:2vw;align-items:start}
