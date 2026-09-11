@@ -933,7 +933,7 @@
       gap: 2px;
     }
     .lab-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 24px;
       max-width: 1280px;
       margin: 60px auto 0;
@@ -969,6 +969,14 @@
       inset: 0;
     }
     .ia-media img { display: block; }
+    .ia-overlay > span {
+      display: inline-block;
+      width: fit-content;
+      max-width: 100%;
+      padding: 5px 8px;
+      background: rgba(13,13,13,.72);
+      text-shadow: 0 1px 8px rgba(0,0,0,.72);
+    }
     .play-icon {
       font-size: 2rem;
       color: rgba(0,0,0,0.2);
@@ -2099,16 +2107,6 @@
         </div>
       </a>
 
-      <a href="home-object/" class="ia-card reveal" style="text-decoration: none; display: block;">
-        <div class="ia-media" style="position: relative; aspect-ratio: 4/5; overflow: hidden; background: var(--light-gray);">
-          <img src="assets/img/projects/home-objects.jpg?v=20260911" alt="Home & Object Design, dirección creativa para objetos de hogar" loading="eager" decoding="async" style="width: 100%; height: 100%; object-fit: cover; opacity: 1;">
-          <div class="ia-overlay" style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,13,0.65) 0%, transparent 50%); display: flex; flex-direction: column; justify-content: flex-end; padding: 30px;">
-            <span style="font-size: 10px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase;">Muebles y Decoración</span>
-            <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: white;">HOME & OBJECT DESIGN</h3>
-          </div>
-        </div>
-      </a>
-
     </div>
   </div>
   </section>
@@ -2121,9 +2119,9 @@
 
       <div class="featured-grid">
         <div class="featured-item reveal" style="grid-column: span 3;">
-          <p class="featured-item-type">Producciones · Series & Cine</p>
+          <p class="featured-item-type">Atresmedia</p>
           <p class="featured-item-name">Directora de Arte</p>
-          <p class="featured-item-desc">Una trayectoria construida producción a producción en Atresmedia: análisis de guion, definición del universo visual, dirección de fotografía y coherencia narrativa en cada entrega.</p>
+          <p class="featured-item-desc">Una trayectoria construida producción a producción: análisis de guion, definición del universo visual, dirección de fotografía y coherencia narrativa en cada entrega.</p>
         </div>
       </div>
 
