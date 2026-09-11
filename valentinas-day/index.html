@@ -73,8 +73,8 @@
     .meta small{display:block;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
     .meta span{font-size:11px;line-height:1.5}
     .gallery{padding:7vw;display:grid;gap:7vw}
-    .frame{position:relative;overflow:hidden;background:#ddd}
-    .frame img{width:100%;height:auto;object-fit:contain;transition:transform .9s cubic-bezier(.2,.65,.2,1)}
+    .frame{position:relative;overflow:hidden;background:transparent}
+    .frame img{width:auto;max-width:100%;height:auto;max-height:72vh;margin-inline:auto;object-fit:contain;transition:transform .9s cubic-bezier(.2,.65,.2,1)}
     .frame:hover img{transform:scale(1.018)}
     .frame-number{position:absolute;left:18px;bottom:16px;background:var(--paper);padding:7px 10px;font:500 9px 'DM Sans',sans-serif;letter-spacing:.18em}
     .gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:2vw;align-items:start}
@@ -87,7 +87,7 @@
     .reveal.visible{opacity:1;transform:none}
     @media(max-width:800px){
       .topbar{height:56px;padding-inline:20px}.back{font-size:8px}.hero{display:block;min-height:0}.hero-copy{min-height:68vh;padding:65px 24px 42px;gap:55px}.hero-media{height:68vw;min-height:330px}h1{font-size:clamp(76px,24vw,116px)}
-      .marquee{padding:13px 0}.marquee-track{font-size:17px}.intro{grid-template-columns:1fr;padding:80px 24px;gap:42px}.intro h2{font-size:58px}.intro-copy{align-self:auto}.meta{grid-template-columns:1fr;gap:20px}.gallery{padding:24px;gap:24px}.gallery-pair{grid-template-columns:1fr;gap:24px}.gallery-pair .frame:nth-child(2){margin-top:0}.statement{min-height:55vh;padding:90px 24px}.statement p{font-size:54px}footer{height:auto;min-height:110px;padding:30px 20px;gap:20px;flex-direction:column;align-items:flex-start}
+      .marquee{padding:13px 0}.marquee-track{font-size:17px}.intro{grid-template-columns:1fr;padding:80px 24px;gap:42px}.intro h2{font-size:58px}.intro-copy{align-self:auto}.meta{grid-template-columns:1fr;gap:20px}.gallery{padding:24px;gap:24px}.gallery-pair{grid-template-columns:1fr;gap:24px}.gallery-pair .frame:nth-child(2){margin-top:0}.frame img{width:100%;max-height:none}.statement{min-height:55vh;padding:90px 24px}.statement p{font-size:54px}footer{height:auto;min-height:110px;padding:30px 20px;gap:20px;flex-direction:column;align-items:flex-start}
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.marquee-track{animation:none}.reveal{opacity:1;transform:none;transition:none}.frame img{transition:none}}
   </style>
@@ -135,7 +135,7 @@
 
     <section class="gallery" aria-label="Serie editorial Valentina's Day">
       <figure class="frame reveal"><img src="02.jpeg" alt="Apertura editorial Intro de Valentina's Day" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="frame-number">02 / INTRO</figcaption></figure>
-      <div class="gallery-pair">
+      <div class="gallery-pair" id="editorial-pair">
         <figure class="frame reveal"><img src="03.jpeg" alt="Composición tipográfica Kiss Kiss Kiss" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="frame-number">03 / IMPULSO</figcaption></figure>
         <figure class="frame reveal"><img src="04.jpeg" alt="Apertura editorial Fiery Burning Hot" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="frame-number">04 / TEMPERATURA</figcaption></figure>
       </div>
