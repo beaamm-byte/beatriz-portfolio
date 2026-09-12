@@ -52,12 +52,14 @@
     .back{font-size:10px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:12px}
     .back::before{content:'←';color:var(--red);font-size:17px}
     .hero{min-height:calc(100vh - 64px);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);border-bottom:1px solid var(--line)}
-    .hero-copy{background:var(--ink);color:var(--paper);padding:clamp(55px,8vw,120px) 6vw;display:flex;flex-direction:column;justify-content:space-between;gap:70px}
+    .hero-copy{background:var(--ink);color:var(--paper);padding:clamp(55px,8vw,120px) 6vw;display:flex;flex-direction:column;justify-content:space-between;gap:70px;position:relative;overflow:hidden}
+    .hero-copy::after{content:'';position:absolute;width:38vw;height:38vw;right:-22vw;bottom:-24vw;border:1px solid rgba(197,41,45,.55);border-radius:50%;box-shadow:0 0 0 5vw rgba(197,41,45,.05),0 0 0 10vw rgba(197,41,45,.035);pointer-events:none}
     .eyebrow{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--red)}
-    h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(74px,10vw,164px);line-height:.78;letter-spacing:-.025em;margin-top:30px}
-    h1 span{display:block;color:var(--red)}
+    h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(74px,10vw,164px);line-height:.78;letter-spacing:-.025em;margin-top:30px;position:relative;z-index:1}
+    h1 span{display:block;color:var(--red);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:1.12em;line-height:.7;letter-spacing:-.08em;margin-left:.04em}
     .hero-line{font:italic 400 clamp(24px,3vw,46px)/1.08 'Cormorant Garamond',serif;max-width:570px}
     .hero-media{background:#d9d9d9;overflow:hidden;position:relative}
+    .hero-media::after{content:'UNA SECUENCIA SOBRE EL DESEO';position:absolute;left:24px;bottom:20px;max-width:calc(100% - 108px);padding:12px 14px;background:var(--paper);color:var(--ink);border-left:2px solid var(--red);font:500 9px/1.5 'DM Sans',sans-serif;letter-spacing:.18em;text-transform:uppercase;pointer-events:none}
     .hero-media img{width:100%;height:100%;object-fit:cover}
     .hero-index{position:absolute;right:24px;bottom:20px;color:#fff;font:400 14px 'Bebas Neue',sans-serif;letter-spacing:.18em;text-shadow:0 1px 8px rgba(0,0,0,.35)}
     .marquee{overflow:hidden;background:var(--red);color:var(--paper);padding:18px 0;border-bottom:1px solid var(--ink)}
@@ -65,7 +67,8 @@
     .marquee-track span::after{content:'✦';margin-left:45px;color:var(--ink)}
     @keyframes marquee{to{transform:translateX(-50%)}}
     .intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:9vw;padding:clamp(80px,11vw,160px) 7vw;border-bottom:1px solid var(--line)}
-    .intro h2{font:500 clamp(48px,7vw,104px)/.86 'Cormorant Garamond',serif;letter-spacing:-.045em}
+    .intro h2{font:500 clamp(48px,7vw,104px)/.86 'Cormorant Garamond',serif;letter-spacing:-.045em;position:relative}
+    .intro h2::before{content:'02 — EL IMPULSO';display:block;margin-bottom:28px;color:var(--red);font:500 9px 'DM Sans',sans-serif;letter-spacing:.3em}
     .intro h2 em{color:var(--red);font-weight:400}
     .intro-copy{align-self:end;max-width:650px}
     .intro-copy p{font-size:clamp(15px,1.35vw,20px);line-height:1.75;margin-top:24px}
@@ -74,19 +77,23 @@
     .meta span{font-size:11px;line-height:1.5}
     .gallery{padding:7vw;display:grid;gap:7vw}
     .frame{position:relative;overflow:hidden;background:transparent}
+    .frame::before{content:'';position:absolute;inset:0;background:var(--red);transform:scaleX(1);transform-origin:right;z-index:1;pointer-events:none;transition:transform 1s cubic-bezier(.77,0,.18,1)}
+    .frame.visible::before{transform:scaleX(0)}
     .frame img{width:auto;max-width:100%;height:auto;max-height:72vh;margin-inline:auto;object-fit:contain;transition:transform .9s cubic-bezier(.2,.65,.2,1)}
     .frame:hover img{transform:scale(1.018)}
     .frame-number{position:absolute;left:18px;bottom:16px;background:var(--paper);padding:7px 10px;font:500 9px 'DM Sans',sans-serif;letter-spacing:.18em}
     .gallery-pair{display:grid;grid-template-columns:1fr 1fr;gap:2vw;align-items:start}
     .gallery-pair .frame:nth-child(2){margin-top:10vw}
-    .statement{background:var(--ink);color:var(--paper);min-height:70vh;padding:10vw 7vw;display:flex;align-items:center;justify-content:center;text-align:center}
+    .statement{background:var(--ink);color:var(--paper);min-height:70vh;padding:10vw 7vw;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+    .statement::before{content:'05 / CUERPO';position:absolute;top:36px;left:7vw;color:var(--red);font:500 9px 'DM Sans',sans-serif;letter-spacing:.3em}
+    .statement::after{content:'';position:absolute;width:70vw;height:70vw;border:1px solid rgba(197,41,45,.3);border-radius:50%;pointer-events:none}
     .statement p{font:italic 400 clamp(48px,8vw,128px)/.88 'Cormorant Garamond',serif;max-width:1180px}
     .statement em{color:var(--red);font-weight:400}
     footer{height:120px;display:flex;align-items:center;justify-content:space-between;padding:0 4.2vw;border-top:1px solid var(--line);font-size:9px;letter-spacing:.18em;text-transform:uppercase}
     .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
     .reveal.visible{opacity:1;transform:none}
     @media(max-width:800px){
-      .topbar{height:56px;padding-inline:20px}.back{font-size:8px}.hero{display:block;min-height:0}.hero-copy{min-height:68vh;padding:65px 24px 42px;gap:55px}.hero-media{height:68vw;min-height:330px}h1{font-size:clamp(76px,24vw,116px)}
+      .topbar{height:56px;padding-inline:20px}.back{font-size:8px}.hero{display:block;min-height:0}.hero-copy{min-height:68vh;padding:65px 24px 42px;gap:55px}.hero-copy::after{width:80vw;height:80vw;right:-52vw;bottom:-46vw}.hero-media{height:68vw;min-height:330px}.hero-media::after{left:16px;bottom:16px;padding:10px 12px;font-size:8px;letter-spacing:.12em}h1{font-size:clamp(76px,24vw,116px)}
       .marquee{padding:13px 0}.marquee-track{font-size:17px}.intro{grid-template-columns:1fr;padding:80px 24px;gap:42px}.intro h2{font-size:58px}.intro-copy{align-self:auto}.meta{grid-template-columns:1fr;gap:20px}.gallery{padding:24px;gap:24px}.gallery-pair{grid-template-columns:1fr;gap:24px}.gallery-pair .frame:nth-child(2){margin-top:0}.frame img{width:100%;max-height:none}.statement{min-height:55vh;padding:90px 24px}.statement p{font-size:54px}footer{height:auto;min-height:110px;padding:30px 20px;gap:20px;flex-direction:column;align-items:flex-start}
     }
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.marquee-track{animation:none}.reveal{opacity:1;transform:none;transition:none}.frame img{transition:none}}
@@ -147,7 +154,7 @@
     </section>
 
     <section class="gallery">
-      <figure class="frame reveal"><img src="06.jpeg?v=20260911" alt="Apertura final Decidir de Valentina's Day" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="frame-number">06 / DECIDIR</figcaption></figure>
+      <figure class="frame reveal"><img src="06.jpeg?v=20260911" alt="Apertura final Decidir de Valentina's Day" width="1600" height="1200" loading="lazy" decoding="async"><figcaption class="frame-number">06 / DECISIÓN</figcaption></figure>
     </section>
   </main>
 
