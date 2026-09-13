@@ -308,12 +308,16 @@
       .chapter-copy { min-height: 62vh; padding: 80px 24px 45px; border-right: 0; }
       .chapter-media { min-height: 0; height: 76vw; }
       .echo { padding: 100px 24px; }
-      .echo-word { font-size: 24vw; letter-spacing: -.12em; transform: none; }
-      .echo-word.ghost { margin-left: 3vw; }
+      .echo-word { font-size: 16vw; line-height: .78; letter-spacing: -.1em; transform: none; }
+      .echo-word.ghost { margin-left: 0; }
       .diptych { grid-template-columns: 1fr; padding: 24px; gap: 55px; }
       .diptych figure:nth-child(2) { margin-top: 0; }
       .residue { min-height: 78svh; }
-      .residue h2 { font-size: 48px; }
+      .residue h2 { font-size: clamp(32px,9.5vw,40px); line-height: .9; letter-spacing: -.065em; width: 100%; }
+      .residue h2 > span,
+      .residue h2 > em,
+      .residue h2 em > span { display: block; }
+      .residue h2 > em { margin-top: .14em; }
       footer { align-items: flex-start; flex-direction: column; gap: 22px; padding: 34px 24px; }
     }
 
@@ -391,11 +395,11 @@
 
     <section class="diptych" aria-label="Eco y ruptura">
       <figure class="reveal">
-        <img src="03-eco.png" alt="Papeles unidos por hilo negro con círculos rojos desfasados" width="1456" height="1088" loading="lazy">
+        <img src="03-eco-desplegado.png" alt="Hojas translúcidas desplegadas que repiten y debilitan una señal circular roja" width="1456" height="1088" loading="lazy">
         <figcaption><span>03 / Eco</span><span>La memoria pierde registro</span></figcaption>
       </figure>
       <figure class="reveal">
-        <img src="04-ruptura-cuaderno.png" alt="El mismo cuaderno con sus páginas rasgadas y la señal circular rota" width="1456" height="1088" loading="lazy">
+        <img src="04-ruptura-cosida.png" alt="Fragmentos de papel cosidos reconstruyen fuera de registro una señal circular rota" width="1456" height="1088" loading="lazy">
         <figcaption><span>04 / Ruptura</span><span>La forma deja de obedecer</span></figcaption>
       </figure>
     </section>
@@ -404,7 +408,7 @@
       <img src="05-residuo-cuaderno.png" alt="Una última hoja conserva el residuo de la señal y el hilo suelto del cuaderno" width="1456" height="1088" loading="lazy">
       <div class="residue-copy reveal">
         <p class="chapter-code">05 / Residuo</p>
-        <h2>Cuando la señal se va, <em>la imagen permanece.</em></h2>
+        <h2><span>Cuando la señal </span><span>se va,</span> <em><span>la imagen </span><span>permanece.</span></em></h2>
         <p>Lo que desaparece también modifica la mirada</p>
       </div>
     </section>

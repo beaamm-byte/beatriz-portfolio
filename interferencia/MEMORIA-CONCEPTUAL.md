@@ -8,9 +8,9 @@ El proyecto no entiende ese ruido como un fallo que debe corregirse, sino como u
 
 ## Concepto
 
-La propuesta convierte procesos normalmente invisibles —desfase, repetición, pérdida de información y persistencia— en una serie de construcciones físicas. El vidrio desplaza una línea; el papel conserva una impresión incompleta; la resina se resiste a una retícula; el pigmento dibuja el contorno de algo que ya no está.
+La propuesta convierte procesos normalmente invisibles —desfase, repetición, pérdida de información y persistencia— en la transformación de un único objeto físico: un cuaderno cosido a mano. El círculo rojo funciona como señal original; las hojas de papel actúan como soporte, memoria y superficie de transferencia; el hilo negro mantiene unido el sistema hasta que la propia repetición lo fuerza y lo descompone.
 
-Cada material funciona como una manera distinta de recordar. Ninguno reproduce la señal con exactitud. Todos dejan una huella.
+La serie utiliza materiales sencillos y accesibles: papel artesanal, tinta, hilo y luz natural. Esa limitación hace que la idea pueda entenderse y reproducirse físicamente. Cada imagen muestra un estado distinto del mismo experimento, de modo que el recorrido no depende de objetos espectaculares, sino de pequeñas variaciones visibles en la materia.
 
 La frase que articula el proyecto es:
 
@@ -22,33 +22,35 @@ No significa que cualquier error sea valioso por sí mismo. Significa que una di
 
 ### 00 / Hipótesis
 
-Una señal nunca llega intacta. El proyecto presenta la interferencia como punto de partida y establece la pérdida como espacio de creación.
+La primera imagen presenta el cuaderno cerrado y la señal en su estado más estable. El círculo rojo aparece completo, centrado y reconocible sobre la cubierta. La costura negra introduce desde el inicio una línea que atraviesa la forma, pero todavía no la altera. Es el punto cero: una intención visual clara antes de entrar en contacto con la repetición.
 
 ### 01 / Señal
 
-La línea roja representa una intención clara y repetible. Los planos de vidrio modifican su posición según la distancia y el punto de vista. La señal sigue existiendo, pero ya no hay una única lectura posible.
+La segunda imagen abre las primeras capas del cuaderno. El mismo círculo ha pasado de una hoja a otra y comienza a perder registro: las impresiones inferiores se desplazan unos milímetros y reducen su densidad. El objeto sigue siendo reconocible, pero la señal ya contiene su primera diferencia.
 
 ### 02 / Desfase
 
-La repetición introduce pequeñas diferencias. Cada eco se aparta unos milímetros del anterior hasta generar una forma nueva. Repetir deja de ser copiar y se convierte en transformación.
+Este capítulo funciona como bisagra tipográfica dentro de la landing. La repetición de la palabra **REPETIR** anticipa lo que sucede en la materia: cada reproducción se aparta ligeramente del original. El desfase deja de entenderse como una incorrección y empieza a actuar como mecanismo creativo.
 
 ### 03 / Eco
 
-El papel actúa como memoria material. Las impresiones sucesivas pierden densidad, registro y definición. La imagen permanece reconocible, aunque cada capa conserve una versión distinta.
+En la tercera imagen, las hojas abandonan la forma compacta del cuaderno y se despliegan lateralmente. Siguen conectadas por el mismo hilo, pero cada una conserva una impresión más débil y desplazada. La transparencia permite ver varios círculos a la vez: no son copias independientes, sino ecos de una misma señal acumulados en el espacio.
 
 ### 04 / Ruptura
 
-El líquido rojo atraviesa una estructura rígida. La retícula intenta ordenar; el líquido se eleva, se estira, atraviesa los huecos y cae donde no debería. La tensión entre sistema y materia construye la imagen.
+La cuarta imagen lleva el proceso hasta la fractura. Una de las hojas ha sido rasgada en fragmentos y cosida de nuevo, pero las piezas ya no recuperan su posición original. El hilo intenta reconstruir el sistema mientras los vacíos y desplazamientos impiden que el círculo vuelva a cerrarse. La ruptura no elimina la imagen: produce una forma distinta a partir de ella.
 
 ### 05 / Residuo
 
-La señal desaparece, pero deja un contorno. El pigmento suspendido ocupa el lugar de una presencia ausente. El cierre resume la consecuencia del recorrido: **lo que desaparece también modifica la mirada**.
+En la última imagen el cuaderno ha desaparecido casi por completo. Solo queda una hoja inferior, los orificios de la costura, el hilo suelto y una impresión circular muy debilitada. La ausencia del objeto se reconoce gracias a sus restos. El cierre resume la consecuencia del recorrido: **lo que desaparece también modifica la mirada**.
 
 ## Dirección visual
 
 La paleta se reduce a marfil cálido, negro tinta y rojo oscuro. El marfil funciona como superficie y espacio de observación; el negro introduce estructura, límite y silencio; el rojo se convierte en señal, accidente y rastro.
 
-Los materiales —resina, vidrio ahumado, papel sin estucar, hilo, metal y pigmento— aportan imperfecciones reales. La luz lateral dura hace visibles el relieve, el polvo y las sombras, evitando que la abstracción se perciba como un ejercicio digital genérico.
+El sistema material se limita deliberadamente a papel artesanal marfil, tinta roja y cordón negro. Las fibras, los bordes irregulares, los agujeros de la costura y las transferencias incompletas aportan las variaciones que construyen el relato. El mismo cuaderno, la misma mesa y un encuadre cenital en tres cuartos mantienen la continuidad entre las imágenes.
+
+La luz lateral cálida funciona como un cuarto material: revela el relieve del papel, separa las capas y proyecta sombras que registran cada desplazamiento. La fotografía conserva una atmósfera de taller íntimo y hace que la abstracción se perciba como un proceso físico realizable.
 
 El sistema tipográfico combina:
 
@@ -68,7 +70,7 @@ Durante el scroll, los textos aparecen por capas, la palabra “REPETIR” gener
 
 Interferencia muestra un proceso completo de dirección creativa: partir de una idea abstracta, traducirla a materiales, establecer una gramática visual y convertirla en una experiencia digital coherente.
 
-El resultado no depende de una disciplina concreta. Puede leerse como instalación, dirección de arte, fotografía conceptual, diseño editorial y narrativa web. Precisamente por eso representa una mirada multidisciplinar: el formato cambia, pero todas las decisiones responden a una misma intención.
+El resultado no depende de una disciplina concreta. Puede leerse como objeto editorial, dirección de arte, fotografía conceptual y narrativa web. Precisamente por eso representa una mirada multidisciplinar: el formato cambia, pero todas las decisiones responden a una misma intención.
 
 ## Síntesis
 
