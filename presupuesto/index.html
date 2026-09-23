@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Calculadora de proyectos con IA — Beatriz Morón</title>
+  <meta name="description" content="Calculadora orientativa para proyectos de imagen, vídeo, contenido UGC-style, herramientas creativas y formación en inteligencia artificial.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260923">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260923h">
+</head>
+<body class="is-locked">
+  <section class="access-gate" id="access-gate" aria-labelledby="access-title">
+    <div class="access-brand">BEATRIZ MORÓN</div>
+    <div class="access-main">
+      <p class="eyebrow">Área privada · Servicios con IA</p>
+      <h1 id="access-title">Una puerta.<br><span>Muchas posibilidades.</span></h1>
+      <p class="access-intro">Accede a la calculadora privada de piezas, proyectos y formación.</p>
+      <form id="access-form" class="access-form">
+        <label>Usuario<input id="access-user" type="text" autocomplete="username" required></label>
+        <label>Contraseña<input id="access-password" type="password" autocomplete="current-password" required></label>
+        <button type="submit">Entrar al área privada <span>→</span></button>
+        <p class="access-error" id="access-error" aria-live="polite"></p>
+      </form>
+    </div>
+    <p class="access-foot">Dirección creativa · Producción con IA · Formación</p>
+  </section>
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="wordmark" href="../">Beatriz Morón</a>
+    <span class="local-badge">Propuesta local · No publicada</span>
+    <a class="back" href="../">Volver al portfolio</a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-index" aria-hidden="true">€</div>
+      <p class="eyebrow">Dirección creativa · Producción con IA · Formación</p>
+      <h1>¿Cuánto cuesta<br>hacer que la IA<br><span>tenga dirección?</span></h1>
+      <div class="hero-bottom">
+        <p>No presupuesto botones. Presupuesto criterio, decisiones, iteración y una entrega que pueda utilizarse de verdad.</p>
+        <a href="#calculadora">Calcular una horquilla <span>↓</span></a>
+      </div>
+      <p class="side-note">Estimación en menos de dos minutos</p>
+    </section>
+
+    <section class="declaration" aria-label="Principio de trabajo">
+      <div class="marquee" aria-hidden="true">
+        <span>IMAGEN · VÍDEO PUBLICITARIO · UGC-STYLE · HERRAMIENTAS · FORMACIÓN</span>
+      </div>
+      <div class="declaration-copy">
+        <span>ANTES DEL NÚMERO</span>
+        <p>Una pieza se puede contar. <strong>Una idea hay que entenderla.</strong></p>
+      </div>
+    </section>
+
+    <section class="calculator" id="calculadora">
+      <header class="calculator-heading">
+        <div>
+          <p class="eyebrow">01 / Elige cómo necesitas trabajar</p>
+          <h2>Tres formas de<br>ponerle alcance.</h2>
+        </div>
+        <p>Elige una ruta. Verás una estimación viva y, al terminar, tendrás un resumen claro para iniciar la conversación.</p>
+      </header>
+
+      <nav class="route-tabs" aria-label="Tipo de presupuesto">
+        <button class="route-tab is-active" type="button" data-route="pieces" aria-controls="route-pieces" aria-selected="true">
+          <span>01</span><strong>Piezas</strong><small>Necesito entregables concretos</small>
+        </button>
+        <button class="route-tab" type="button" data-route="project" aria-controls="route-project" aria-selected="false">
+          <span>02</span><strong>Proyecto / herramienta</strong><small>Campaña, sistema o automatización</small>
+        </button>
+        <button class="route-tab" type="button" data-route="training" aria-controls="route-training" aria-selected="false">
+          <span>03</span><strong>Formación</strong><small>Necesito aprender o formar a un equipo</small>
+        </button>
+      </nav>
+
+      <div class="calculator-layout">
+        <div class="route-panels">
+          <section class="route-panel is-active" id="route-pieces" data-panel="pieces">
+            <div class="step-heading"><span>01</span><div><h3>¿Qué necesitas producir?</h3><p>Puedes combinar varios tipos de pieza.</p></div></div>
+            <div class="service-grid" id="piece-services">
+              <label class="service-card">
+                <input type="checkbox" name="piece-service" value="image" checked>
+                <span class="checkmark">+</span><small>IMAGEN</small><strong>Imagen dirigida con IA</strong><p>Concepto, dirección visual, generación, selección y acabado.</p>
+                <span class="price-note">desde 240 € / pieza</span>
+                <span class="quantity"><button type="button" data-qty="minus" aria-label="Restar imagen">−</button><output>1</output><button type="button" data-qty="plus" aria-label="Añadir imagen">+</button></span>
+              </label>
+              <label class="service-card">
+                <input type="checkbox" name="piece-service" value="video">
+                <span class="checkmark">+</span><small>VÍDEO</small><strong>Clip generativo</strong><p>Pieza de 5–10 segundos con intención, movimiento y continuidad.</p>
+                <div class="duration-options" aria-label="Duración del vídeo">
+                  <button class="is-selected" type="button" data-duration="micro"><span>5–10 s</span><strong>220 €</strong></button>
+                  <button type="button" data-duration="short"><span>15 s</span><strong>380 €</strong></button>
+                  <button type="button" data-duration="medium"><span>30 s</span><strong>650 €</strong></button>
+                  <button type="button" data-duration="minute"><span>60 s</span><strong>1.000 €</strong></button>
+                </div>
+                <span class="price-note">desde 220 € / clip</span>
+                <span class="quantity"><button type="button" data-qty="minus" aria-label="Restar vídeo">−</button><output>1</output><button type="button" data-qty="plus" aria-label="Añadir vídeo">+</button></span>
+              </label>
+              <label class="service-card">
+                <input type="checkbox" name="piece-service" value="ugc">
+                <span class="checkmark">+</span><small>CONTENIDO NATIVO</small><strong>Vídeo UGC-style</strong><p>Pieza breve de 15–30 segundos con lenguaje orgánico de red.</p>
+                <span class="price-note">desde 220 € / pieza</span>
+                <span class="quantity"><button type="button" data-qty="minus" aria-label="Restar pieza UGC-style">−</button><output>1</output><button type="button" data-qty="plus" aria-label="Añadir pieza UGC-style">+</button></span>
+              </label>
+              <label class="service-card">
+                <input type="checkbox" name="piece-service" value="product">
+                <span class="checkmark">+</span><small>PRODUCTO</small><strong>Pack e-commerce IA</strong><p>Serie consistente de nueve vistas de producto listas para catálogo.</p>
+                <span class="price-note">desde 980 € / pack</span>
+                <span class="quantity"><button type="button" data-qty="minus" aria-label="Restar pack">−</button><output>1</output><button type="button" data-qty="plus" aria-label="Añadir pack">+</button></span>
+              </label>
+            </div>
+
+            <div class="option-block">
+              <div class="step-heading"><span>02</span><div><h3>¿Cuánta dirección necesita?</h3><p>No todas las piezas empiezan en el mismo punto.</p></div></div>
+              <div class="choice-row" data-choice="piece-level">
+                <button class="is-selected" type="button" data-value="essential"><strong>Esencial</strong><small>Brief y referencias ya definidos</small></button>
+                <button type="button" data-value="directed"><strong>Dirigida</strong><small>Construyo contigo el lenguaje visual</small></button>
+                <button type="button" data-value="signature"><strong>Firma</strong><small>Concepto, narrativa y acabado especial</small></button>
+              </div>
+            </div>
+
+            <div class="option-split">
+              <div class="option-block compact">
+                <label for="piece-support">Acompañamiento y ajustes</label>
+                <select id="piece-support">
+                  <option value="direct">Entrega directa · 1 ronda</option>
+                  <option value="development">Desarrollo · 2 rondas</option>
+                  <option value="supported">Acompañamiento · 3 rondas</option>
+                  <option value="intensive">Iteración intensiva · hasta 5 rondas</option>
+                </select>
+              </div>
+              <div class="option-block compact">
+                <label for="piece-deadline">Plazo orientativo</label>
+                <select id="piece-deadline">
+                  <option value="standard">Estándar · 7–10 días</option>
+                  <option value="fast">Prioritario · 72 horas</option>
+                  <option value="urgent">Urgente · 48 horas</option>
+                </select>
+              </div>
+            </div>
+            <p class="microcopy"><strong>UGC-style</strong> describe el lenguaje cercano y nativo de la pieza. Si intervienen creadores reales, casting, localización o producción física, se presupuesta aparte.</p>
+          </section>
+
+          <section class="route-panel" id="route-project" data-panel="project" hidden>
+            <div class="step-heading"><span>01</span><div><h3>¿Qué hay que construir?</h3><p>Aquí calculo una horquilla de proyecto, no una suma de outputs.</p></div></div>
+            <div class="project-list" data-choice="project-type">
+              <button class="is-selected" type="button" data-value="campaign"><span>01</span><strong>Campaña visual con IA</strong><small>Concepto, territorio, dirección y familia de piezas</small><em>1.800–3.400 €</em></button>
+              <button type="button" data-value="system"><span>02</span><strong>Sistema de contenido</strong><small>Un lenguaje reproducible para trabajar con continuidad</small><em>1.500–3.000 €</em></button>
+              <button type="button" data-value="ugcCampaign"><span>03</span><strong>Campaña UGC-style</strong><small>Concepto, guiones, variantes y adaptación a canales</small><em>1.400–2.900 €</em></button>
+              <button type="button" data-value="tool"><span>04</span><strong>Herramienta a medida para tu equipo</strong><small>Una aplicación interna diseñada alrededor de tu proceso y las necesidades del equipo</small><em>2.800–6.500 €</em></button>
+              <button type="button" data-value="automation"><span>05</span><strong>Automatización del flujo de dirección de IA</strong><small>Un sistema propio que convierte criterios y decisiones en prompts reutilizables</small><em>2.400–5.200 €</em></button>
+            </div>
+
+            <div class="option-block">
+              <div class="step-heading"><span>02</span><div><h3>Dimensión del encargo</h3><p>Una aproximación para situar alcance, no para limitar la idea.</p></div></div>
+              <div class="choice-row" data-choice="project-scope">
+                <button class="is-selected" type="button" data-value="compact"><strong>Compacto</strong><small>Una necesidad y pocos formatos</small></button>
+                <button type="button" data-value="standard"><strong>Completo</strong><small>Varios entregables o etapas</small></button>
+                <button type="button" data-value="ambitious"><strong>Expandido</strong><small>Sistema amplio o mayor complejidad</small></button>
+              </div>
+            </div>
+
+            <div class="option-split">
+              <div class="option-block compact">
+                <label for="project-timing">Timing</label>
+                <select id="project-timing"><option value="normal">Planificado</option><option value="priority">Prioritario</option><option value="urgent">Fecha cerrada y urgente</option></select>
+              </div>
+              <div class="option-block compact toggle-block">
+                <span>¿Necesita integraciones externas?</span>
+                <label class="switch"><input id="project-integration" type="checkbox"><span></span><em>API, CMS, base de datos u otros sistemas</em></label>
+              </div>
+            </div>
+            <div class="brief-fields">
+              <label>¿Qué tiene que conseguir?<textarea id="project-goal" rows="3" placeholder="Ej.: lanzar una nueva línea, construir una herramienta interna, producir una campaña..."></textarea></label>
+              <label>Entregables o condiciones conocidas<textarea id="project-details" rows="3" placeholder="Formatos, cantidad, canales, fecha, equipo implicado, referencias..."></textarea></label>
+            </div>
+          </section>
+
+          <section class="route-panel" id="route-training" data-panel="training" hidden>
+            <div class="step-heading"><span>01</span><div><h3>¿Qué quieres aprender?</h3><p>La formación se construye desde casos reales, no desde una clase genérica.</p></div></div>
+            <div class="project-list training-list" data-choice="training-topic">
+              <button class="is-selected" type="button" data-value="image"><span>01</span><strong>Dirección de imagen con IA</strong><small>Del concepto al sistema visual y la selección final</small></button>
+              <button type="button" data-value="prompting"><span>02</span><strong>Prompting para imagen y vídeo</strong><small>Decisiones, estructura, consistencia y control</small></button>
+              <button type="button" data-value="tools"><span>03</span><strong>Creación de herramientas</strong><small>Diseñar soluciones internas sin perder criterio ni autonomía</small></button>
+              <button type="button" data-value="custom"><span>04</span><strong>Programa a medida</strong><small>Un recorrido adaptado al equipo, nivel y objetivos</small></button>
+            </div>
+
+            <div class="option-block">
+              <div class="step-heading"><span>02</span><div><h3>Formato</h3><p>Elige una primera aproximación.</p></div></div>
+              <div class="choice-row" data-choice="training-format">
+                <button class="is-selected" type="button" data-value="intro"><strong>Iniciación</strong><small>90 min · online · primera imagen</small></button>
+                <button type="button" data-value="half"><strong>Media jornada</strong><small>4 horas · teoría + práctica</small></button>
+                <button type="button" data-value="full"><strong>Jornada</strong><small>7 horas · inmersión completa</small></button>
+                <button type="button" data-value="program"><strong>Programa</strong><small>4 sesiones · acompañamiento</small></button>
+              </div>
+              <p class="microcopy intro-note" id="training-format-description">La iniciación es una sesión básica y práctica: qué puede hacer la IA, cómo escribir un prompt sencillo y creación guiada de una imagen principal. No incluye sistemas avanzados, consistencia entre series ni metodología de dirección.</p>
+            </div>
+
+            <div class="option-split">
+              <div class="option-block compact"><label for="training-people">Número de asistentes</label><select id="training-people"><option value="small">1–5 personas</option><option value="medium">6–10 personas</option><option value="large">11–20 personas</option><option value="enterprise">Más de 20</option></select></div>
+              <div class="option-block compact"><label for="training-mode">Modalidad</label><select id="training-mode"><option value="online">Online</option><option value="presential">Presencial</option><option value="hybrid">Híbrida</option></select><label class="location-field" id="training-location-wrap" for="training-location" hidden>Ciudad / país<input id="training-location" type="text" placeholder="¿Dónde tendría lugar?"></label></div>
+            </div>
+            <p class="microcopy">En modalidad presencial o híbrida, el desplazamiento y el posible alquiler de espacio se calculan después de conocer la ubicación. Las licencias de software tampoco están incluidas.</p>
+          </section>
+        </div>
+
+        <aside class="estimate" aria-live="polite">
+          <div class="estimate-top"><p>Estimación orientativa</p><span id="estimate-route">PIEZAS</span></div>
+          <div class="estimate-value"><span id="estimate-min">310</span><i>—</i><span id="estimate-max">390</span><small>€</small></div>
+          <p class="estimate-caption" id="estimate-caption">Para 1 imagen dirigida con IA.</p>
+          <div class="estimate-lines" id="estimate-lines"></div>
+          <button class="primary-action" id="prepare-brief" type="button">Preparar mi consulta <span>↘</span></button>
+          <p class="legal">Horquilla sin IVA. Incluye las rondas indicadas. Producción física, talento, desplazamientos y licencias externas no incluidos.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="result" id="resultado" hidden>
+      <div class="result-heading"><p class="eyebrow">02 / Ya tenemos un punto de partida</p><h2>Esto no es un precio final.<br><span>Es una conversación mejor preparada.</span></h2></div>
+      <div class="result-grid">
+        <div class="result-copy"><p id="brief-text"></p><div class="result-actions"><button id="copy-brief" type="button">Copiar resumen</button><a id="whatsapp-brief" href="#" target="_blank" rel="noopener">Enviar a Beatriz por WhatsApp ↗</a></div><span class="copy-status" id="copy-status" aria-live="polite"></span></div>
+        <div class="result-number"><small>HORQUILLA INICIAL</small><strong id="result-price">—</strong><span>sin IVA</span></div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <p>La calculadora orienta el presupuesto.<br><strong>Yo construyo la propuesta alrededor de tu proyecto.</strong></p>
+    </section>
+  </main>
+
+  <footer><span>© 2026 Beatriz Morón</span><span>Dirección Creativa & Estrategia de Imagen</span></footer>
+  <script src="app.js?v=20260923h"></script>
+</body>
+</html>
