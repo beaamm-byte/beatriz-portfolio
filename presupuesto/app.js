@@ -1,3 +1,10 @@
+const ACCESS_DIGEST = 'ececa91451c1a6a872e9811f43a64a5a686501ecc3e9d9f432271725f6a852d6';
+let accessAttempts = 0;
+let accessLockedUntil = 0;
+async function digestAccess(value) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
 const PRICES = {
   pieces: {
     image: { label: 'imagen dirigida con IA', unit: 240 },
@@ -324,11 +331,12 @@ $('#prepare-brief').addEventListener('click', () => {
   $('#resultado').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 });
 
-$('#access-form').addEventListener('submit', event => {
+$('#access-form').addEventListener('submit', async event => {
   event.preventDefault();
+  if (Date.now() < accessLockedUntil) return;
   const user = $('#access-user').value.trim().toLowerCase();
   const password = $('#access-password').value;
-  if (user === 'invitado' && password === 'direccioncreativa') {
+  if (await digestAccess(user + ':' + password) === ACCESS_DIGEST) {
     document.body.classList.remove('is-locked');
     $('#access-gate').hidden = true;
     sessionStorage.setItem('budgetPreviewAccess', '1');
