@@ -65,7 +65,7 @@ const state = {
 
 // En la versión publicada, el acceso se sustituirá por autenticación real.
 // Si se añade el número, usar formato internacional sin + ni espacios: 346XXXXXXXX.
-const WHATSAPP_NUMBER = '';
+const WHATSAPP_NUMBER = '34692906658';
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -328,7 +328,7 @@ $('#access-form').addEventListener('submit', event => {
   event.preventDefault();
   const user = $('#access-user').value.trim().toLowerCase();
   const password = $('#access-password').value;
-  if (user === 'cliente' && password === 'direccion') {
+  if (user === 'invitado' && password === 'direccioncreativa') {
     document.body.classList.remove('is-locked');
     $('#access-gate').hidden = true;
     sessionStorage.setItem('budgetPreviewAccess', '1');

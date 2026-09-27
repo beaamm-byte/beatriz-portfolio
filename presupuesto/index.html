@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260923h">
+  <link rel="stylesheet" href="styles.css?v=20260923i">
 </head>
 <body class="is-locked">
   <section class="access-gate" id="access-gate" aria-labelledby="access-title">
@@ -22,7 +22,7 @@
       <form id="access-form" class="access-form">
         <label>Usuario<input id="access-user" type="text" autocomplete="username" required></label>
         <label>Contraseña<input id="access-password" type="password" autocomplete="current-password" required></label>
-        <button type="submit">Entrar al área privada <span>→</span></button>
+        <button type="submit">Entrar al área privada <span aria-hidden="true">&gt;</span></button>
         <p class="access-error" id="access-error" aria-live="polite"></p>
       </form>
     </div>
@@ -45,7 +45,7 @@
       <h1>¿Cuánto cuesta<br>hacer que la IA<br><span>tenga dirección?</span></h1>
       <div class="hero-bottom">
         <p>No presupuesto botones. Presupuesto criterio, decisiones, iteración y una entrega que pueda utilizarse de verdad.</p>
-        <a href="#calculadora">Calcular una horquilla <span>↓</span></a>
+        <a href="#calculadora">Calcular una horquilla <span aria-hidden="true">v</span></a>
       </div>
       <p class="side-note">Estimación en menos de dos minutos</p>
     </section>
@@ -217,7 +217,7 @@
           <div class="estimate-value"><span id="estimate-min">310</span><i>—</i><span id="estimate-max">390</span><small>€</small></div>
           <p class="estimate-caption" id="estimate-caption">Para 1 imagen dirigida con IA.</p>
           <div class="estimate-lines" id="estimate-lines"></div>
-          <button class="primary-action" id="prepare-brief" type="button">Preparar mi consulta <span>↘</span></button>
+          <button class="primary-action" id="prepare-brief" type="button">Preparar mi consulta <span aria-hidden="true">&gt;</span></button>
           <p class="legal">Horquilla sin IVA. Incluye las rondas indicadas. Producción física, talento, desplazamientos y licencias externas no incluidos.</p>
         </aside>
       </div>
@@ -226,7 +226,7 @@
     <section class="result" id="resultado" hidden>
       <div class="result-heading"><p class="eyebrow">02 / Ya tenemos un punto de partida</p><h2>Esto no es un precio final.<br><span>Es una conversación mejor preparada.</span></h2></div>
       <div class="result-grid">
-        <div class="result-copy"><p id="brief-text"></p><div class="result-actions"><button id="copy-brief" type="button">Copiar resumen</button><a id="whatsapp-brief" href="#" target="_blank" rel="noopener">Enviar a Beatriz por WhatsApp ↗</a></div><span class="copy-status" id="copy-status" aria-live="polite"></span></div>
+        <div class="result-copy"><p id="brief-text"></p><div class="result-actions"><button id="copy-brief" type="button">Copiar resumen</button><a id="whatsapp-brief" href="#" target="_blank" rel="noopener">Enviar a Beatriz por WhatsApp &gt;</a></div><span class="copy-status" id="copy-status" aria-live="polite"></span></div>
         <div class="result-number"><small>HORQUILLA INICIAL</small><strong id="result-price">—</strong><span>sin IVA</span></div>
       </div>
     </section>
@@ -237,6 +237,6 @@
   </main>
 
   <footer><span>© 2026 Beatriz Morón</span><span>Dirección Creativa & Estrategia de Imagen</span></footer>
-  <script src="app.js?v=20260923h"></script>
+  <script src="app.js?v=20260923i"></script>
 </body>
 </html>
