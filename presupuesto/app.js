@@ -58,6 +58,13 @@ const TRAINING_DESCRIPTIONS = {
   program: 'El programa se distribuye en cuatro sesiones: diagnóstico, construcción del sistema, aplicación acompañada y revisión. Permite trabajar sobre proyectos reales y ajustar el método a la forma de trabajar del equipo.'
 };
 
+const TRAINING_PRICES = {
+  image: { intro: { label: 'Iniciación de imagen · 90 min', min: 150, max: 180 }, half: { label: 'Dirección de imagen · media jornada', min: 750, max: 980 }, full: { label: 'Dirección de imagen · jornada completa', min: 1200, max: 1550 }, program: { label: 'Dirección de imagen · programa', min: 1900, max: 3200 } },
+  prompting: { intro: { label: 'Bases de prompting · 90 min', min: 180, max: 220 }, half: { label: 'Prompting aplicado · media jornada', min: 850, max: 1100 }, full: { label: 'Prompting aplicado · jornada completa', min: 1350, max: 1750 }, program: { label: 'Prompting aplicado · programa', min: 2200, max: 3500 } },
+  tools: { half: { label: 'Herramientas con IA · media jornada', min: 1100, max: 1450 }, full: { label: 'Herramientas con IA · jornada completa', min: 1800, max: 2400 }, program: { label: 'Herramientas con IA · programa', min: 3000, max: 4600 } },
+  custom: { half: { label: 'Formación a medida · media jornada', min: 1200, max: 1600 }, full: { label: 'Formación a medida · jornada completa', min: 2000, max: 2800 }, program: { label: 'Formación a medida · programa', min: 3400, max: 5200 } }
+};
+
 const state = {
   route: 'pieces',
   quantities: { image: 1, video: 1, ugc: 1, product: 1 },
@@ -168,6 +175,27 @@ function setRoute(route) {
   updateEstimate();
 }
 
+function syncTrainingFormats() {
+  const allowed = state.trainingTopic === 'image' || state.trainingTopic === 'prompting' ? ['intro', 'half', 'full', 'program'] : ['half', 'full', 'program'];
+  const buttons = [...document.querySelectorAll('[data-choice=training-format] button')];
+  if (!allowed.includes(state.trainingFormat)) state.trainingFormat = allowed[0];
+  buttons.forEach(button => { button.hidden = false; button.disabled = !allowed.includes(button.dataset.value); button.setAttribute('aria-disabled', String(button.disabled)); button.classList.toggle('is-selected', button.dataset.value === state.trainingFormat); });
+  const copy = {
+    image: { intro: ['Primera imagen', '90 min · fundamentos y una imagen guiada'], half: ['Dirección visual', '4 h · teoría, práctica y criterio'], full: ['Sistema visual', '7 h · inmersión completa'], program: ['Acompañamiento', '4 sesiones · aplicación y revisión'] },
+    prompting: { intro: ['Bases de prompting', '90 min · estructura y primeras pruebas'], half: ['Prompting aplicado', '4 h · decisiones, consistencia y control'], full: ['Prompting avanzado', '7 h · método completo de iteración'], program: ['Sistema de prompting', '4 sesiones · acompañamiento'] },
+    tools: { half: ['Diseño de herramientas', '4 h · arquitectura y flujo de trabajo'], full: ['Herramientas en profundidad', '7 h · construcción y pruebas'], program: ['Sistema de herramientas', '4 sesiones · implementación acompañada'] },
+    custom: { half: ['Formación a medida', '4 h · foco concreto'], full: ['Inmersión a medida', '7 h · desarrollo completo'], program: ['Programa a medida', '4 sesiones · recorrido personalizado'] }
+  }[state.trainingTopic];
+  buttons.forEach(button => { const item = copy[button.dataset.value]; if (item) { button.querySelector('strong').textContent = item[0]; button.querySelector('small').textContent = item[1]; } });
+  document.querySelector('#training-format-description').textContent = TRAINING_DESCRIPTIONS[state.trainingFormat];
+  const intro = state.trainingFormat === 'intro';
+  document.querySelector('#training-mode').disabled = intro;
+  if (intro) document.querySelector('#training-mode').value = 'online';
+  syncCustomSelect(document.querySelector('#training-mode'));
+  document.querySelector('#training-location-wrap').hidden = intro || document.querySelector('#training-mode').value === 'online';
+  if (intro) document.querySelector('#training-location').value = '';
+}
+
 function choose(container, button) {
   container.querySelectorAll('button[data-value]').forEach(item => item.classList.remove('is-selected'));
   button.classList.add('is-selected');
@@ -175,7 +203,7 @@ function choose(container, button) {
   if (type === 'piece-level') state.pieceLevel = button.dataset.value;
   if (type === 'project-type') state.projectType = button.dataset.value;
   if (type === 'project-scope') state.projectScope = button.dataset.value;
-  if (type === 'training-topic') state.trainingTopic = button.dataset.value;
+  if (type === 'training-topic') { state.trainingTopic = button.dataset.value; syncTrainingFormats(); }
   if (type === 'training-format') {
     state.trainingFormat = button.dataset.value;
     $('#training-format-description').textContent = TRAINING_DESCRIPTIONS[state.trainingFormat];
@@ -236,7 +264,7 @@ function projectEstimate() {
 }
 
 function trainingEstimate() {
-  const format = PRICES.training[state.trainingFormat];
+  const format = TRAINING_PRICES[state.trainingTopic][state.trainingFormat];
   const peopleKey = $('#training-people').value;
   const modeKey = $('#training-mode').value;
   const multiplier = PRICES.people[peopleKey] * PRICES.mode[modeKey];
@@ -283,7 +311,7 @@ function buildBrief() {
   } else {
     const mode = $('#training-mode').value;
     const location = $('#training-location').value.trim();
-    lines.push('', 'TIPO: Formación', `CONTENIDO: ${LABELS.topics[state.trainingTopic]}`, `FORMATO: ${PRICES.training[state.trainingFormat].label}`, `ASISTENTES: ${LABELS.people[$('#training-people').value]}`, `MODALIDAD: ${LABELS.mode[mode]}${mode !== 'online' ? ` · ${location || 'ubicación por definir'}` : ''}`);
+    lines.push('', 'TIPO: Formación', `CONTENIDO: ${LABELS.topics[state.trainingTopic]}`, `FORMATO: ${TRAINING_PRICES[state.trainingTopic][state.trainingFormat].label}`, `ASISTENTES: ${LABELS.people[$('#training-people').value]}`, `MODALIDAD: ${LABELS.mode[mode]}${mode !== 'online' ? ` · ${location || 'ubicación por definir'}` : ''}`);
   }
   lines.push('', `HORQUILLA ORIENTATIVA: ${range}`, '', 'Me gustaría recibir una propuesta definitiva con el alcance, los entregables, los plazos y las condiciones del proyecto.');
   return lines.join('\n');
@@ -378,4 +406,5 @@ if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
 $('#training-mode').value = 'online';
 $('#training-mode').disabled = true;
 $$('select').forEach(enhanceSelect);
+syncTrainingFormats();
 updateEstimate();
