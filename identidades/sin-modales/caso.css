@@ -14,6 +14,18 @@
 @media(max-width:700px){.ugc-feature{margin-top:65px;padding-top:0}.hero-copy .button{font-size:clamp(15px,4vw,18px);letter-spacing:.06em;padding:14px 16px}}
 @media(max-width:420px){.claim-grid{grid-template-columns:minmax(0,1fr)}.claim-grid>div{min-width:0;padding:25px}.claim-grid h2{font-size:clamp(42px,12vw,50px)}}
 
-.ticker{display:flex;justify-content:center;align-items:center;gap:clamp(20px,5vw,70px);padding:17px 20px;white-space:normal;text-align:center;color:var(--cream);font-size:clamp(20px,2.2vw,30px);line-height:1;letter-spacing:.1em}
-.ticker span{display:block}
-@media(max-width:700px){.ticker{flex-direction:column;gap:5px;font-size:clamp(20px,5.5vw,27px);padding:14px 20px}}
+.photo-direction{border-top:0;padding-top:0;margin-top:clamp(70px,8vw,120px)}
+@media(max-width:700px){.photo-direction{margin-top:65px;padding-top:0}}
+.menu-cta{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:30px 0 0}
+.menu-cta span{font-size:14px;font-weight:600;letter-spacing:.18em;color:var(--red)}
+.menu-cta p{font-size:26px;line-height:1.05;margin:7px 0 0}
+.menu-cta a{display:inline-block;background:var(--red);color:#fff;padding:15px 20px;font-size:17px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;white-space:nowrap}
+.menu-cta a:hover{background:#b92820}
+.photo-direction{margin-top:clamp(65px,7vw,105px)}
+@media(max-width:700px){.menu-cta{display:block;padding-top:25px}.menu-cta p{font-size:24px}.menu-cta a{margin-top:20px;font-size:15px;white-space:normal}.photo-direction{margin-top:65px}}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;max-width:100%}
+.hero-actions .button{display:inline-flex;align-items:center;justify-content:center;min-height:52px}
+.hero-actions .button-outline{background:transparent;border:1px solid var(--cream);color:var(--cream)}
+.hero-actions .button-outline:hover{background:var(--cream);color:var(--ink)}
+@media(max-width:700px){.hero-actions .button{min-height:48px}}
+@media(max-width:420px){.hero-actions{width:100%}.hero-actions .button{width:100%}}
