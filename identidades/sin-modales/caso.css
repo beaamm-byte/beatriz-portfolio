@@ -13,3 +13,7 @@
 .hero-copy .button{max-width:100%;text-align:center;line-height:1.1;white-space:normal}
 @media(max-width:700px){.ugc-feature{margin-top:65px;padding-top:0}.hero-copy .button{font-size:clamp(15px,4vw,18px);letter-spacing:.06em;padding:14px 16px}}
 @media(max-width:420px){.claim-grid{grid-template-columns:minmax(0,1fr)}.claim-grid>div{min-width:0;padding:25px}.claim-grid h2{font-size:clamp(42px,12vw,50px)}}
+
+.ticker{display:flex;justify-content:center;align-items:center;gap:clamp(20px,5vw,70px);padding:17px 20px;white-space:normal;text-align:center;color:var(--cream);font-size:clamp(20px,2.2vw,30px);line-height:1;letter-spacing:.1em}
+.ticker span{display:block}
+@media(max-width:700px){.ticker{flex-direction:column;gap:5px;font-size:clamp(20px,5.5vw,27px);padding:14px 20px}}
