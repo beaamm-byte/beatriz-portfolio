@@ -29,3 +29,6 @@
 .hero-actions .button-outline:hover{background:var(--cream);color:var(--ink)}
 @media(max-width:700px){.hero-actions .button{min-height:48px}}
 @media(max-width:420px){.hero-actions{width:100%}.hero-actions .button{width:100%}}
+.photo-pair{grid-template-columns:.8fr 1.2fr}
+.photo-pair img,.photo-pair figure:nth-child(2) img{width:100%;height:clamp(480px,49vw,620px);aspect-ratio:auto;object-fit:cover;object-position:center}
+@media(max-width:700px){.photo-pair{grid-template-columns:1fr}.photo-pair figure:first-child img{height:auto;aspect-ratio:2/3;object-fit:contain}.photo-pair figure:nth-child(2) img{height:auto;aspect-ratio:3/2;object-fit:contain}}
