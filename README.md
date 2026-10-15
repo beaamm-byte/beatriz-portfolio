@@ -29,7 +29,8 @@ Web estatica multipagina preparada para publicarse en GitHub Pages o en un domin
 ## Rutas internas
 
 - `soft-goods/` apunta a la coleccion.
-- `../#ia` vuelve desde una subpagina a la seccion IA del portfolio.
+- `index.html#identidades` muestra el grid de identidades completas; `identidades/sin-modales/` presenta el caso de Sin Modales. La demo funcional sigue en el proyecto local independiente `NUEVAS-IDENTIDADES/MALOS-MODALES/web-sin-modales/`.
+- `../` vuelve desde las subpáginas al portfolio. La sección de Autoría permanece oculta en la portada.
 - La seccion Studio actual esta en `index.html#herramientas`.
 - `studio/moodboard/` publica la herramienta Moodboard Creativo bajo el dominio principal.
 

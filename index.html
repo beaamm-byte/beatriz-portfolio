@@ -62,7 +62,8 @@
         const navEntry = performance.getEntriesByType('navigation')[0];
         const isReload = navEntry && navEntry.type === 'reload';
         const hasSeenIntro = sessionStorage.getItem('manifestoIntroSeen') === '1';
-        document.documentElement.classList.add((isReload || !hasSeenIntro) ? 'intro-pending' : 'intro-skip');
+        const isDeepLink = Boolean(location.hash);
+        document.documentElement.classList.add((isReload || (!hasSeenIntro && !isDeepLink)) ? 'intro-pending' : 'intro-skip');
       } catch (error) {
         document.documentElement.classList.add('intro-pending');
       }
@@ -70,6 +71,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/identidades-home.css">
   <style>
     :root {
       --white: #f8f6f2;
@@ -1880,7 +1882,7 @@
       <li><a href="#about">Sobre mí</a></li>
       <li><a href="#proceso">Proceso</a></li>
 	  <li><a href="#herramientas">Herramientas</a></li>
-      <li><a href="#ia">Autoría</a></li>
+      <li><a href="#identidades">Identidades</a></li>
       <li><a href="#featured">Trayectoria</a></li>      
       <li><a href="#contact">Contacto</a></li>
     </ul>
@@ -1899,7 +1901,7 @@
       <a href="#about" class="mobile-menu-link">Sobre mí</a>
       <a href="#proceso" class="mobile-menu-link">Proceso</a>
 	  <a href="#herramientas" class="mobile-menu-link">Herramientas</a>
-	  <a href="#ia" class="mobile-menu-link">Autoría</a>
+	  <a href="#identidades" class="mobile-menu-link">Identidades</a>
       <a href="#featured" class="mobile-menu-link">Trayectoria</a>
       <a href="#contact" class="mobile-menu-link">Contacto</a>
     </nav>
@@ -2123,6 +2125,29 @@
 
     </div>
   </div>
+  </section>
+
+  <!-- IDENTIDADES COMPLETAS -->
+  <section class="identity-feature" id="identidades" aria-labelledby="identity-feature-title">
+    <div class="identity-feature-head">
+      <div><p class="section-label">Identidades completas</p><h2 id="identity-feature-title">Una identidad.<br><em>Todo un universo.</em></h2></div>
+      <p>Proyectos de imagen construidos desde cero: idea, lenguaje visual y aplicaciones que mantienen una misma voz en cada soporte.</p>
+    </div>
+    <div class="identity-grid">
+      <a class="identity-card identity-card--live" href="identidades/sin-modales/" aria-label="Ver identidad Sin Modales">
+        <div class="identity-card-image"><img src="assets/img/identidades/sin-modales/packaging-claims.png" alt="Packaging de Sin Modales con los dos claims aplicados" loading="lazy"></div>
+        <div class="identity-card-info"><span>01 / IDENTIDAD DESDE CERO</span><h3>SIN MODALES</h3><p>Logotipo, claims, carta, packaging y primera experiencia digital.</p><strong>Ver identidad ↗</strong></div>
+      </a>
+      <article class="identity-card identity-card--soon" aria-label="Segunda identidad, próximamente">
+        <div class="identity-card-image identity-placeholder identity-placeholder--one"><span aria-hidden="true">02</span><b>Próximamente</b></div>
+        <div class="identity-card-info"><span>02 / PRÓXIMO PROYECTO</span><h3>EN PREPARACIÓN</h3><p>Una nueva identidad aparecerá aquí.</p></div>
+      </article>
+      <article class="identity-card identity-card--soon" aria-label="Tercera identidad, próximamente">
+        <div class="identity-card-image identity-placeholder identity-placeholder--two"><span aria-hidden="true">03</span><b>Próximamente</b></div>
+        <div class="identity-card-info"><span>03 / PRÓXIMO PROYECTO</span><h3>EN PREPARACIÓN</h3><p>Otra historia visual está tomando forma.</p></div>
+      </article>
+    </div>
+    <div class="identity-outro"><span>EL CRITERIO DETRÁS DE CADA FORMA</span><p>La imagen corporativa se construye en cada decisión.</p><a href="#contact">Hablemos de tu proyecto ↗</a></div>
   </section>
 
   <!-- FEATURED ATRESMEDIA -->

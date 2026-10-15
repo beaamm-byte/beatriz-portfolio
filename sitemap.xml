@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.beatrizmoron.com/</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
@@ -28,6 +28,11 @@
   <url>
     <loc>https://www.beatrizmoron.com/interferencia/</loc>
     <lastmod>2026-09-11</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.beatrizmoron.com/identidades/sin-modales/</loc>
+    <lastmod>2026-10-15</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
