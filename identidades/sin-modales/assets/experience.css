@@ -115,6 +115,17 @@
 .doneness-footnote{margin:24px 0 0;color:#9f8a79;font-size:16px}
 @media(max-width:800px){.doneness-guide{grid-template-columns:1fr}.doneness-photo{min-height:0;aspect-ratio:1.2/1}.doneness-copy{padding:35px 25px 45px}.doneness-kicker{margin-bottom:25px}.doneness-intro{margin:25px 0 32px}}
 @media(max-width:440px){.doneness-photo{aspect-ratio:1/1}.doneness-copy h2{font-size:clamp(60px,15vw,78px)}.doneness-levels li{grid-template-columns:31px minmax(0,1fr) 56px;gap:6px}.doneness-levels li strong{font-size:clamp(23px,6vw,29px)}.doneness-levels li span{font-size:13px}}
+.menu-category-nav{position:relative;isolation:isolate;display:flex;justify-content:space-between;align-items:center;gap:30px;padding:25px clamp(25px,3vw,45px);background:transparent;color:var(--cream);border:0}
+.menu-category-nav::before{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:calc(50% - 50vw);width:100vw;background:var(--ink);border-bottom:5px solid var(--red)}
+.menu-category-prompt{display:flex;flex-direction:column;gap:5px}
+.menu-category-prompt>span{color:var(--red);font-size:14px;font-weight:600;letter-spacing:.18em}
+.menu-category-prompt>strong{font-size:clamp(42px,4.5vw,70px);font-weight:600;line-height:.85}
+.menu-category-links{display:flex;flex-wrap:wrap;gap:12px}
+.menu-category-links a{display:block;border:1px solid #f1d0b399;padding:13px 17px;color:var(--cream);font-size:19px;line-height:1;white-space:nowrap}
+.menu-category-links a span{color:var(--red);font-weight:600}
+.menu-category-links a:hover,.menu-category-links a:focus-visible{border-color:var(--red);background:var(--red);color:white}
+.menu-category-links a:hover span,.menu-category-links a:focus-visible span{color:white}
+@media(max-width:700px){.menu-category-nav{align-items:stretch;flex-direction:column;gap:20px;padding:24px}.menu-category-prompt>strong{font-size:clamp(48px,13vw,70px)}.menu-category-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.menu-category-links a{padding:13px 10px;font-size:clamp(14px,3.8vw,17px);text-align:center;white-space:normal}.menu-grid-section{padding-top:45px}}
 .product-detail-ingredients{padding:28px 0 0;max-width:440px}
 .product-detail-ingredients h2{margin:0 0 9px;color:var(--red);font-size:17px;font-weight:600;letter-spacing:.18em}
 .product-detail-ingredients p{margin:0;font-size:clamp(25px,2.4vw,34px);line-height:1.06}
