@@ -24,10 +24,5 @@
 .identity-placeholder>span{font-family:'Bebas Neue',Impact,sans-serif;font-size:clamp(150px,18vw,290px);opacity:.27;filter:blur(5px);color:#f2eee8}
 .identity-placeholder>b{position:absolute;left:20px;bottom:20px;background:#0d0d0d;color:#f8f6f2;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;padding:11px 13px}
 .identity-card--soon .identity-card-info{color:#555}
-.identity-outro{display:grid;grid-template-columns:1fr 2fr;gap:30px;background:#0d0d0d;color:#f8f6f2;padding:95px clamp(20px,6vw,100px) 105px;margin:0 calc(-1 * clamp(20px,6vw,100px))}
-.identity-outro>span{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#b9ada2;padding-top:8px}
-.identity-outro p{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(43px,5vw,80px);line-height:1.02;margin:0}
-.identity-outro a{grid-column:2;justify-self:start;border-bottom:1px solid #b5292a;padding-bottom:8px;color:#f8f6f2;font-size:13px;letter-spacing:.13em;text-transform:uppercase;text-decoration:none}
-.identity-outro a:hover{color:#eab2a9}
-@media(max-width:850px){.identity-feature{padding:80px 25px 0}.identity-feature-head{display:block}.identity-feature-head>p{margin-top:25px}.identity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.identity-outro{grid-template-columns:1fr;margin:0 -25px;padding:75px 25px 85px}.identity-outro a{grid-column:1}}
-@media(max-width:600px){.identity-feature{padding:70px 20px 0}.identity-feature-head h2{font-size:75px}.identity-grid{grid-template-columns:1fr;gap:50px;padding-bottom:75px}.identity-card-image{aspect-ratio:1/1}.identity-card-info{min-height:0}.identity-card-info h3{font-size:55px}.identity-card-info strong{margin-top:12px}.identity-placeholder>span{font-size:220px}.identity-outro{margin:0 -20px;padding:70px 20px 80px}.identity-outro p{font-size:50px}}
+@media(max-width:850px){.identity-feature{padding:80px 25px 0}.identity-feature-head{display:block}.identity-feature-head>p{margin-top:25px}.identity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.identity-feature{padding:70px 20px 0}.identity-feature-head h2{font-size:75px}.identity-grid{grid-template-columns:1fr;gap:50px;padding-bottom:75px}.identity-card-image{aspect-ratio:1/1}.identity-card-info{min-height:0}.identity-card-info h3{font-size:55px}.identity-card-info strong{margin-top:12px}.identity-placeholder>span{font-size:220px}}

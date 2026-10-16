@@ -99,6 +99,22 @@
 .product-detail-line strong{font-size:clamp(28px,3vw,42px);font-weight:600;white-space:nowrap}
 .product-detail-voice{max-width:470px;margin:30px 0 0;color:var(--red);font-size:clamp(30px,3vw,44px);font-weight:600;line-height:.98}
 .moments-social{align-items:start;border-top:0;margin-top:clamp(65px,7vw,100px);padding-top:0}
+.doneness-guide{display:grid;grid-template-columns:.9fr 1.1fr;min-height:650px;margin-top:clamp(80px,9vw,130px);background:var(--ink);color:var(--cream);overflow:hidden}
+.doneness-photo{position:relative;min-height:650px;background:#0d0d0c}
+.doneness-photo img{object-fit:cover;object-position:center}
+.doneness-copy{display:flex;flex-direction:column;align-items:flex-start;padding:clamp(35px,4.5vw,75px)}
+.doneness-kicker{margin:0 0 38px;color:var(--red);font-size:15px;font-weight:600;letter-spacing:.18em}
+.doneness-copy h2{margin:0;font-size:clamp(68px,7vw,118px);font-weight:600;line-height:.82;letter-spacing:-.025em}
+.doneness-copy h2 em{color:var(--red);font-style:normal}
+.doneness-intro{max-width:430px;margin:28px 0 40px;font-size:clamp(20px,2vw,28px);line-height:1.08}
+.doneness-levels{align-self:stretch;list-style:none;margin:0;padding:0;border-top:1px solid #f1d0b366}
+.doneness-levels li{display:grid;grid-template-columns:45px minmax(0,1fr) 65px;align-items:baseline;gap:12px;border-bottom:1px solid #f1d0b366;padding:12px 0}
+.doneness-levels li span{color:var(--red);font-size:16px;font-weight:600;letter-spacing:.1em}
+.doneness-levels li span:last-child{color:#9f8a79;text-align:right}
+.doneness-levels li strong{font-size:clamp(26px,2.5vw,39px);font-weight:600;line-height:.9}
+.doneness-footnote{margin:24px 0 0;color:#9f8a79;font-size:16px}
+@media(max-width:800px){.doneness-guide{grid-template-columns:1fr}.doneness-photo{min-height:0;aspect-ratio:1.2/1}.doneness-copy{padding:35px 25px 45px}.doneness-kicker{margin-bottom:25px}.doneness-intro{margin:25px 0 32px}}
+@media(max-width:440px){.doneness-photo{aspect-ratio:1/1}.doneness-copy h2{font-size:clamp(60px,15vw,78px)}.doneness-levels li{grid-template-columns:31px minmax(0,1fr) 56px;gap:6px}.doneness-levels li strong{font-size:clamp(23px,6vw,29px)}.doneness-levels li span{font-size:13px}}
 .product-detail-ingredients{padding:28px 0 0;max-width:440px}
 .product-detail-ingredients h2{margin:0 0 9px;color:var(--red);font-size:17px;font-weight:600;letter-spacing:.18em}
 .product-detail-ingredients p{margin:0;font-size:clamp(25px,2.4vw,34px);line-height:1.06}
