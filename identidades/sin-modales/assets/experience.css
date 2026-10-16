@@ -71,6 +71,7 @@
 .menu-product-meta h3{font-size:clamp(27px,2.3vw,37px);line-height:.9;letter-spacing:-.015em;font-weight:600;margin:0}
 .menu-product-meta strong{flex:none;font-size:clamp(21px,1.8vw,27px);white-space:nowrap;font-weight:600}
 .menu-product-card>p{font-size:19px;line-height:1.1;margin:0;color:#4b453f}
+.menu-product-card>.menu-product-voice{max-width:25ch;color:var(--red);font-weight:600;line-height:1.04}
 .live-menu-footnote{margin-top:80px}
 @media(max-width:1100px){.menu-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.live-menu-hero{min-height:410px}.live-menu-hero::after{background:linear-gradient(180deg,rgba(16,15,14,.72),rgba(16,15,14,.18) 45%,rgba(16,15,14,.8))}.live-menu-hero>img{height:100%;object-position:61% center}.live-menu-hero .live-menu-hero-copy{min-height:410px;justify-content:flex-end;padding:35px 25px}.live-menu-hero h1{font-size:clamp(78px,17vw,118px);margin:0 0 16px}.live-menu-hero .overline{font-size:14px}.live-menu-hero-copy>p:last-child{font-size:22px}.live-menu-content{padding:0 25px 75px}.menu-category-nav{gap:8px;padding:17px 0}.menu-category-nav>span{width:100%;font-size:13px;margin-bottom:3px}.menu-category-nav a{font-size:14px;padding:8px 12px}.menu-grid-section{padding-top:55px}.menu-grid-heading{display:block;margin-bottom:22px}.menu-grid-heading h2{font-size:clamp(52px,11vw,75px)}.menu-grid-heading>p{margin-top:18px;font-size:19px}.menu-product-grid{gap:22px 12px}.menu-product-photo{aspect-ratio:1/1}.menu-product-meta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;margin:10px 0 7px}.menu-product-meta h3{font-size:clamp(21px,5.8vw,29px)}.menu-product-meta strong{font-size:clamp(18px,4.5vw,23px)}.menu-product-card>p{font-size:17px}.menu-heat-label{top:7px;left:7px;padding:5px 6px;font-size:12px}.menu-heat-label img{width:14px;height:14px}}
@@ -96,6 +97,8 @@
 .product-detail-line{display:flex;justify-content:space-between;align-items:baseline;gap:16px;width:100%;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:13px 0}
 .product-detail-line span{font-size:16px;font-weight:600;letter-spacing:.16em}
 .product-detail-line strong{font-size:clamp(28px,3vw,42px);font-weight:600;white-space:nowrap}
+.product-detail-voice{max-width:470px;margin:30px 0 0;color:var(--red);font-size:clamp(30px,3vw,44px);font-weight:600;line-height:.98}
+.moments-social{align-items:start;border-top:0;margin-top:clamp(65px,7vw,100px);padding-top:0}
 .product-detail-ingredients{padding:28px 0 0;max-width:440px}
 .product-detail-ingredients h2{margin:0 0 9px;color:var(--red);font-size:17px;font-weight:600;letter-spacing:.18em}
 .product-detail-ingredients p{margin:0;font-size:clamp(25px,2.4vw,34px);line-height:1.06}
