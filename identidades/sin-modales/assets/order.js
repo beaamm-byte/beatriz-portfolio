@@ -175,43 +175,6 @@
     }
   }
 
-  function installPortfolioReturn() {
-    const link = document.createElement('a');
-    link.className = 'portfolio-return';
-    link.href = 'https://www.beatrizmoron.com/#identidades';
-    link.setAttribute('aria-label', 'Volver a las identidades de Beatriz Morón. Puedes arrastrar este botón.');
-    link.title = 'Volver a identidades · arrastra para mover';
-    link.draggable = false;
-    link.innerHTML = '<span aria-hidden="true">Beatriz Morón</span><small aria-hidden="true">IDENTIDADES</small>';
-    let start = null;
-    let preventClick = false;
-    link.addEventListener('pointerdown', event => {
-      if (event.button !== 0) return;
-      const rect = link.getBoundingClientRect();
-      start = { id: event.pointerId, x: event.clientX, y: event.clientY, left: rect.left, top: rect.top, moved: false };
-      link.setPointerCapture(event.pointerId);
-    });
-    link.addEventListener('pointermove', event => {
-      if (!start || start.id !== event.pointerId) return;
-      const dx = event.clientX - start.x;
-      const dy = event.clientY - start.y;
-      if (!start.moved && Math.hypot(dx, dy) < 6) return;
-      start.moved = true;
-      link.style.left = `${Math.max(8, Math.min(innerWidth - link.offsetWidth - 8, start.left + dx))}px`;
-      link.style.top = `${Math.max(8, Math.min(innerHeight - link.offsetHeight - 8, start.top + dy))}px`;
-    });
-    const stop = event => {
-      if (!start || start.id !== event.pointerId) return;
-      preventClick = start.moved;
-      start = null;
-      if (link.hasPointerCapture(event.pointerId)) link.releasePointerCapture(event.pointerId);
-    };
-    link.addEventListener('pointerup', stop);
-    link.addEventListener('pointercancel', stop);
-    link.addEventListener('click', event => { if (preventClick) { event.preventDefault(); preventClick = false; } });
-    document.body.append(link);
-  }
-
   function renderCheckout() {
     const root = document.querySelector('#checkout-root');
     if (!root) return;
@@ -246,7 +209,6 @@
     });
   }
 
-  installPortfolioReturn();
   document.querySelector('.header-cta')?.setAttribute('href', menuUrl);
   installMenuControls();
   renderCheckout();

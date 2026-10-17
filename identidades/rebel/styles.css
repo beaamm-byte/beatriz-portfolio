@@ -48,3 +48,6 @@
 @media (hover:none), (pointer:coarse){html{scroll-behavior:auto}.home-shop-image,.home-shop-image img{touch-action:pan-y;-webkit-user-drag:none}.home-shop-image:hover img{transform:none}}
 
 @media (hover:none), (pointer:coarse){.collection-card,.home-shop-image,.collection-card img,.home-shop-image img{touch-action:pan-y;-webkit-user-drag:none;user-select:none;-webkit-user-select:none}.collection-card:hover img{transform:none}}
+
+/* Keep the index layout stable when mobile browser chrome expands or contracts. */
+@media(max-width:760px){.hero-image-wrap,.collection-photo,.home-shop-image,.archive-image{height:auto;min-height:0}.hero-image-wrap{aspect-ratio:4/5}.collection-photo{aspect-ratio:3/4}.home-shop-image{aspect-ratio:4/5;flex:none}.archive-image{position:relative;aspect-ratio:4/5}.hero-image-wrap img,.collection-photo img,.home-shop-image img,.archive-image img{position:absolute;inset:0;width:100%;height:100%}}
