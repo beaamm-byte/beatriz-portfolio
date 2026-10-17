@@ -29,7 +29,7 @@ Web estatica multipagina preparada para publicarse en GitHub Pages o en un domin
 ## Rutas internas
 
 - `soft-goods/` apunta a la coleccion.
-- `index.html#identidades` muestra el grid de identidades completas; `identidades/sin-modales/` presenta el caso de Sin Modales. La demo funcional sigue en el proyecto local independiente `NUEVAS-IDENTIDADES/MALOS-MODALES/web-sin-modales/`.
+- `index.html#identidades` muestra el grid de identidades completas. `identidades/sin-modales/` presenta Sin Modales y `identidades/rebel/` muestra la primera versión editorial de REBEL y su tienda. El desarrollo de REBEL continúa en `NUEVAS-IDENTIDADES/REBEL/04_Tienda/prototipo/`; esa carpeta es la fuente de los cambios futuros.
 - `../` vuelve desde las subpáginas al portfolio. La sección de Autoría permanece oculta en la portada.
 - La seccion Studio actual esta en `index.html#herramientas`.
 - `studio/moodboard/` publica la herramienta Moodboard Creativo bajo el dominio principal.

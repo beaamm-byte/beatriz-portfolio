@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171716">
+  <meta name="description" content="REBEL. La calle se lleva puesta. Primer prototipo editorial de las colecciones Rebel y Troquel.">
+  <title>REBEL — La calle se lleva puesta</title>
+  <link rel="icon" type="image/svg+xml" href="assets/rebel-favicon.svg">
+  <link rel="stylesheet" href="styles.css?v=9">
+  <script src="app.js?v=6" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <a class="wordmark" href="index.html" aria-label="REBEL, inicio">REBEL<span class="wordmark-dot">.</span></a>
+    <nav class="desktop-nav" aria-label="Principal">
+      <a href="tienda.html">La tienda</a>
+      <a href="#colecciones">Colecciones</a>
+      <a href="#idea">La idea</a>
+    </nav>
+    <a class="header-action" href="#colecciones">Ver colecciones <span aria-hidden="true"><svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M8 5h11v11"/></svg></span></a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span></button>
+  </header>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Principal móvil" hidden>
+    <a href="tienda.html">La tienda</a><a href="#colecciones">Colecciones</a><a href="#idea">La idea</a><a href="#archivo">Archivo visual</a>
+  </nav>
+
+  <main id="contenido">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow-row"><span class="eyebrow">ESTUDIO DE MARCA / 2026</span><span class="eyebrow">01—02</span></div>
+        <h1 id="hero-title">LA CALLE<br>SE LLEVA<br><em>PUESTA.</em></h1>
+        <div class="hero-bottom"><p>Texturas que se cruzan en tu camino. Piezas que eliges llevar contigo.</p><a class="round-link" href="#colecciones" aria-label="Ver colecciones"><span aria-hidden="true"><svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4v16M5 13l7 7 7-7"/></svg></span></a></div>
+      </div>
+      <div class="hero-image-wrap"><img src="assets/rebel-editorial-02.jpg" alt="Look urbano nocturno con riñonera roja de REBEL Collection" fetchpriority="high"><span class="vertical-stamp">REBEL / EN MOVIMIENTO</span></div>
+    </section>
+
+    <section class="material-interlude" aria-label="El relieve de REBEL y el recorte de Troquel">
+      <div class="material-half material-relief">
+        <img src="assets/pavimento-podotactil.jpg" alt="Relieve circular del pavimento podotáctil rojo" loading="lazy">
+        <span class="material-number">01 / REBEL COLLECTION</span>
+        <div class="material-caption"><span>DE LA CALLE</span><h2>RELIEVE.</h2></div>
+      </div>
+      <div class="material-half material-recorte">
+        <img src="assets/estructura-troquelada.jpg" alt="Estructura metálica negra con recortes triangulares" loading="lazy">
+        <span class="material-number">02 / TROQUEL COLLECTION</span>
+        <div class="material-caption"><span>A LA FORMA</span><h2>RECORTE.</h2></div>
+      </div>
+    </section>
+
+    <section class="intro section-pad" id="idea" aria-labelledby="intro-title">
+      <p class="section-index">[ 00 / LA IDEA ]</p>
+      <div><h2 id="intro-title">No nacen en un escaparate.<br><span>Nacen fuera.</span></h2><p>REBEL observa la ciudad y transforma sus formas en objetos para llevar. Una misma actitud, distintas maneras de expresarla.</p></div>
+    </section>
+
+    <section class="collections section-pad" id="colecciones" aria-labelledby="collections-title">
+      <div class="section-heading"><p class="section-index">[ 01 / COLECCIONES ]</p><h2 id="collections-title">DOS FORMAS<br>DE SALIR A LA CALLE<span class="red-dot">.</span></h2></div>
+      <div class="collection-grid">
+        <a class="collection-card rebel-card" href="coleccion.html?line=rebel">
+          <div class="collection-photo"><img src="assets/rebel-editorial-01.jpg" alt="Mochila bandolera roja de REBEL Collection en la calle" loading="lazy"><span class="card-number">01 / REBEL</span></div>
+          <div class="collection-card-footer"><div><span class="card-kicker">RELIEVE / ROJO / MOVIMIENTO</span><h3>REBEL<br>COLLECTION</h3></div><span class="card-arrow" aria-hidden="true"><svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M8 5h11v11"/></svg></span></div>
+        </a>
+        <a class="collection-card troquel-card" href="coleccion.html?line=troquel">
+          <div class="collection-photo"><img src="assets/troquel-editorial-01.jpg" alt="Totebag negro perforado de Troquel Collection en uso" loading="lazy"><span class="card-number">02 / TROQUEL</span></div>
+          <div class="collection-card-footer"><div><span class="card-kicker">RECORTE / SOMBRA / ESTRUCTURA</span><h3>TROQUEL<br>COLLECTION</h3></div><span class="card-arrow" aria-hidden="true"><svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M8 5h11v11"/></svg></span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="home-shop" aria-labelledby="home-shop-title"><div><p class="section-index">[ 02 / LA TIENDA ]</p><h2 id="home-shop-title">DE LA CALLE<br>A TUS MANOS<span class="red-dot">.</span></h2><p>Explora cada pieza en estudio y descubre cómo se lleva. REBEL y Troquel, juntas en un mismo sitio.</p><a class="text-link" href="tienda.html">Entrar en la tienda <span aria-hidden="true"><svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M8 5h11v11"/></svg></span></a></div><a class="home-shop-image" href="producto.html?id=totebag-irregular" aria-label="Ver totebag irregular de Troquel"><img src="assets/producto/totebag-irregular-modelo.webp" alt="Modelo con totebag negro troquelado en estudio" loading="lazy"><span>02 / TOTEBAG TROQUEL <svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M8 5h11v11"/></svg></span></a></section>
+
+    <section class="archive" id="archivo" aria-labelledby="archive-title">
+      <div class="archive-copy"><p class="section-index">[ 03 / ARCHIVO VISUAL ]</p><h2 id="archive-title">LA FORMA<br>CAMBIA.<br><span>LA ACTITUD, NO.</span></h2><p>Imágenes de las dos colecciones en la calle. El producto se entiende mejor cuando sale y se mueve contigo.</p><a class="text-link" href="coleccion.html?line=rebel">Empezar por REBEL <span aria-hidden="true"><svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 19 19 5M8 5h11v11"/></svg></span></a></div>
+      <div class="archive-image"><img src="assets/rebel-editorial-03.jpg" alt="Gorra y accesorio rojo de REBEL Collection en un look de calle" loading="lazy"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="footer-mark" href="index.html">REBEL<span>.</span></a><p>Prototipo de identidad y tienda · Colecciones en desarrollo</p><a href="https://www.beatrizmoron.com/#identidades">Volver a identidades</a></footer>
+</body>
+</html>
