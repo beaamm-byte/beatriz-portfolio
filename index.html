@@ -760,51 +760,6 @@
       color: rgba(255,255,255,0.4);
     }
 
-    .featured-approach {
-      margin-top: 100px;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 80px;
-      align-items: start;
-      padding-top: 80px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    .featured-approach h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-weight: 300;
-      font-style: italic;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.4;
-    }
-    .approach-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-    }
-    .approach-step {
-      display: grid;
-      grid-template-columns: 48px 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-    .approach-step-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      color: var(--accent);
-      opacity: 0.7;
-    }
-    .approach-step p {
-      font-size: 0.85rem;
-      line-height: 1.9;
-      color: rgba(255,255,255,0.5);
-      padding-top: 2px;
-    }
-    .approach-step strong {
-      color: var(--white);
-      font-weight: 400;
-    }
-
     /* GGOYA */
     .ggoya {
       padding: 140px 60px;
@@ -1647,7 +1602,6 @@
 
       .featured { padding: 100px 32px; }
       .featured-grid { grid-template-columns: 1fr; }
-      .featured-approach { grid-template-columns: 1fr; gap: 40px; }
 
       .ggoya { padding: 100px 32px; gap: 60px; }
 
@@ -1771,7 +1725,6 @@
       /* Featured */
       .featured { padding: 80px 24px; }
       .featured-grid { grid-template-columns: 1fr; }
-      .featured-approach { grid-template-columns: 1fr; gap: 32px; margin-top: 60px; padding-top: 48px; }
 
       /* GGoya */
       .ggoya {
@@ -1881,8 +1834,9 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">Sobre mí</a></li>
       <li><a href="#proceso">Proceso</a></li>
-	  <li><a href="#herramientas">Herramientas</a></li>
       <li><a href="#identidades">Identidades</a></li>
+      <li><a href="#herramientas">Herramientas</a></li>
+      
       <li><a href="#featured">Trayectoria</a></li>      
       <li><a href="#contact">Contacto</a></li>
     </ul>
@@ -1900,8 +1854,9 @@
     <nav class="mobile-menu-links">
       <a href="#about" class="mobile-menu-link">Sobre mí</a>
       <a href="#proceso" class="mobile-menu-link">Proceso</a>
-	  <a href="#herramientas" class="mobile-menu-link">Herramientas</a>
-	  <a href="#identidades" class="mobile-menu-link">Identidades</a>
+      <a href="#identidades" class="mobile-menu-link">Identidades</a>
+\t  <a href="#herramientas" class="mobile-menu-link">Herramientas</a>
+	  
       <a href="#featured" class="mobile-menu-link">Trayectoria</a>
       <a href="#contact" class="mobile-menu-link">Contacto</a>
     </nav>
@@ -1938,7 +1893,7 @@
       <p class="reveal">Soy Beatriz Morón, directora creativa y estratega de imagen con más de una década construyendo identidades. Mi trabajo nace siempre desde el análisis: leo una marca como quien lee un guion — buscando la tensión, el ideal y el giro menos esperado.</p>
       <p class="reveal">Como Artista Digital, trabajo con fotografía; fotomontaje y edición digital como parte de mi lenguaje creativo. En algunas producciones, utilizo herramientas de IA para perfeccionar la pieza final y optimizar parte del proceso técnico — sin que eso sustituya nunca al criterio creativo.</p>
       <p class="reveal">Unifico siempre imagen y estrategia. Con la idea analizada y desarrollada, aplico prompts especialistas para potenciar al máximo cada detalle.</p>
-      <a class="about-service-link reveal" href="direccion-creativa/">Cómo trabajo la dirección creativa &rarr;</a>
+      <a class="about-service-link reveal" href="#identidades">Explorar identidades &rarr;</a>
       <div class="about-stats reveal">
         <div>
           <div class="stat-number">+15</div>
@@ -1961,7 +1916,7 @@
   <section class="process" id="proceso">
     <div class="process-header reveal">
       <h2>El<br>Proceso</h2>
-      <p>Antes de crear, pienso. Antes de diseñar, entiendo.</p>
+      <p>Antes de crear, pienso. Antes de ejecutar, entiendo.</p>
     </div>
     <div class="process-steps">
       <div class="step reveal">
@@ -1989,6 +1944,28 @@
         <h3>Coherencia & Entrega</h3>
         <p>Valido que cada pieza sea coherente con el proyecto completo. La marca debe funcionar como un todo, en cualquier soporte.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- IDENTIDADES COMPLETAS -->
+  <section class="identity-feature" id="identidades" aria-labelledby="identity-feature-title">
+    <div class="identity-feature-head">
+      <div><p class="section-label">Identidades completas</p><h2 id="identity-feature-title">Una identidad.<br><em>Todo un universo.</em></h2></div>
+      <p>Proyectos de imagen construidos desde cero: idea, lenguaje visual y aplicaciones que mantienen una misma voz en cada soporte.</p>
+    </div>
+    <div class="identity-grid">
+      <a class="identity-card identity-card--live" href="identidades/sin-modales/" aria-label="Ver identidad Sin Modales">
+        <div class="identity-card-image"><img src="assets/img/identidades/sin-modales/web/packaging-claims.webp" alt="Packaging de Sin Modales con los dos claims aplicados" loading="lazy"></div>
+        <div class="identity-card-info"><span>01 / IDENTIDAD DESDE CERO</span><h3>SIN MODALES</h3><p>Logotipo, claims, carta, packaging y primera experiencia digital.</p><strong>Ver identidad</strong></div>
+      </a>
+      <a class="identity-card identity-card--live identity-card--rebel" href="identidades/rebel/" aria-label="Ver identidad REBEL">
+        <div class="identity-card-image"><img src="assets/img/identidades/rebel/totebag-estudio.webp" alt="Modelo con totebag Troquel de la identidad REBEL" loading="lazy"></div>
+        <div class="identity-card-info"><span>02 / IDENTIDAD DESDE CERO</span><h3>REBEL</h3><p>Dos colecciones, accesorios y una tienda editorial que lleva la identidad al producto.</p><strong>Ver identidad</strong></div>
+      </a>
+      <article class="identity-card identity-card--soon" aria-label="Tercera identidad, próximamente">
+        <div class="identity-card-image identity-placeholder identity-placeholder--two"><span aria-hidden="true">03</span><b>Próximamente</b></div>
+        <div class="identity-card-info"><span>03 / PRÓXIMO PROYECTO</span><h3>EN PREPARACIÓN</h3><p>Otra historia visual está tomando forma.</p></div>
+      </article>
     </div>
   </section>
 
@@ -2127,28 +2104,6 @@
   </div>
   </section>
 
-  <!-- IDENTIDADES COMPLETAS -->
-  <section class="identity-feature" id="identidades" aria-labelledby="identity-feature-title">
-    <div class="identity-feature-head">
-      <div><p class="section-label">Identidades completas</p><h2 id="identity-feature-title">Una identidad.<br><em>Todo un universo.</em></h2></div>
-      <p>Proyectos de imagen construidos desde cero: idea, lenguaje visual y aplicaciones que mantienen una misma voz en cada soporte.</p>
-    </div>
-    <div class="identity-grid">
-      <a class="identity-card identity-card--live" href="identidades/sin-modales/" aria-label="Ver identidad Sin Modales">
-        <div class="identity-card-image"><img src="assets/img/identidades/sin-modales/web/packaging-claims.webp" alt="Packaging de Sin Modales con los dos claims aplicados" loading="lazy"></div>
-        <div class="identity-card-info"><span>01 / IDENTIDAD DESDE CERO</span><h3>SIN MODALES</h3><p>Logotipo, claims, carta, packaging y primera experiencia digital.</p><strong>Ver identidad</strong></div>
-      </a>
-      <a class="identity-card identity-card--live identity-card--rebel" href="identidades/rebel/" aria-label="Ver identidad REBEL">
-        <div class="identity-card-image"><img src="assets/img/identidades/rebel/totebag-estudio.webp" alt="Modelo con totebag Troquel de la identidad REBEL" loading="lazy"></div>
-        <div class="identity-card-info"><span>02 / IDENTIDAD DESDE CERO</span><h3>REBEL</h3><p>Dos colecciones, accesorios y una tienda editorial que lleva la identidad al producto.</p><strong>Ver identidad</strong></div>
-      </a>
-      <article class="identity-card identity-card--soon" aria-label="Tercera identidad, próximamente">
-        <div class="identity-card-image identity-placeholder identity-placeholder--two"><span aria-hidden="true">03</span><b>Próximamente</b></div>
-        <div class="identity-card-info"><span>03 / PRÓXIMO PROYECTO</span><h3>EN PREPARACIÓN</h3><p>Otra historia visual está tomando forma.</p></div>
-      </article>
-    </div>
-  </section>
-
   <!-- FEATURED ATRESMEDIA -->
   <section class="featured" id="featured">
     <div class="featured-inner">
@@ -2183,27 +2138,6 @@
       </div>
       </div>
 
-      <div class="featured-approach reveal">
-        <h3>¿Cómo se trabaja la imagen de una producción audiovisual?</h3>
-        <div class="approach-steps">
-          <div class="approach-step">
-            <span class="approach-step-num">—</span>
-            <p><strong>Lectura del guion literario.</strong> El punto de partida es siempre el texto. Antes de hablar de imagen, hay que entender la historia: sus personajes, sus contradicciones, su ritmo emocional.</p>
-          </div>
-          <div class="approach-step">
-            <span class="approach-step-num">—</span>
-            <p><strong>Análisis de personajes y puntos clave.</strong> Cada personaje tiene una paleta, una textura, una manera de relacionarse con la luz. Ese análisis informa cada decisión de espacio y fotografía.</p>
-          </div>
-          <div class="approach-step">
-            <span class="approach-step-num">—</span>
-            <p><strong>Definición de la esencia visual.</strong> ¿Qué tiene que sentir el espectador en cada escena? La respuesta a esa pregunta es la que guía todo el trabajo creativo posterior.</p>
-          </div>
-          <div class="approach-step">
-            <span class="approach-step-num">—</span>
-            <p><strong>Dirección total del shooting.</strong> La imagen no se encuentra: se construye. Cada sesión es una decisión consciente sobre luz, espacio y tiempo.</p>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
