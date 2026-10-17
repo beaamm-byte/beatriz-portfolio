@@ -1,14 +1,22 @@
 const toggle = document.querySelector('.menu-toggle');
 if (matchMedia('(pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
+  let activeGestures = 0;
   document.addEventListener('pointerdown', (event) => {
     if (event.pointerType === 'touch') return;
+    activeGestures += 1;
+    document.body.classList.add('cursor-clicking');
     const mark = document.createElement('span');
     mark.className = 'cursor-gesture';
     mark.style.left = `${event.clientX}px`;
     mark.style.top = `${event.clientY}px`;
     mark.innerHTML = '<svg viewBox="0 0 48 44" aria-hidden="true"><g transform="translate(47 1) rotate(90) scale(.72)"><path d="M6 2 C14 4 28 7 34 13 C41 20 41 26 32 32 L21 37 L35 56 Q37 60 33 61 Q30 61 28 57 L17 39 L3 48 Q0 50 1 46 L13 27 Q17 21 19 23 Q21 25 18 29 L15 33 Q16 36 20 33 L29 27 Q34 24 31 20 Q27 15 20 12 L6 6 Q3 5 4 3 Q4 2 6 2 Z"/></g></svg>';
     document.body.append(mark);
-    mark.addEventListener('animationend', () => mark.remove(), {once:true});
+    mark.addEventListener('animationend', (animationEvent) => {
+      if (animationEvent.target !== mark) return;
+      mark.remove();
+      activeGestures -= 1;
+      if (activeGestures === 0) document.body.classList.remove('cursor-clicking');
+    });
   });
 }
 const mobileNav = document.querySelector('.mobile-nav');
