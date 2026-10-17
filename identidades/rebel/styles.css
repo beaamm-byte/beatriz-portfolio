@@ -44,3 +44,5 @@
 .ui-arrow{display:inline-block;width:1em;height:1em;min-width:1em;min-height:1em;max-width:1em;max-height:1em;vertical-align:-.14em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:square;stroke-linejoin:miter;overflow:visible;flex:none}.header-action .ui-arrow,.text-link .ui-arrow,.product-collection-link .ui-arrow{margin-left:.25em}.product-back .ui-arrow{margin-right:.25em}.home-shop-image .ui-arrow{vertical-align:-.2em}
 
 @media(pointer:fine){body.cursor-clicking,body.cursor-clicking *{cursor:none!important}}
+
+@media (hover:none), (pointer:coarse){html{scroll-behavior:auto}.home-shop-image,.home-shop-image img{touch-action:pan-y;-webkit-user-drag:none}.home-shop-image:hover img{transform:none}}

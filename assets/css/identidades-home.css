@@ -26,3 +26,5 @@
 .identity-card--soon .identity-card-info{color:#555}
 @media(max-width:850px){.identity-feature{padding:80px 25px 0}.identity-feature-head{display:block}.identity-feature-head>p{margin-top:25px}.identity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.identity-feature{padding:70px 20px 0}.identity-feature-head h2{font-size:75px}.identity-grid{grid-template-columns:1fr;gap:50px;padding-bottom:75px}.identity-card-image{aspect-ratio:1/1}.identity-card-info{min-height:0}.identity-card-info h3{font-size:55px}.identity-card-info strong{margin-top:12px}.identity-placeholder>span{font-size:220px}}
+
+@media(max-width:600px){.identity-card--rebel .identity-card-image{aspect-ratio:4/5}.identity-card--rebel .identity-card-image img{object-position:center top}}
